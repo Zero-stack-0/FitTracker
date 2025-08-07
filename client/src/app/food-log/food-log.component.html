@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Log - FitTracker</title>
+    <link rel="stylesheet" href="./food-log.component.css">
+</head>
+
+<body>
+    <!-- Header
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo-section">
+                <h1 class="logo">🏃‍♀️ FitTracker</h1>
+                <span class="page-title">Food Log</span>
+            </div>
+            <button class="btn-back">← Back to Dashboard</button>
+        </div>
+    </header> -->
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <section class="page-header">
+            <h2 class="page-title-main">Food Log 📝</h2>
+            <p class="page-subtitle">Track your meals and reach your nutrition goals</p>
+        </section>
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <div class="search-card">
+                <div class="card-header">
+                    <h3 class="card-title">Add Food</h3>
+                    <p class="card-description">Search for foods or add custom items</p>
+                </div>
+                <div class="search-content">
+                    <div class="search-input-wrapper">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" placeholder="Search for foods..." class="search-input">
+                    </div>
+                    <button class="btn-primary">+ Add Custom Food</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Today's Meals -->
+            <section class="meals-section">
+                <h3 class="section-title">Today's Meals</h3>
+
+                <div class="meal-card">
+                    <div class="meal-header">
+                        <h4 class="meal-name">Breakfast</h4>
+                        <span class="calorie-badge">320 cal</span>
+                    </div>
+                    <div class="meal-content">
+                        <div class="food-item">
+                            <div class="food-info">
+                                <p class="food-name">Oatmeal with berries</p>
+                                <p class="food-time">8:30 AM</p>
+                            </div>
+                            <span class="food-calories">150 cal</span>
+                        </div>
+                        <div class="food-item">
+                            <div class="food-info">
+                                <p class="food-name">Greek yogurt</p>
+                                <p class="food-time">8:30 AM</p>
+                            </div>
+                            <span class="food-calories">100 cal</span>
+                        </div>
+                        <div class="food-item">
+                            <div class="food-info">
+                                <p class="food-name">Banana</p>
+                                <p class="food-time">8:30 AM</p>
+                            </div>
+                            <span class="food-calories">70 cal</span>
+                        </div>
+                        <button class="btn-add-meal">+ Add to Breakfast</button>
+                    </div>
+                </div>
+
+                <div class="meal-card">
+                    <div class="meal-header">
+                        <h4 class="meal-name">Lunch</h4>
+                        <span class="calorie-badge">450 cal</span>
+                    </div>
+                    <div class="meal-content">
+                        <div class="food-item">
+                            <div class="food-info">
+                                <p class="food-name">Grilled chicken salad</p>
+                                <p class="food-time">12:30 PM</p>
+                            </div>
+                            <span class="food-calories">350 cal</span>
+                        </div>
+                        <div class="food-item">
+                            <div class="food-info">
+                                <p class="food-name">Apple</p>
+                                <p class="food-time">12:30 PM</p>
+                            </div>
+                            <span class="food-calories">100 cal</span>
+                        </div>
+                        <button class="btn-add-meal">+ Add to Lunch</button>
+                    </div>
+                </div>
+
+                <!-- Add New Meal -->
+                <div class="add-meal-card">
+                    <div class="add-meal-content">
+                        <span class="add-icon">+</span>
+                        <p class="add-text">Add a new meal</p>
+                        <button class="btn-outline">Create New Meal</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <h3 class="section-title">Popular Foods</h3>
+
+                <div class="popular-foods-card">
+                    <div class="card-header">
+                        <h4 class="card-title">Quick Add</h4>
+                        <p class="card-description">Commonly logged foods</p>
+                    </div>
+                    <div class="popular-foods-list">
+                        <div class="popular-food">
+                            <div class="food-info">
+                                <p class="food-name">Banana</p>
+                                <p class="food-calories">105 calories</p>
+                            </div>
+                            <button class="btn-quick-add">+</button>
+                        </div>
+                        <div class="popular-food">
+                            <div class="food-info">
+                                <p class="food-name">Apple</p>
+                                <p class="food-calories">95 calories</p>
+                            </div>
+                            <button class="btn-quick-add">+</button>
+                        </div>
+                        <div class="popular-food">
+                            <div class="food-info">
+                                <p class="food-name">Greek Yogurt (1 cup)</p>
+                                <p class="food-calories">130 calories</p>
+                            </div>
+                            <button class="btn-quick-add">+</button>
+                        </div>
+                        <div class="popular-food">
+                            <div class="food-info">
+                                <p class="food-name">Chicken Breast (100g)</p>
+                                <p class="food-calories">165 calories</p>
+                            </div>
+                            <button class="btn-quick-add">+</button>
+                        </div>
+                        <div class="popular-food">
+                            <div class="food-info">
+                                <p class="food-name">Brown Rice (1 cup)</p>
+                                <p class="food-calories">220 calories</p>
+                            </div>
+                            <button class="btn-quick-add">+</button>
+                        </div>
+                        <div class="popular-food">
+                            <div class="food-info">
+                                <p class="food-name">Broccoli (1 cup)</p>
+                                <p class="food-calories">25 calories</p>
+                            </div>
+                            <button class="btn-quick-add">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Summary -->
+                <div class="summary-card">
+                    <div class="card-header">
+                        <h4 class="card-title">Daily Summary</h4>
+                        <p class="card-description">Your nutrition overview</p>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-item">
+                            <span class="summary-label">Total Calories</span>
+                            <span class="summary-value">770 / 2,000</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Protein</span>
+                            <span class="summary-value">45g / 120g</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Carbs</span>
+                            <span class="summary-value">85g / 250g</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Fat</span>
+                            <span class="summary-value">25g / 67g</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+</body>
+
+</html>

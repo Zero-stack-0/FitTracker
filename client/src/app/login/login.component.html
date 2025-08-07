@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - FitTracker</title>
+    <link rel="stylesheet" href="./login.component.css">
+</head>
+
+<body class="login-body">
+    <div class="login-container">
+
+
+        <!-- Logo/Header -->
+        <div class="login-header">
+            <div class="logo">🏃‍♀️ FitTracker</div>
+            <h1 class="login-title">Welcome Back!</h1>
+            <p class="login-subtitle">Ready to crush your goals? 💪</p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="form-card">
+            <form class="login-form">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">📧</span>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com"
+                            required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" id="password" name="password" class="form-input"
+                            placeholder="Your secure password" required />
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="form-checkbox">
+                        <span class="checkmark"></span>
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="btn-login">Log In</button>
+
+                <div class="auth-link">
+                    <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+                </div>
+            </form>
+        </div>
+
+        <!-- Motivational footer -->
+        <div class="login-footer">
+            <p>"Every journey begins with a single step" ✨</p>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/bin/Debug/net8.0/Service.deps.json
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/bin/Debug/net8.0/Service.dll
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/bin/Debug/net8.0/Service.pdb
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/obj/Debug/net8.0/Service.GeneratedMSBuildEditorConfig.editorconfig
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/obj/Debug/net8.0/Service.AssemblyInfoInputs.cache
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/obj/Debug/net8.0/Service.AssemblyInfo.cs
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/obj/Debug/net8.0/Service.csproj.CoreCompileInputs.cache
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/obj/Debug/net8.0/Service.dll
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/obj/Debug/net8.0/refint/Service.dll
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/obj/Debug/net8.0/Service.pdb
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/obj/Debug/net8.0/ref/Service.dll

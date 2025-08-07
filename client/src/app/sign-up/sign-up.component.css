@@ -1,0 +1,449 @@
+/* Reset and Base Styles for Signup Page */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.signup-body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 2rem 0;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Background Patterns */
+.bg-pattern {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+}
+
+.bg-pattern-1 {
+    width: 400px;
+    height: 400px;
+    top: -200px;
+    left: -200px;
+    animation: rotate 20s linear infinite;
+}
+
+.bg-pattern-2 {
+    width: 300px;
+    height: 300px;
+    top: 50%;
+    right: -150px;
+    animation: rotate 15s linear infinite reverse;
+}
+
+.bg-pattern-3 {
+    width: 250px;
+    height: 250px;
+    bottom: -125px;
+    left: 30%;
+    animation: rotate 18s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Signup Container */
+.signup-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* Header */
+.signup-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #667eea;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(72, 187, 120, 0.2);
+}
+
+.signup-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.signup-subtitle {
+    font-size: 1.2rem;
+    color: #667eea;
+    font-weight: 500;
+}
+
+/* Form Card */
+.form-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 3rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+/* Form Sections */
+.form-section {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(72, 187, 120, 0.1);
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.section-icon {
+    font-size: 1.5rem;
+}
+
+/* Form Rows and Groups */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 10px;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 15px;
+    font-size: 1.1rem;
+    z-index: 2;
+}
+
+.form-input {
+    width: 100%;
+    padding: 16px 16px 16px 50px;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #fafafa;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-input::placeholder {
+    color: #a0aec0;
+}
+
+/* Radio Groups */
+.radio-group {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.75rem 1.25rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background: #fafafa;
+}
+
+.radio-option:hover {
+    border-color: #667eea;
+    background: rgba(72, 187, 120, 0.05);
+}
+
+.radio-option input[type="radio"] {
+    display: none;
+}
+
+.radio-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #cbd5e0;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.radio-option input[type="radio"]:checked+.radio-custom {
+    background: #667eea;
+    border-color: #667eea;
+}
+
+.radio-option input[type="radio"]:checked+.radio-custom::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+}
+
+.radio-option input[type="radio"]:checked~.radio-text {
+    color: #667eea;
+    font-weight: 600;
+}
+
+.radio-text {
+    color: #4a5568;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* Goal Cards */
+.goal-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.goal-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #fafafa;
+}
+
+.goal-card:hover {
+    border-color: #667eea;
+    background: rgba(72, 187, 120, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(72, 187, 120, 0.15);
+}
+
+.goal-card input[type="radio"] {
+    display: none;
+}
+
+.goal-card input[type="radio"]:checked {
+    +.goal-content {
+        color: #2d3748;
+    }
+}
+
+.goal-card input[type="radio"]:checked~.goal-content .goal-title {
+    color: #667eea;
+}
+
+.goal-content {
+    flex: 1;
+}
+
+.goal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.goal-emoji {
+    font-size: 1.5rem;
+}
+
+.goal-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #2d3748;
+    transition: all 0.3s ease;
+}
+
+.goal-description {
+    font-size: 0.9rem;
+    color: #4a5568;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Submit Button */
+.btn-signup {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 20px;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 8px 25px rgba(72, 187, 120, 0.3);
+    margin-top: 1rem;
+}
+
+.btn-signup:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(72, 187, 120, 0.4);
+}
+
+.btn-signup:active {
+    transform: translateY(-1px);
+}
+
+/* Auth Link */
+.auth-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.auth-link p {
+    color: #4a5568;
+    font-size: 0.95rem;
+}
+
+.auth-link a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.auth-link a:hover {
+    color: #38a169;
+    text-decoration: underline;
+}
+
+/* Footer */
+.signup-footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+}
+
+.signup-footer p {
+    color: rgba(255, 255, 255, 0.95);
+    font-style: italic;
+    font-size: 1rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .signup-container {
+        padding: 0 1rem;
+    }
+
+    .form-card {
+        padding: 2rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .radio-group {
+        justify-content: center;
+    }
+
+    .signup-title {
+        font-size: 1.8rem;
+    }
+
+    .signup-subtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .signup-header {
+        padding: 2rem;
+    }
+
+    .form-card {
+        padding: 1.5rem;
+    }
+
+    .form-section {
+        padding: 1.5rem;
+    }
+
+    .radio-group {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .goal-card {
+        padding: 1.25rem;
+    }
+}

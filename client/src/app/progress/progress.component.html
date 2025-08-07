@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress - FitTracker</title>
+    <link rel="stylesheet" href="./progress.component.css">
+</head>
+
+<body>
+    <!-- Header
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo-section">
+                <h1 class="logo">🏃‍♀️ FitTracker</h1>
+                <span class="page-title">Progress</span>
+            </div>
+            <button class="btn-back">← Back to Dashboard</button>
+        </div>
+    </header> -->
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <section class="page-header">
+            <h2 class="page-title-main">Your Progress 📈</h2>
+            <p class="page-subtitle">Track your journey and celebrate your achievements</p>
+        </section>
+
+        <!-- Summary Cards -->
+        <section class="summary-grid">
+            <div class="summary-card">
+                <div class="summary-header">
+                    <span class="summary-icon">📉</span>
+                    <h3 class="summary-title">Weight Loss</h3>
+                </div>
+                <div class="summary-content">
+                    <div class="summary-value">-2.3 kg</div>
+                    <p class="summary-label">This month</p>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-header">
+                    <span class="summary-icon">🎯</span>
+                    <h3 class="summary-title">Goals Met</h3>
+                </div>
+                <div class="summary-content">
+                    <div class="summary-value">23/30</div>
+                    <p class="summary-label">This month</p>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-header">
+                    <span class="summary-icon">📅</span>
+                    <h3 class="summary-title">Streak</h3>
+                </div>
+                <div class="summary-content">
+                    <div class="summary-value">12 days</div>
+                    <p class="summary-label">Current streak</p>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-header">
+                    <span class="summary-icon">📊</span>
+                    <h3 class="summary-title">Avg Calories</h3>
+                </div>
+                <div class="summary-content">
+                    <div class="summary-value">1,957</div>
+                    <p class="summary-label">Per day</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Weight Progress</h3>
+                    <p class="chart-description">Your weight journey over the past week</p>
+                </div>
+                <div class="chart-content">
+                    <div class="data-row">
+                        <span class="day-label">Mon</span>
+                        <div class="data-info">
+                            <span class="data-value">69.2 kg</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill weight" style="width: 99%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <span class="day-label">Tue</span>
+                        <div class="data-info">
+                            <span class="data-value">69.0 kg</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill weight" style="width: 98.5%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <span class="day-label">Wed</span>
+                        <div class="data-info">
+                            <span class="data-value">68.8 kg</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill weight" style="width: 98%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <span class="day-label">Thu</span>
+                        <div class="data-info">
+                            <span class="data-value">68.7 kg</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill weight" style="width: 97.5%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <span class="day-label">Fri</span>
+                        <div class="data-info">
+                            <span class="data-value">68.5 kg</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill weight" style="width: 97%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <span class="day-label">Sat</span>
+                        <div class="data-info">
+                            <span class="data-value">68.5 kg</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill weight" style="width: 97%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <span class="day-label">Sun</span>
+                        <div class="data-info">
+                            <span class="data-value">68.3 kg</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill weight" style="width: 96.5%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Daily Calories</h3>
+                    <p class="chart-description">Your calorie intake this week</p>
+                </div>
+                <div class="chart-content">
+                    <div class="data-row">
+                        <span class="day-label">Mon</span>
+                        <div class="data-info">
+                            <span class="data-value">1800 cal</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill calories" style="width: 72%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <span class="day-label">Tue</span>
+                        <div class="data-info">
+                            <span class="data-value">2100 cal</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill calories" style="width: 84%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <span class="day-label">Wed</span>
+                        <div class="data-info">
+                            <span class="data-value">1950 cal</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill calories" style="width: 78%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <span class="day-label">Thu</span>
+                        <div class="data-info">
+                            <span class="data-value">1750 cal</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill calories" style="width: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <span class="day-label">Fri</span>
+                        <div class="data-info">
+                            <span class="data-value">2000 cal</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill calories" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <span class="day-label">Sat</span>
+                        <div class="data-info">
+                            <span class="data-value">2200 cal</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill calories" style="width: 88%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <span class="day-label">Sun</span>
+                        <div class="data-info">
+                            <span class="data-value">1900 cal</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill calories" style="width: 76%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements Section -->
+        <section class="achievements-section">
+            <div class="achievements-card">
+                <div class="achievements-header">
+                    <h3 class="achievements-title">Recent Achievements 🏆</h3>
+                    <p class="achievements-description">Celebrate your wins, big and small!</p>
+                </div>
+                <div class="achievements-grid">
+                    <div class="achievement-item">
+                        <div class="achievement-icon">🔥</div>
+                        <div class="achievement-content">
+                            <h4 class="achievement-name">7-Day Streak</h4>
+                            <p class="achievement-desc">Logged food for 7 consecutive days</p>
+                            <span class="achievement-badge">Today</span>
+                        </div>
+                    </div>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">🎯</div>
+                        <div class="achievement-content">
+                            <h4 class="achievement-name">Goal Achieved</h4>
+                            <p class="achievement-desc">Met your daily calorie goal</p>
+                            <span class="achievement-badge">Yesterday</span>
+                        </div>
+                    </div>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">💧</div>
+                        <div class="achievement-content">
+                            <h4 class="achievement-name">Water Champion</h4>
+                            <p class="achievement-desc">Drank 8+ glasses of water</p>
+                            <span class="achievement-badge">2 days ago</span>
+                        </div>
+                    </div>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">🍎</div>
+                        <div class="achievement-content">
+                            <h4 class="achievement-name">Healthy Choice</h4>
+                            <p class="achievement-desc">Chose fruits over processed snacks</p>
+                            <span class="achievement-badge">3 days ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Goal Setting Section -->
+        <section class="goals-section">
+            <div class="goals-card">
+                <div class="goals-header">
+                    <h3 class="goals-title">Set New Goals</h3>
+                    <p class="goals-description">Keep pushing towards your fitness objectives</p>
+                </div>
+                <div class="goals-grid">
+                    <button class="goal-button">
+                        <span class="goal-icon">🎯</span>
+                        <span class="goal-text">Weight Goal</span>
+                    </button>
+                    <button class="goal-button">
+                        <span class="goal-icon">📅</span>
+                        <span class="goal-text">Daily Calories</span>
+                    </button>
+                    <button class="goal-button">
+                        <span class="goal-icon">📈</span>
+                        <span class="goal-text">Exercise Goal</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Motivational Section -->
+        <section class="motivation-section">
+            <div class="motivation-card">
+                <h3 class="motivation-title">Keep Going! 💪</h3>
+                <p class="motivation-text">
+                    You've made amazing progress. Every small step counts towards your bigger goal!
+                </p>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - FitTracker</title>
+    <link rel="stylesheet" href="./sign-up.component.css">
+</head>
+
+<body class="signup-body">
+    <div class="signup-container">
+
+
+        <!-- Header -->
+        <div class="signup-header">
+            <div class="logo">🏃‍♀️ FitTracker</div>
+            <h1 class="signup-title">Let's Tailor Your Fitness Journey!</h1>
+            <p class="signup-subtitle">You got this! Let's create your personalized plan 🌟</p>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div class="form-card">
+            <form class="signup-form">
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <span class="section-icon">👤</span>
+                        Personal Information
+                    </h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName" class="form-label">Full Name</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">✏️</span>
+                                <input type="text" id="fullName" name="fullName" class="form-input"
+                                    placeholder="Your full name" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">📧</span>
+                                <input type="email" id="email" name="email" class="form-input"
+                                    placeholder="your@email.com" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔒</span>
+                            <input type="password" id="password" name="password" class="form-input"
+                                placeholder="Create a secure password" required />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Physical Information -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <span class="section-icon">📏</span>
+                        Physical Information
+                    </h3>
+
+                    <!-- Gender -->
+                    <div class="form-group">
+                        <label class="form-label">Gender</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="gender" value="male" />
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Male</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="gender" value="female" />
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Female</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="gender" value="other" />
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Other</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Height and Weight -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="height" class="form-label">Height (cm)</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">📏</span>
+                                <input type="number" id="height" name="height" class="form-input" placeholder="170"
+                                    min="100" max="250" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="weight" class="form-label">Weight (kg)</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">⚖️</span>
+                                <input type="number" id="weight" name="weight" class="form-input" placeholder="70"
+                                    min="30" max="300" step="0.1" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fitness Goals -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <span class="section-icon">🎯</span>
+                        Your Fitness Goal
+                    </h3>
+                    <div class="goal-options">
+                        <label class="goal-card">
+                            <input type="radio" name="goal" value="weightLoss" />
+                            <div class="goal-content">
+                                <div class="goal-header">
+                                    <span class="goal-emoji">🔥</span>
+                                    <span class="goal-title">Weight Loss</span>
+                                </div>
+                                <p class="goal-description">Burn calories and shed pounds safely</p>
+                            </div>
+                        </label>
+                        <label class="goal-card">
+                            <input type="radio" name="goal" value="weightGain" />
+                            <div class="goal-content">
+                                <div class="goal-header">
+                                    <span class="goal-emoji">💪</span>
+                                    <span class="goal-title">Weight Gain</span>
+                                </div>
+                                <p class="goal-description">Build muscle and gain healthy weight</p>
+                            </div>
+                        </label>
+                        <label class="goal-card">
+                            <input type="radio" name="goal" value="maintain" />
+                            <div class="goal-content">
+                                <div class="goal-header">
+                                    <span class="goal-emoji">🌟</span>
+                                    <span class="goal-title">Maintain Weight</span>
+                                </div>
+                                <p class="goal-description">Stay healthy and maintain current weight</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-signup">Create Account</button>
+
+                <!-- Login Link -->
+                <div class="auth-link">
+                    <p>Already have an account? <a href="login.html">Log In</a></p>
+                </div>
+            </form>
+        </div>
+
+        <!-- Motivational footer -->
+        <div class="signup-footer">
+            <p>"The best time to plant a tree was 20 years ago. The second best time is now." 🌱</p>
+        </div>
+    </div>
+</body>
+
+</html>
