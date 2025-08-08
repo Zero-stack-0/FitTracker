@@ -1,8 +1,28 @@
 {
   "version": 2,
-  "dgSpecHash": "YL28yk9RuTQ5ZBLwKDC2N5KITSP0giKQsZU0N/g8vBo4r1DIL8TdmZm4IlNJjBqR9xqKYZG6c2+JLNqbENL+hg==",
+  "dgSpecHash": "RFEgxkA9Waq2DTom4BhuWlUjAsSO7ZGeMQFSxABjtqr/HFc3CnJCwi1sbcIzoVqbXUrOfez7LId0PlXSu/JBgQ==",
   "success": true,
   "projectFilePath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/Data.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/Users/shubhamjangid/.nuget/packages/dnsclient/1.6.1/dnsclient.1.6.1.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/microsoft.extensions.configuration/9.0.5/microsoft.extensions.configuration.9.0.5.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/microsoft.extensions.configuration.abstractions/9.0.5/microsoft.extensions.configuration.abstractions.9.0.5.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/9.0.5/microsoft.extensions.dependencyinjection.abstractions.9.0.5.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/microsoft.extensions.logging.abstractions/2.0.0/microsoft.extensions.logging.abstractions.2.0.0.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/microsoft.extensions.options/9.0.5/microsoft.extensions.options.9.0.5.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/microsoft.extensions.primitives/9.0.5/microsoft.extensions.primitives.9.0.5.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/microsoft.netcore.platforms/5.0.0/microsoft.netcore.platforms.5.0.0.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/microsoft.win32.registry/5.0.0/microsoft.win32.registry.5.0.0.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/mongodb.bson/3.4.0/mongodb.bson.3.4.0.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/mongodb.driver/3.4.0/mongodb.driver.3.4.0.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/sharpcompress/0.30.1/sharpcompress.0.30.1.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/snappier/1.0.0/snappier.1.0.0.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/system.buffers/4.5.1/system.buffers.4.5.1.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/system.memory/4.5.5/system.memory.4.5.5.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/system.runtime.compilerservices.unsafe/5.0.0/system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/system.security.accesscontrol/5.0.0/system.security.accesscontrol.5.0.0.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/system.security.principal.windows/5.0.0/system.security.principal.windows.5.0.0.nupkg.sha512",
+    "/Users/shubhamjangid/.nuget/packages/zstdsharp.port/0.7.3/zstdsharp.port.0.7.3.nupkg.sha512"
+  ],
   "logs": []
 }

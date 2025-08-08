@@ -9,3 +9,8 @@
 /Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/obj/Debug/net8.0/refint/Data.dll
 /Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/obj/Debug/net8.0/Data.pdb
 /Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/obj/Debug/net8.0/ref/Data.dll
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/bin/Debug/net8.0/Entity.dll
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/bin/Debug/net8.0/Entity.pdb
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/obj/Debug/net8.0/Data.csproj.AssemblyReference.cache
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/obj/Debug/net8.0/Data.sourcelink.json
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/obj/Debug/net8.0/Data.csproj.Up2Date

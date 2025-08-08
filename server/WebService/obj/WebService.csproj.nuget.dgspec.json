@@ -4,14 +4,90 @@
     "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/WebService/WebService.csproj": {}
   },
   "projects": {
-    "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/WebService/WebService.csproj": {
+    "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/WebService/WebService.csproj",
-        "projectName": "WebService",
-        "projectPath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/WebService/WebService.csproj",
+        "projectUniqueName": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/Data.csproj",
+        "projectName": "Data",
+        "projectPath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/Data.csproj",
         "packagesPath": "/Users/shubhamjangid/.nuget/packages/",
-        "outputPath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/WebService/obj/",
+        "outputPath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/shubhamjangid/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Entity/Entity.csproj": {
+                "projectPath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Entity/Entity.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[9.0.5, )"
+            },
+            "Microsoft.Extensions.Options": {
+              "target": "Package",
+              "version": "[9.0.5, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[3.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.203/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Entity/Entity.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Entity/Entity.csproj",
+        "projectName": "Entity",
+        "projectPath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Entity/Entity.csproj",
+        "packagesPath": "/Users/shubhamjangid/.nuget/packages/",
+        "outputPath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Entity/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/shubhamjangid/.nuget/NuGet/NuGet.Config"
@@ -43,13 +119,178 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[3.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.203/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/Service.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/Service.csproj",
+        "projectName": "Service",
+        "projectPath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/Service.csproj",
+        "packagesPath": "/Users/shubhamjangid/.nuget/packages/",
+        "outputPath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/shubhamjangid/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/Data.csproj": {
+                "projectPath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/Data.csproj"
+              },
+              "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Entity/Entity.csproj": {
+                "projectPath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Entity/Entity.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[9.0.5, )"
+            },
+            "Microsoft.Extensions.Options": {
+              "target": "Package",
+              "version": "[9.0.5, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[3.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.203/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/WebService/WebService.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/WebService/WebService.csproj",
+        "projectName": "WebService",
+        "projectPath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/WebService/WebService.csproj",
+        "packagesPath": "/Users/shubhamjangid/.nuget/packages/",
+        "outputPath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/WebService/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/shubhamjangid/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/Data.csproj": {
+                "projectPath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Data/Data.csproj"
+              },
+              "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Entity/Entity.csproj": {
+                "projectPath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Entity/Entity.csproj"
+              },
+              "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/Service.csproj": {
+                "projectPath": "/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Service/Service.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.5, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.3, )"
             },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.10.0, )"
             }
           },
           "imports": [

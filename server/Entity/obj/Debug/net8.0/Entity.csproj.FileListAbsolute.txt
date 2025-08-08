@@ -9,3 +9,5 @@
 /Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Entity/obj/Debug/net8.0/refint/Entity.dll
 /Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Entity/obj/Debug/net8.0/Entity.pdb
 /Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Entity/obj/Debug/net8.0/ref/Entity.dll
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Entity/obj/Debug/net8.0/Entity.csproj.AssemblyReference.cache
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/Entity/obj/Debug/net8.0/Entity.sourcelink.json
