@@ -12,10 +12,15 @@ export class AppComponent {
   constructor(private authService: AuthService, private router: Router) { }
   isUserLoggedWithValidToken: boolean = false;
   ngOnInit() {
-    if (this.authService.isLoggedIn$) {
-      this.isUserLoggedWithValidToken = this.authService.isTokenExpired();
-      console.log(this.isUserLoggedWithValidToken);
-    }
+    this.authService.isLoggedIn$.subscribe(status => {
+      if (status && this.authService.isTokenAvailable() && this.authService.isTokenExpired()) {
+        this.isUserLoggedWithValidToken = true;
+      }
+      else {
+        this.isUserLoggedWithValidToken = false;
+        this.router.navigate(['/login']);
+      }
+    });
   }
 
   logout() {

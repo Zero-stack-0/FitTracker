@@ -7,11 +7,12 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.isTokenAvailable());
-  isLoggedIn$ = this.isLoggedInSubject.asObservable();
   constructor() { }
 
+  isLoggedIn$ = this.isLoggedInSubject.asObservable();
+
   isTokenAvailable(): boolean {
-    return !!localStorage.getItem('token');
+    return localStorage.getItem('token') === null ? false : true;
   }
 
   login(token: string) {

@@ -12,10 +12,12 @@ namespace Service
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUserInformationRepository _userInformationRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IUserInformationRepository userInformationRepository)
         {
             _userRepository = userRepository;
+            _userInformationRepository = userInformationRepository;
         }
 
         public async Task<ApiResponse> CreateUser(CreateUserRequest dto)
@@ -28,8 +30,7 @@ namespace Service
             var user = new Users
             {
                 Email = dto.Email,
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
+                FullName = dto.FullName,
                 Password = dto.Password,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
@@ -43,11 +44,27 @@ namespace Service
                 return new ApiResponse(null, "User creation failed", (int)HttpStatusCode.InternalServerError);
             }
 
+            var userInformation = new UserInformation
+            {
+                UserId = createdUser.Id.ToString(),
+                Age = dto.Age,
+                Weight = dto.Weight,
+                Gender = dto.Gender,
+                Height = dto.Height,
+                ActivityLevel = dto.ActivityLevel,
+                FitnessGoal = dto.FitnessGoal,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = null,
+                IsActive = true
+            };
+
+            // Create user information
+            await _userInformationRepository.Create(userInformation);
+
             var response = new UserResponse
             {
                 Id = createdUser.Id.ToString(),
-                FirstName = createdUser.FirstName,
-                LastName = createdUser.LastName,
+                FullName = createdUser.FullName,
                 Email = createdUser.Email,
                 Role = ((Enums.UserRole)createdUser.Role).ToString()
             };
@@ -72,8 +89,7 @@ namespace Service
             var response = new UserResponse
             {
                 Id = user.Id.ToString(),
-                FirstName = user.FirstName,
-                LastName = user.LastName,
+                FullName = user.FullName,
                 Email = user.Email,
                 Role = ((Enums.UserRole)user.Role).ToString()
             };
@@ -98,8 +114,7 @@ namespace Service
             var response = new UserResponse
             {
                 Id = user.Id.ToString(),
-                FirstName = user.FirstName,
-                LastName = user.LastName,
+                FullName = user.FullName,
                 Email = user.Email,
                 Role = ((Enums.UserRole)user.Role).ToString()
             };

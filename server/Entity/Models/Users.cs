@@ -7,10 +7,8 @@ namespace Entity.Models
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
-        [BsonElement("firstName")]
-        public string FirstName { get; set; }
-        [BsonElement("lastName")]
-        public string LastName { get; set; }
+        [BsonElement("fullName")]
+        public string FullName { get; set; }
         [BsonElement("email")]
         public string Email { get; set; }
         [BsonElement("password")]

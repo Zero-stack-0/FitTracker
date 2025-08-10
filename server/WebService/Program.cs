@@ -18,6 +18,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserInformationRepository, UserInformationRepository>();
 builder.Services.AddSingleton<FitTrackerDbContext>();
 builder.Services.AddSingleton<GenerateJwtToken>();
 builder.Services.AddScoped<UserProfile>();

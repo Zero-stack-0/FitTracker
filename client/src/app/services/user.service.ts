@@ -9,6 +9,10 @@ export class UserService {
   private API_URL = 'http://localhost:5074/api/User';
   constructor(private http: HttpClient) { }
 
+  signUp(user: any): Observable<any> {
+    return this.http.post<any>(`${this.API_URL}/create`, user);
+  }
+
   login(user: any): Observable<any> {
     return this.http.post<any>(`${this.API_URL}/login`, user);
   }

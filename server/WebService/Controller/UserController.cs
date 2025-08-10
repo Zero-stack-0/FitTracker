@@ -36,7 +36,8 @@ namespace WebService.Controller
             if (response.StatusCodes == (int)HttpStatusCode.Created)
             {
                 UserResponse userResponse = response.Data as UserResponse ?? new UserResponse();
-                return Ok(generateJwtToken.GenerateToken(userResponse.Role.ToString(), userResponse.Email));
+                response.Data = generateJwtToken.GenerateToken(userResponse.Role.ToString(), userResponse.Email);
+                return Ok(response);
             }
             return Ok(response);
         }

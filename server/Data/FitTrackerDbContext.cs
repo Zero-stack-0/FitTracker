@@ -21,5 +21,10 @@ namespace Data
             database.GetCollection<Users>(
                 (config.Value.Collections != null ? config.Value.Collections.FirstOrDefault(c => c == "users") : null) ?? "users"
             );
+
+        public IMongoCollection<UserInformation> UserInformation =>
+            database.GetCollection<UserInformation>(
+                (config.Value.Collections != null ? config.Value.Collections.FirstOrDefault(c => c == "UserInformation") : null) ?? "UserInformation  "
+            );
     }
 }

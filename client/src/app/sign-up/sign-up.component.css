@@ -323,6 +323,22 @@
     transition: all 0.3s ease;
 }
 
+.error {
+    color: #e53e3e;
+    font-size: 0.975rem;
+    margin-top: 0.25rem;
+    margin: 10px;
+}
+
+.form-select {
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    background: white;
+}
+
 .goal-description {
     font-size: 0.9rem;
     color: #4a5568;
