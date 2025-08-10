@@ -23,5 +23,10 @@ namespace Data.Repository
                 return userInformation;
             });
         }
+
+        public async Task<UserInformation?> GetByUserId(string userId)
+        {
+            return await _userInformationCollection.Find(u => u.UserId == userId).FirstOrDefaultAsync();
+        }
     }
 }

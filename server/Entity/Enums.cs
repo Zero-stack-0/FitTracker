@@ -31,5 +31,16 @@ namespace Entity
             VeryActive,
             SuperActive
         }
+
+        public enum AiPromptType
+        {
+            Default = 1
+        }
+
+        public enum DIET_TYPE
+        {
+            VEG = 1,
+            NON_VEG = 2
+        }
     }
 }

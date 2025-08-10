@@ -336,9 +336,14 @@
         "dependencies": {
           "Data": "1.0.0",
           "Entity": "1.0.0",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.5",
+          "Microsoft.AspNetCore.OpenApi": "8.0.3",
           "Microsoft.Extensions.Configuration": "9.0.5",
           "Microsoft.Extensions.Options": "9.0.5",
-          "MongoDB.Driver": "3.4.0"
+          "MongoDB.Driver": "3.4.0",
+          "Newtonsoft.Json": "13.0.3",
+          "Swashbuckle.AspNetCore": "6.4.0",
+          "System.IdentityModel.Tokens.Jwt": "8.10.0"
         },
         "runtime": {
           "Service.dll": {}

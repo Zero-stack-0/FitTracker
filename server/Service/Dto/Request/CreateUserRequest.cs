@@ -1,3 +1,5 @@
+using static Entity.Enums;
+
 namespace Service.Dto.Request
 {
     public class CreateUserRequest
@@ -6,10 +8,10 @@ namespace Service.Dto.Request
         public string FullName { get; set; }
         public string Password { get; set; }
         public int Age { get; set; }
-        public int Gender { get; set; }
+        public Gender Gender { get; set; }
         public double Height { get; set; }
         public double Weight { get; set; }
-        public int ActivityLevel { get; set; }
-        public int FitnessGoal { get; set; }
+        public ActivityLevel ActivityLevel { get; set; }
+        public FintnessGoal FitnessGoal { get; set; }
     }
 }

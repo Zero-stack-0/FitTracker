@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using MongoDB.Bson.Serialization.Attributes;
+using static Entity.Enums;
 
 namespace Entity.Models
 {
@@ -16,16 +18,16 @@ namespace Entity.Models
         public int Age { get; set; }
 
         [BsonElement("gender")]
-        public int Gender { get; set; }
+        public Gender Gender { get; set; }
 
         [BsonElement("height")]
         public double Height { get; set; }
         [BsonElement("weight")]
         public double Weight { get; set; }
         [BsonElement("activityLevel")]
-        public int ActivityLevel { get; set; }
+        public ActivityLevel ActivityLevel { get; set; }
         [BsonElement("fitnessGoal")]
-        public int FitnessGoal { get; set; }
+        public FintnessGoal FitnessGoal { get; set; }
         [BsonElement("isActive")]
         public bool IsActive { get; set; }
         [BsonElement("createdAt")]

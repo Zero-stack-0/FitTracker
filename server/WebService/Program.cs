@@ -19,6 +19,9 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserInformationRepository, UserInformationRepository>();
+builder.Services.AddScoped<IAiService, AiService>();
+builder.Services.AddScoped<IAiPromptRepository, AiPromptRepository>();
+builder.Services.AddScoped<IFitnessAndnutritionPlansRepository, FitnessAndnutritionPlansRepository>();
 builder.Services.AddSingleton<FitTrackerDbContext>();
 builder.Services.AddSingleton<GenerateJwtToken>();
 builder.Services.AddScoped<UserProfile>();
@@ -41,10 +44,13 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSettings["Issuer"],
         ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"] ?? ""))
     };
 });
-
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddUserSecrets<Program>();
+}
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins",
@@ -55,10 +61,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-
-
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseCors("AllowAllOrigins");
