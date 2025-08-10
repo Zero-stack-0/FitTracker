@@ -10,6 +10,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { FoodLogComponent } from './food-log/food-log.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProgressComponent } from './progress/progress.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { PopupComponent } from './pop-up/pop-up.component';
 
 @NgModule({
   declarations: [
@@ -20,11 +24,15 @@ import { ProgressComponent } from './progress/progress.component';
     DashboardComponent,
     FoodLogComponent,
     ProfileComponent,
-    ProgressComponent
+    ProgressComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

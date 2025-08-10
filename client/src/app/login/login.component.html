@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - FitTracker</title>
     <link rel="stylesheet" href="./login.component.css">
 </head>
+<app-popup [isOpen]="isOpen" [description]="errorMessage" [title]="poptitle" [isGreen]="false"
+    (close)="closePopup()"></app-popup>
 
 <body class="login-body">
     <div class="login-container">
@@ -21,13 +20,13 @@
 
         <!-- Login Form -->
         <div class="form-card">
-            <form class="login-form">
+            <form class="login-form" [formGroup]="userForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
                     <label for="email" class="form-label">Email Address</label>
                     <div class="input-wrapper">
                         <span class="input-icon">📧</span>
-                        <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com"
-                            required />
+                        <input type="email" formControlName="email" id="email" name="email" class="form-input"
+                            placeholder="your@email.com" required />
                     </div>
                 </div>
 
@@ -35,8 +34,8 @@
                     <label for="password" class="form-label">Password</label>
                     <div class="input-wrapper">
                         <span class="input-icon">🔒</span>
-                        <input type="password" id="password" name="password" class="form-input"
-                            placeholder="Your secure password" required />
+                        <input formControlName="password" type="password" id="password" name="password"
+                            class="form-input" placeholder="Your secure password" required />
                     </div>
                 </div>
 
@@ -63,5 +62,3 @@
         </div>
     </div>
 </body>
-
-</html>

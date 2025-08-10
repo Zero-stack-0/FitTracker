@@ -1,4 +1,5 @@
 using Data.Repository.Interface;
+using Entity;
 using Entity.Models;
 using Service.Dto.Request;
 using Service.Dto.Response;
@@ -42,7 +43,16 @@ namespace Service
                 return new ApiResponse(null, "User creation failed", (int)HttpStatusCode.InternalServerError);
             }
 
-            return new ApiResponse(createdUser, "User created successfully", (int)HttpStatusCode.Created);
+            var response = new UserResponse
+            {
+                Id = createdUser.Id.ToString(),
+                FirstName = createdUser.FirstName,
+                LastName = createdUser.LastName,
+                Email = createdUser.Email,
+                Role = ((Enums.UserRole)createdUser.Role).ToString()
+            };
+
+            return new ApiResponse(response, "User created successfully", (int)HttpStatusCode.Created);
         }
 
         public async Task<ApiResponse> GetByEmail(string email)
@@ -64,10 +74,37 @@ namespace Service
                 Id = user.Id.ToString(),
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Email = user.Email
+                Email = user.Email,
+                Role = ((Enums.UserRole)user.Role).ToString()
             };
 
             return new ApiResponse(response, "User retrieved successfully", (int)HttpStatusCode.OK);
+        }
+
+        public async Task<ApiResponse> Login(LoginRequest request)
+        {
+            if (request == null || string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
+            {
+                return new ApiResponse(null, "Invalid login data", (int)HttpStatusCode.BadRequest);
+            }
+
+            var user = await _userRepository.Login(request.Email, request.Password);
+
+            if (user == null)
+            {
+                return new ApiResponse(null, "Invalid email or password", (int)HttpStatusCode.Unauthorized);
+            }
+
+            var response = new UserResponse
+            {
+                Id = user.Id.ToString(),
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Role = ((Enums.UserRole)user.Role).ToString()
+            };
+
+            return new ApiResponse(response, "Login successful", (int)HttpStatusCode.OK);
         }
     }
 }

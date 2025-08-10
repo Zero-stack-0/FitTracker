@@ -6,5 +6,6 @@ namespace Data.Repository.Interface
     {
         Task<Users?> Create(Users user);
         Task<Users?> GetByEmail(string email);
+        Task<Users?> Login(string email, string password);
     }
 }

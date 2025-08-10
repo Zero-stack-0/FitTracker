@@ -13,7 +13,7 @@ namespace Webservices.Auth
             _configuration = configuration;
         }
 
-        public string GenerateToken(string username, string role, string email)
+        public string GenerateToken(string role, string email)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
             var secretKey = jwtSettings["SecretKey"];
@@ -26,7 +26,6 @@ namespace Webservices.Auth
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, username),
                 new Claim(ClaimTypes.Role, role),
                 new Claim(ClaimTypes.Email, email)
             };

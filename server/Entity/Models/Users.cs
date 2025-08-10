@@ -21,6 +21,8 @@ namespace Entity.Models
         public DateTime CreatedAt { get; set; }
         [BsonElement("updatedAt")]
         public DateTime? UpdatedAt { get; set; }
+        [BsonElement("role")]
+        public int Role { get; set; } = (int)Enums.UserRole.User;
 
     }
 }

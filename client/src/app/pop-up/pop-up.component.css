@@ -1,0 +1,67 @@
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /* Push to top */
+    padding-top: 40px;
+    /* Space from top */
+}
+
+.popup-box {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.3s ease;
+}
+
+/* Color variants */
+.green {
+    border-left: 5px solid green;
+
+}
+
+.red {
+    border-left: 5px solid red;
+
+}
+
+.green-title {
+    color: green !important;
+    ;
+}
+
+.red-title {
+    color: red !important;
+    ;
+}
+
+.close-btn {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background: #ccc;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Slide down animation */
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

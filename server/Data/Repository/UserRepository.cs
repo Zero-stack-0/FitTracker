@@ -28,5 +28,10 @@ namespace Data.Repository
         {
             return await usersCollection.Find(u => u.Email == email).FirstOrDefaultAsync();
         }
+
+        public async Task<Users?> Login(string email, string password)
+        {
+            return await usersCollection.Find(u => u.Email == email && u.Password == password).FirstOrDefaultAsync();
+        }
     }
 }
