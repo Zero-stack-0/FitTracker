@@ -7,6 +7,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { FoodLogComponent } from './food-log/food-log.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProgressComponent } from './progress/progress.component';
+import { FitnessPlanComponent } from './fitness-plan/fitness-plan.component';
+import { FoodLogFormComponent } from './food-log-form/food-log-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -17,6 +19,8 @@ const routes: Routes = [
   { path: 'food-log', component: FoodLogComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'progress', component: ProgressComponent },
+  { path: 'fitness-plan', component: FitnessPlanComponent },
+  { path: 'food-log-form', component: FoodLogFormComponent },
 ];
 
 @NgModule({

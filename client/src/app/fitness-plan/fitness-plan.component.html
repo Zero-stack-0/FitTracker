@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Your Personalized Fitness & Nutrition Plan</title>
+    <link rel="stylesheet" href="./fitness-plan.component.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏃‍♂️ Fitness & Nutrition Plan</h1>
+            <p>Get your personalized plan based on your location and preferences</p>
+        </div>
+
+        <div class="form-container">
+            <div class="info-box">
+                <h4>🌍 Location-Based Diet Planning</h4>
+                <p>We create customized meal plans using locally available ingredients and traditional foods from your
+                    region to ensure the best nutrition and taste experience.</p>
+            </div>
+
+            <form action="#" method="post">
+                <div class="section-title">Personal Information</div>
+                <div class="section-title">Location & Diet Preferences</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="country">Country *</label>
+                        <select id="country" name="country" required>
+                            <option value="">Select your country</option>
+                            <option value="india">India</option>
+                            <option value="usa">United States</option>
+                            <option value="uk">United Kingdom</option>
+                            <option value="canada">Canada</option>
+                            <option value="australia">Australia</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City/State *</label>
+                        <input type="text" id="city" name="city" placeholder="e.g., Mumbai, Maharashtra" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Diet Preference *</label>
+                    <div class="diet-options">
+                        <div class="diet-card">
+                            <input type="radio" id="vegetarian" name="diet_type" value="vegetarian" required>
+                            <div class="diet-content">
+                                <span class="diet-icon">🥬</span>
+                                <h4>Vegetarian</h4>
+                                <p>Plant-based meals only</p>
+                            </div>
+                        </div>
+                        <div class="diet-card">
+                            <input type="radio" id="non-vegetarian" name="diet_type" value="non-vegetarian" required>
+                            <div class="diet-content">
+                                <span class="diet-icon">🍖</span>
+                                <h4>Non-Vegetarian</h4>
+                                <p>Includes meat & seafood</p>
+                            </div>
+                        </div>
+                        <div class="diet-card">
+                            <input type="radio" id="both" name="diet_type" value="both" required>
+                            <div class="diet-content">
+                                <span class="diet-icon">🍽️</span>
+                                <h4>Both</h4>
+                                <p>Flexible meal options</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="section-title">Health & Dietary Restrictions</div>
+
+                <div class="form-group">
+                    <label for="medical">Allegric Foods (if any)</label>
+                    <textarea id="medical" name="medical"
+                        placeholder="Please mention any food that are Allegric to."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="medical">Medical Conditions (if any)</label>
+                    <textarea id="medical" name="medical"
+                        placeholder="Please mention any relevant medical conditions like diabetes, hypertension, thyroid issues, etc."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="preferences">Food Preferences & Local Cuisine</label>
+                    <textarea id="preferences" name="preferences"
+                        placeholder="Any specific food preferences, local dishes you enjoy, or foods you want to avoid?"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    🎯 Generate My Personalized Plan
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

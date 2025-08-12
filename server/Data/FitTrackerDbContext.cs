@@ -42,5 +42,10 @@ namespace Data
             database.GetCollection<FitnessAndNutritionPlan>(
                 (config.Value.Collections != null ? config.Value.Collections.FirstOrDefault(c => c == "FitnessAndNutritionPlan") : null) ?? "FitnessAndNutritionPlan"
             );
+
+        public IMongoCollection<IndianFoodMacros> FoodMacros =>
+            database.GetCollection<IndianFoodMacros>(
+                (config.Value.Collections != null ? config.Value.Collections.FirstOrDefault(c => c == "indian-food-macros") : null) ?? "indian-food-macros"
+            );
     }
 }

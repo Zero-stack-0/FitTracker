@@ -22,6 +22,8 @@ builder.Services.AddScoped<IUserInformationRepository, UserInformationRepository
 builder.Services.AddScoped<IAiService, AiService>();
 builder.Services.AddScoped<IAiPromptRepository, AiPromptRepository>();
 builder.Services.AddScoped<IFitnessAndnutritionPlansRepository, FitnessAndnutritionPlansRepository>();
+builder.Services.AddScoped<IIndianFoodMacrosRepository, IndianFoodMacrosRepository>();
+builder.Services.AddScoped<IFoodMacrosService, FoodMacrosService>();
 builder.Services.AddSingleton<FitTrackerDbContext>();
 builder.Services.AddSingleton<GenerateJwtToken>();
 builder.Services.AddScoped<UserProfile>();

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitTracker - Food Log</title>
+    <link rel="stylesheet" href="./food-log-form.component.css">
+</head>
+
+<body>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h2 class="page-title">Food Log 📝</h2>
+                <p class="page-subtitle">Track your meals and reach your nutrition goals</p>
+            </div>
+
+            <!-- Food Log Form -->
+            <div class="form-container">
+                <div class="form-card">
+                    <div class="form-header">
+                        <h3 class="form-title">Add Food Entry</h3>
+                        <p class="form-description">Select meal type and search for foods</p>
+                    </div>
+
+                    <form class="food-form">
+                        <!-- Meal Type Selection -->
+                        <div class="form-group">
+                            <label class="form-label">Meal Type</label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="breakfast" name="mealType" value="breakfast" checked>
+                                    <label for="breakfast" class="radio-label">🌅 Breakfast</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="lunch" name="mealType" value="lunch">
+                                    <label for="lunch" class="radio-label">🌞 Lunch</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="dinner" name="mealType" value="dinner">
+                                    <label for="dinner" class="radio-label">🌙 Dinner</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="snack" name="mealType" value="snack">
+                                    <label for="snack" class="radio-label">🍎 Snack</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Food Search -->
+                        <div class="form-group" #container>
+                            <label for="foodSearch" class="form-label">Search Food</label>
+                            <div class="search-container">
+                                <div class="search-input-container">
+                                    <input [(ngModel)]="values" (ngModelChange)="onInputChange($event)" type="text"
+                                        id="foodSearch" name="foodSearch" class="search-input"
+                                        placeholder="Type to search foods..." autocomplete="off">
+                                    <span class="search-icon">🔍</span>
+                                </div>
+
+
+                                <div class="suggestions-container">
+                                    <div class="suggestion-item" *ngFor="let food of foodMacros">
+                                        <div class="suggestion-content">
+                                            <span class="suggestion-name">{{food.name}}</span>
+                                            <span class="suggestion-calories">{{food.calories}} calories</span>
+                                        </div>
+                                        <button type="button" class="add-btn" (click)="onAddFoodToLog(food)">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quantity -->
+                        <div class="form-group">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <div class="quantity-container">
+                                <input type="number" id="quantity" name="quantity" class="quantity-input"
+                                    placeholder="1" min="0.1" step="0.1" value="1">
+                                <select class="unit-select">
+
+                                    <option selected value="gram">gram</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-actions">
+                            <button type="submit" class="submit-btn">Add Food Entry</button>
+
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Recent Entries -->
+                <div class="recent-entries">
+                    <h3 class="recent-title">Recent Entries</h3>
+                    <div class="entry-list">
+                        <div class="entry-item">
+                            <div class="entry-info">
+                                <span class="entry-food">Oatmeal with berries</span>
+                                <span class="entry-meal">Breakfast</span>
+                            </div>
+                            <span class="entry-calories">150 cal</span>
+                        </div>
+                        <div class="entry-item">
+                            <div class="entry-info">
+                                <span class="entry-food">Greek yogurt</span>
+                                <span class="entry-meal">Breakfast</span>
+                            </div>
+                            <span class="entry-calories">130 cal</span>
+                        </div>
+                        <div class="entry-item">
+                            <div class="entry-info">
+                                <span class="entry-food">Grilled chicken salad</span>
+                                <span class="entry-meal">Lunch</span>
+                            </div>
+                            <span class="entry-calories">350 cal</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

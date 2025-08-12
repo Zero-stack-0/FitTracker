@@ -1,0 +1,21 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { FoodLogFormComponent } from './food-log-form.component';
+
+describe('FoodLogFormComponent', () => {
+  let component: FoodLogFormComponent;
+  let fixture: ComponentFixture<FoodLogFormComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [FoodLogFormComponent]
+    });
+    fixture = TestBed.createComponent(FoodLogFormComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
