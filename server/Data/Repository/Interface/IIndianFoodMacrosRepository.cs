@@ -9,5 +9,6 @@ namespace Data.Repository.Interface
     public interface IIndianFoodMacrosRepository
     {
         Task<List<IndianFoodMacros>> GetFoodMacrosByName(string name);
+        Task<IndianFoodMacros?> GetById(string id);
     }
 }

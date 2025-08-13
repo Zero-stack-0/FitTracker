@@ -33,24 +33,26 @@
                         <div class="form-group">
                             <label class="form-label">Meal Type</label>
                             <div class="radio-group">
-                                <div class="radio-item">
+                                <div (click)="mealTypeChanges(1)" class="radio-item">
                                     <input type="radio" id="breakfast" name="mealType" value="breakfast" checked>
                                     <label for="breakfast" class="radio-label">🌅 Breakfast</label>
                                 </div>
-                                <div class="radio-item">
+                                <div (click)="mealTypeChanges(2)" class="radio-item">
                                     <input type="radio" id="lunch" name="mealType" value="lunch">
                                     <label for="lunch" class="radio-label">🌞 Lunch</label>
                                 </div>
-                                <div class="radio-item">
+                                <div (click)="mealTypeChanges(3)" class="radio-item">
                                     <input type="radio" id="dinner" name="mealType" value="dinner">
                                     <label for="dinner" class="radio-label">🌙 Dinner</label>
                                 </div>
-                                <div class="radio-item">
+                                <div class="radio-item" (click)="mealTypeChanges(4)">
                                     <input type="radio" id="snack" name="mealType" value="snack">
                                     <label for="snack" class="radio-label">🍎 Snack</label>
                                 </div>
                             </div>
                         </div>
+
+
 
                         <!-- Food Search -->
                         <div class="form-group" #container>
@@ -70,7 +72,7 @@
                                             <span class="suggestion-name">{{food.name}}</span>
                                             <span class="suggestion-calories">{{food.calories}} calories</span>
                                         </div>
-                                        <button type="button" class="add-btn" (click)="onAddFoodToLog(food)">+</button>
+                                        <button type="button" class="add-btn" (click)="selectTheFood(food)">+</button>
                                     </div>
                                 </div>
                             </div>
@@ -80,8 +82,9 @@
                         <div class="form-group">
                             <label for="quantity" class="form-label">Quantity</label>
                             <div class="quantity-container">
-                                <input type="number" id="quantity" name="quantity" class="quantity-input"
-                                    placeholder="1" min="0.1" step="0.1" value="1">
+                                <input [(ngModel)]="quantity" (ngModelChange)="onQuantityInputChange($event)"
+                                    type="number" id="quantity" name="quantity" class="quantity-input" placeholder="1"
+                                    min="0.1" step="0.1" value="1">
                                 <select class="unit-select">
 
                                     <option selected value="gram">gram</option>
@@ -92,7 +95,7 @@
 
                         <!-- Submit Button -->
                         <div class="form-actions">
-                            <button type="submit" class="submit-btn">Add Food Entry</button>
+                            <button type="submit" class="submit-btn" (click)="onAddFoodToLog()">Add Food Entry</button>
 
                         </div>
                     </form>

@@ -34,5 +34,10 @@ namespace Data.Repository
 
             return orderedFoods;
         }
+
+        public async Task<IndianFoodMacros?> GetById(string id)
+        {
+            return await _foodMacrosCollection.Find(e => e.Id == id).FirstOrDefaultAsync();
+        }
     }
 }

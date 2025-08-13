@@ -1,5 +1,5 @@
 export interface FoodMacrosInterface {
-    _id: string;
+    id: string;
     name: string;
     serving_size_g: number;
     calories: number;

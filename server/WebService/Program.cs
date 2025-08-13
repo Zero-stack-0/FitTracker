@@ -21,6 +21,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserInformationRepository, UserInformationRepository>();
 builder.Services.AddScoped<IAiService, AiService>();
 builder.Services.AddScoped<IAiPromptRepository, AiPromptRepository>();
+builder.Services.AddScoped<IUserFoodLogRepository, UserFoodLogRepository>();
+builder.Services.AddScoped<IUserFoodLogService, UserFoodLogService>();
 builder.Services.AddScoped<IFitnessAndnutritionPlansRepository, FitnessAndnutritionPlansRepository>();
 builder.Services.AddScoped<IIndianFoodMacrosRepository, IndianFoodMacrosRepository>();
 builder.Services.AddScoped<IFoodMacrosService, FoodMacrosService>();
@@ -66,6 +68,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseCors("AllowAllOrigins");
+    app.UseAuthentication();
+    app.UseAuthorization();
     app.UseSwagger();
     app.UseSwaggerUI();
     app.MapControllers();

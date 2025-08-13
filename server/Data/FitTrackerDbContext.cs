@@ -47,5 +47,10 @@ namespace Data
             database.GetCollection<IndianFoodMacros>(
                 (config.Value.Collections != null ? config.Value.Collections.FirstOrDefault(c => c == "indian-food-macros") : null) ?? "indian-food-macros"
             );
+
+        public IMongoCollection<UserFoodLog> UserFoodLog =>
+            database.GetCollection<UserFoodLog>(
+                (config.Value.Collections != null ? config.Value.Collections.FirstOrDefault(c => c == "user-food-log") : null) ?? "user-food-log"
+            );
     }
 }

@@ -9,7 +9,7 @@ import { FoodMacrosInterface } from '../models/food-macros-interface';
 export class FoodMacrosService {
 
   constructor(private http: HttpClient) { }
-  API_BASE_URL = 'http://localhost:5074';
+  private API_BASE_URL = 'http://localhost:5074';
 
   getFoodByName(name: string): Observable<FoodMacrosInterface[]> {
     return this.http.get<{ data: FoodMacrosInterface[] }>(this.API_BASE_URL + `/api/FoodMacro?name=${name}`)

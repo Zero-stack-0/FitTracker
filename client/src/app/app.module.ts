@@ -11,11 +11,12 @@ import { FoodLogComponent } from './food-log/food-log.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProgressComponent } from './progress/progress.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { PopupComponent } from './pop-up/pop-up.component';
 import { FitnessPlanComponent } from './fitness-plan/fitness-plan.component';
 import { FoodLogFormComponent } from './food-log-form/food-log-form.component';
+import { AuthInterceptor } from './services/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,13 @@ import { FoodLogFormComponent } from './food-log-form/food-log-form.component';
     CommonModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
