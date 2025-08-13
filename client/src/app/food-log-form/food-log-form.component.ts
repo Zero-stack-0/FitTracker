@@ -1,9 +1,12 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FoodMacrosService } from '../services/food-macros.service';
-import { debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, switchMap, tap } from 'rxjs';
 import { FoodMacrosInterface } from '../models/food-macros-interface';
 import { UserFoodLodService } from '../services/user-food-log.service';
+import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-food-log-form',
@@ -12,18 +15,56 @@ import { UserFoodLodService } from '../services/user-food-log.service';
 })
 export class FoodLogFormComponent implements OnInit {
   @ViewChild('container', { static: false }) container!: ElementRef;
-  constructor(private foodMacrosService: FoodMacrosService, private userFoodLogForm: UserFoodLodService) { }
+  constructor(private foodMacrosService: FoodMacrosService, private userFoodLogForm: UserFoodLodService,
+    private authService: AuthService, private route: Router) { }
 
+  //popup
+  isOpen = false;
+  isGreen = false;
+  errorMessage = '';
+  poptitle = '';
+  isFoodSelected = true;
+  isQuantityInvalid = false;
   selectedFood: FoodMacrosInterface | null = null;
   mealType = 1
   searchValue = 'egg';
   values = ''
   quantity = 0
   foodMacros: FoodMacrosInterface[] = [];
+  recentEntries: any
+  searchControl = new FormControl();
 
 
   ngOnInit(): void {
-    this.fetchFoodMacros();
+    //this.fetchFoodMacros();
+    if (!this.authService.isTokenAvailable() || !this.authService.isTokenExpired()) {
+      this.openPopup('Please log in again.', 'Session Expired', false);
+      this.route.navigate(['/login']);
+      return;
+    }
+    this.searchControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap((value: string) => {
+        if ((!value || value.length <= 2)) {
+          this.foodMacros = [];
+        }
+      }),
+      filter((value: string) => value.length > 2),
+      switchMap((value: string) => this.foodMacrosService.getFoodByName(value))
+    ).subscribe((foods: FoodMacrosInterface[]) => {
+      this.foodMacros = foods;
+    });
+
+    this.fetchRecentFoodLogs()
+
+  }
+
+  fetchRecentFoodLogs() {
+    this.userFoodLogForm.recentEntries().subscribe((response) => {
+      this.recentEntries = response.data;
+      console.log(this.recentEntries);
+    });
   }
 
   fetchFoodMacros(): void {
@@ -54,13 +95,11 @@ export class FoodLogFormComponent implements OnInit {
 
   selectTheFood(food: FoodMacrosInterface) {
     this.selectedFood = food;
-    this.foodMacros = [];
-    this.values = food.name;
-    console.log(this.selectedFood);
-  }
 
-  onSubmitFoodLogForm() {
-    this.userFoodLogForm.addFoodToLog(this.userFoodLogForm).subscribe((v) => console.log(v.data))
+    this.searchControl.setValue(food.name, { emitEvent: false });
+    this.foodMacros = [];
+    this.isFoodSelected = true;
+    console.log(this.selectedFood);
   }
 
   mealTypeChanges(type: number) {
@@ -69,6 +108,9 @@ export class FoodLogFormComponent implements OnInit {
   }
 
   onQuantityInputChange(quan: number) {
+    if (quan > 0) {
+      this.isQuantityInvalid = false;
+    }
     this.quantity = quan;
     console.log(this.quantity);
   }
@@ -79,18 +121,39 @@ export class FoodLogFormComponent implements OnInit {
       TimeOfTheDay: this.mealType,
       Quantity: this.quantity
     }
+    if (!foodToLog.FoodId || !foodToLog.Quantity) {
+      this.isFoodSelected = false;
+      if (!foodToLog.Quantity) {
+        this.isQuantityInvalid = true;
+      }
+      return;
+    }
 
     this.userFoodLogForm.addFoodToLog(foodToLog).subscribe((response) => {
+
       if (response && response.data != null && response.statusCodes === 201) {
+        this.openPopup(response.message, "Food logged successfully", true);
         this.foodMacros = []
         this.values = ''
         this.quantity = 0
         this.mealType = 1
         this.selectedFood = null;
+        this.searchControl.setValue('', { emitEvent: false })
+        this.fetchRecentFoodLogs()
 
       } else {
-        console.warn('Response or data is null');
+        this.openPopup(response.message, "Error occured while calling api", false)
       }
     });
+  }
+
+  openPopup(message: string, title: string, isGreen: boolean) {
+    this.isOpen = true;
+    this.isGreen = isGreen;
+    this.errorMessage = message;
+    this.poptitle = title;
+  }
+  closePopup() {
+    this.isOpen = false;
   }
 }

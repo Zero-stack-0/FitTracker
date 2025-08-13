@@ -10,5 +10,6 @@ namespace Service.Interface
     public interface IUserFoodLogService
     {
         Task<ApiResponse> Create(CreateUserFoodLogRq req);
+        Task<ApiResponse> GetRecentFoodLogEntriesAsync(string userId);
     }
 }

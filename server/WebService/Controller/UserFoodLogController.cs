@@ -38,5 +38,18 @@ namespace WebService.Controller
             req.UserId = userDetail.Id;
             return Ok(await _userFoodLogService.Create(req));
         }
+
+        [HttpGet("recent-entries")]
+        public async Task<IActionResult> GetRecentEntries()
+        {
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var userDetail = await _userProfile.GetUserDetail(claimsIdentity);
+            if (userDetail is null)
+            {
+                return Unauthorized(new ApiResponse(null, "User profile not found", StatusCodes.Status404NotFound));
+            }
+
+            return Ok(await _userFoodLogService.GetRecentFoodLogEntriesAsync(userDetail.Id));
+        }
     }
 }

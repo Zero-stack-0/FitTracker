@@ -10,7 +10,8 @@
 
 <body>
 
-
+    <app-popup [isOpen]="isOpen" [description]="errorMessage" [title]="poptitle" [isGreen]="isGreen"
+        (close)="closePopup()"></app-popup>
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
@@ -28,7 +29,7 @@
                         <p class="form-description">Select meal type and search for foods</p>
                     </div>
 
-                    <form class="food-form">
+                    <form class="food-form" (ngSubmit)="onAddFoodToLog()">
                         <!-- Meal Type Selection -->
                         <div class="form-group">
                             <label class="form-label">Meal Type</label>
@@ -59,24 +60,25 @@
                             <label for="foodSearch" class="form-label">Search Food</label>
                             <div class="search-container">
                                 <div class="search-input-container">
-                                    <input [(ngModel)]="values" (ngModelChange)="onInputChange($event)" type="text"
-                                        id="foodSearch" name="foodSearch" class="search-input"
-                                        placeholder="Type to search foods..." autocomplete="off">
+                                    <input [formControl]="searchControl" (value)="values" type="text" id="foodSearch"
+                                        name="foodSearch" class="search-input" placeholder="Type to search foods..."
+                                        autocomplete="off">
                                     <span class="search-icon">🔍</span>
                                 </div>
-
 
                                 <div class="suggestions-container">
                                     <div class="suggestion-item" *ngFor="let food of foodMacros">
                                         <div class="suggestion-content">
                                             <span class="suggestion-name">{{food.name}}</span>
-                                            <span class="suggestion-calories">{{food.calories}} calories</span>
+                                            <span class="suggestion-calories">{{food.calories}} calories / 100gm
+                                                serving</span>
                                         </div>
                                         <button type="button" class="add-btn" (click)="selectTheFood(food)">+</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <p *ngIf="!isFoodSelected" style="color: red;">please selected atleast one food</p>
 
                         <!-- Quantity -->
                         <div class="form-group">
@@ -91,11 +93,12 @@
 
                                 </select>
                             </div>
+                            <p *ngIf="isQuantityInvalid" style="color: red;">please enter valid quantity</p>
                         </div>
 
                         <!-- Submit Button -->
                         <div class="form-actions">
-                            <button type="submit" class="submit-btn" (click)="onAddFoodToLog()">Add Food Entry</button>
+                            <button type="submit" class="submit-btn">Add Food Entry</button>
 
                         </div>
                     </form>
@@ -104,28 +107,15 @@
                 <!-- Recent Entries -->
                 <div class="recent-entries">
                     <h3 class="recent-title">Recent Entries</h3>
-                    <div class="entry-list">
+                    <div class="entry-list" *ngFor="let recent of recentEntries">
                         <div class="entry-item">
                             <div class="entry-info">
-                                <span class="entry-food">Oatmeal with berries</span>
-                                <span class="entry-meal">Breakfast</span>
+                                <span class="entry-food">{{recent.foodName}}</span>
+                                <span class="entry-meal">{{recent.timeOfTheDay}}</span>
                             </div>
-                            <span class="entry-calories">150 cal</span>
+                            <span class="entry-calories">{{recent.caloriesLogged}} cal</span>
                         </div>
-                        <div class="entry-item">
-                            <div class="entry-info">
-                                <span class="entry-food">Greek yogurt</span>
-                                <span class="entry-meal">Breakfast</span>
-                            </div>
-                            <span class="entry-calories">130 cal</span>
-                        </div>
-                        <div class="entry-item">
-                            <div class="entry-info">
-                                <span class="entry-food">Grilled chicken salad</span>
-                                <span class="entry-meal">Lunch</span>
-                            </div>
-                            <span class="entry-calories">350 cal</span>
-                        </div>
+
                     </div>
                 </div>
             </div>

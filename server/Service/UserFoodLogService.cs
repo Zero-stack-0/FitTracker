@@ -70,7 +70,16 @@ namespace Service
 
             return new ApiResponse(userFoodLog, "User Food added successfully", StatusCodes.Status201Created);
         }
-        public CalculatedMaros CalculateMacros(IndianFoodMacros macrosPer100g, double gramsInput)
+
+        public async Task<ApiResponse> GetRecentFoodLogEntriesAsync(string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                return new ApiResponse(null, "Invalid requestor id", StatusCodes.Status403Forbidden);
+            }
+            return new ApiResponse(await _userFoodLogRepository.GetRecentFoodLogEntriesAsync(userId), "Recent fool log entries");
+        }
+        private CalculatedMaros CalculateMacros(IndianFoodMacros macrosPer100g, double gramsInput)
         {
             double factor = gramsInput / macrosPer100g.ServingSizeG;
 
