@@ -28,6 +28,9 @@ namespace Entity.Models
         public ActivityLevel ActivityLevel { get; set; }
         [BsonElement("fitnessGoal")]
         public FintnessGoal FitnessGoal { get; set; }
+
+        [BsonElement("diet_type")]
+        public DIET_TYPE DietType { get; set; }
         [BsonElement("isActive")]
         public bool IsActive { get; set; }
         [BsonElement("createdAt")]

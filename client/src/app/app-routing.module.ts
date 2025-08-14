@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'progress', component: ProgressComponent },
   { path: 'fitness-plan', component: FitnessPlanComponent },
-  { path: 'food-log-form', component: FoodLogFormComponent },
+  { path: 'food-log-form', component: FoodLogFormComponent }
 ];
 
 @NgModule({

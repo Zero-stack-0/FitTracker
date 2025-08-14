@@ -4,3 +4,9 @@ export enum FitnessGoal {
     MaintainWeight = 3,
     WeightGain = 4
 }
+
+export enum DietType {
+    VEG = 1,
+    NON_VEG = 2,
+    BOTH
+}

@@ -40,7 +40,8 @@ namespace Entity
         public enum DIET_TYPE
         {
             VEG = 1,
-            NON_VEG = 2
+            NON_VEG = 2,
+            BOTH
         }
 
         public enum TimeOfTheDay

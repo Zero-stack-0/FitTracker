@@ -323,6 +323,15 @@
     transition: all 0.3s ease;
 }
 
+/* Privacy Note */
+.privacy-note {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0.5rem;
+    text-align: center;
+    font-style: italic;
+}
+
 .error {
     color: #e53e3e;
     font-size: 0.975rem;

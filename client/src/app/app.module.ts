@@ -30,8 +30,7 @@ import { AuthInterceptor } from './services/auth.interceptor';
     ProgressComponent,
     PopupComponent,
     FitnessPlanComponent,
-    FoodLogFormComponent
-  ],
+    FoodLogFormComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

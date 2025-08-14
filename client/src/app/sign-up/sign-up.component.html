@@ -176,6 +176,62 @@
                         </div>
                     </div>
                 </div>
+                <!-- Dietary Preferences -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <span class="section-icon">🌱</span>
+                        Dietary Preference
+                    </h3>
+                    <div class="goal-options">
+                        <label class="goal-card">
+                            <input type="radio" name="dietPreference" value="veg" checked />
+                            <div class="goal-content">
+                                <div class="goal-header">
+                                    <span class="goal-emoji">🥬</span>
+                                    <span class="goal-title">Vegetarian</span>
+                                </div>
+                                <p class="goal-description">Plant-based meals only</p>
+                            </div>
+                        </label>
+                        <label class="goal-card">
+                            <input type="radio" name="dietPreference" value="nonVeg" />
+                            <div class="goal-content">
+                                <div class="goal-header">
+                                    <span class="goal-emoji">🍗</span>
+                                    <span class="goal-title">Non-Vegetarian</span>
+                                </div>
+                                <p class="goal-description">Includes meat and dairy</p>
+                            </div>
+                        </label>
+                        <label class="goal-card">
+                            <input type="radio" name="dietPreference" value="both" />
+                            <div class="goal-content">
+                                <div class="goal-header">
+                                    <span class="goal-emoji">🍽️</span>
+                                    <span class="goal-title">Both</span>
+                                </div>
+                                <p class="goal-description">Flexible with all food types</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Location -->
+                <!-- <div class="form-section">
+                    <h3 class="section-title">
+                        <span class="section-icon">📍</span>
+                        Location
+                    </h3>
+                    <div class="form-group">
+                        <label for="location" class="form-label">Your Location</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🌍</span>
+                            <input type="text" id="location" name="location" class="form-input"
+                                placeholder="Enter your city or area" required />
+                        </div>
+                        <p class="privacy-note">For better diet plan give us location we do not track</p>
+                    </div>
+                </div> -->
 
                 <!-- Fitness Goals -->
                 <div class="form-section">
@@ -184,44 +240,15 @@
                         Your Fitness Goal
                     </h3>
                     <div class="goal-options">
-                        <label class="goal-card">
-                            <input formControlName="fitnessGoal" type="radio" value="WeightLoss" />
+                        <label class="goal-card" *ngFor="let fit of fitnessGoalOptions">
+
+                            <input formControlName="fitnessGoal" type="radio" [value]="fit.value" checked />
                             <div class="goal-content">
                                 <div class="goal-header">
-                                    <span class="goal-emoji">🔥</span>
-                                    <span class="goal-title">Weight Loss</span>
+                                    <span class="goal-emoji">{{goalEmoji(fit.value)}}</span>
+                                    <span class="goal-title">{{goalTitle(fit.value)}}</span>
                                 </div>
-                                <p class="goal-description">Burn calories and shed pounds safely</p>
-                            </div>
-                        </label>
-                        <label class="goal-card">
-                            <input formControlName="fitnessGoal" type="radio" value="WeightGain" />
-                            <div class="goal-content">
-                                <div class="goal-header">
-                                    <span class="goal-emoji">💪</span>
-                                    <span class="goal-title">Weight Gain</span>
-                                </div>
-                                <p class="goal-description">Build muscle and gain healthy weight</p>
-                            </div>
-                        </label>
-                        <label class="goal-card">
-                            <input formControlName="fitnessGoal" type="radio" value="MaintainWeight" />
-                            <div class="goal-content">
-                                <div class="goal-header">
-                                    <span class="goal-emoji">🌟</span>
-                                    <span class="goal-title">Maintain Weight</span>
-                                </div>
-                                <p class="goal-description">Stay healthy and maintain current weight</p>
-                            </div>
-                        </label>
-                        <label class="goal-card">
-                            <input formControlName="fitnessGoal" type="radio" value="MuscleGain" />
-                            <div class="goal-content">
-                                <div class="goal-header">
-                                    <span class="goal-emoji">🌟</span>
-                                    <span class="goal-title">Muscle Gain</span>
-                                </div>
-                                <p class="goal-description">Stay healthy and gain weight</p>
+                                <p class="goal-description">{{goalDescription(fit.value)}}</p>
                             </div>
                         </label>
                     </div>
