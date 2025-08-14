@@ -143,45 +143,21 @@ export class SignUpComponent {
       return;
     }
 
-
-
-    // const goal = this.signUpForm.value.fitnessGoal;
-    // console.log(this.signUpForm.value.fitnessGoal);
-    // if (goal === null || goal === undefined) {
-    //   this.openPopup('Please select a fitness goal', 'Sign Up Error');
-    //   return;
-    // }
-    // if (goal.toString() === "WeightLoss") {
-    //   this.signUpForm.value.fitnessGoal = FitnessGoal.WeightLoss;
-    // } else if (goal.toString() === "MuscleGain") {
-    //   this.signUpForm.value.fitnessGoal = FitnessGoal.MuscleGain;
-    // } else if (goal.toString() === "MaintainWeight") {
-    //   this.signUpForm.value.fitnessGoal = FitnessGoal.MaintainWeight;
-    // }
-    // else if (goal.toString() === "WeightGain") {
-    //   this.signUpForm.value.fitnessGoal = FitnessGoal.WeightGain;
-    // }
-    // else {
-    //   this.openPopup('Please select a valid fitness goal', 'Sign Up Error');
-    //   return;
-    // }
-    // this.userService.signUp(this.signUpForm.value).subscribe({
-    //   next: (response) => {
-    //     if (response.statusCodes === 201) {
-    //       localStorage.setItem('token', response.data);
-    //       this.route.navigate(['/dashboard']);
-    //     }
-    //     else {
-    //       this.openPopup(response.message || 'Sign up failed. Please try again', 'Sign Up Error');
-    //     }
-    //   },
-    //   error: (error) => {
-    //     this.openPopup(error.message || 'An error occurred during sign up', 'Sign Up Error');
-    //   }
-    // });
-
     console.log(this.signUpForm.value);
-
+    this.userService.signUp(this.signUpForm.value).subscribe({
+      next: (response) => {
+        if (response.statusCodes === 201) {
+          localStorage.setItem('token', response.data);
+          this.route.navigate(['/dashboard']);
+        }
+        else {
+          this.openPopup(response.message || 'Sign up failed. Please try again', 'Sign Up Error');
+        }
+      },
+      error: (error) => {
+        this.openPopup(error.message || 'An error occurred during sign up', 'Sign Up Error');
+      }
+    });
   }
   openPopup(message: string, title: string) {
     this.isOpen = true;

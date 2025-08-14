@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading - FitTracker</title>
+    <link rel="stylesheet" href="./loader.component.css">
+</head>
+
+<body>
+    <div *ngIf="loading" class="loading-container">
+        <div class="loading-content">
+            <div class="spinner-wrapper">
+                <div class="spinner">
+                    <div class="spinner-inner"></div>
+                </div>
+                <div class="pulse-ring"></div>
+            </div>
+            <h2 class="loading-title">Loading</h2>
+            <p class="loading-text">Preparing your fitness journey...</p>
+            <div class="loading-dots">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

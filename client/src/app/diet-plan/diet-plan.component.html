@@ -11,8 +11,9 @@
 
 <body>
 
+    <app-loader [loading]="isLoading"></app-loader>
     <!-- Main Content -->
-    <main class="main-content">
+    <main *ngIf="!isLoading" class="main-content">
         <div class="container">
             <!-- Header -->
             <div class="page-header">

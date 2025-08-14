@@ -8,6 +8,7 @@ import { UserDietPlanService } from '../services/user-diet-plan.service';
 })
 export class DietPlanComponent implements OnInit {
   userDietPlan: any
+  isLoading = false
   constructor(private userDietPlanService: UserDietPlanService) { }
 
   ngOnInit(): void {
@@ -15,9 +16,12 @@ export class DietPlanComponent implements OnInit {
   }
 
   fetchUserDietPlan() {
+    this.isLoading = true;
     this.userDietPlanService.getUserDietPlan().subscribe((response) => {
       this.userDietPlan = response.data;
       console.log(this.userDietPlan);
+      this.isLoading = false;
+      return
     })
   }
 

@@ -18,6 +18,7 @@ import { FitnessPlanComponent } from './fitness-plan/fitness-plan.component';
 import { FoodLogFormComponent } from './food-log-form/food-log-form.component';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { DietPlanComponent } from './diet-plan/diet-plan.component';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { DietPlanComponent } from './diet-plan/diet-plan.component';
     PopupComponent,
     FitnessPlanComponent,
     FoodLogFormComponent,
-    DietPlanComponent],
+    DietPlanComponent,
+    LoaderComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

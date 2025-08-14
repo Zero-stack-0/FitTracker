@@ -11,14 +11,21 @@ namespace Service
     public class UserDietPlanService : IUserDietPlanService
     {
         private readonly IFitnessAndnutritionPlansRepository _fitnessAndnutritionPlansRepository;
-        public UserDietPlanService(IFitnessAndnutritionPlansRepository fitnessAndnutritionPlansRepository)
+        private readonly IAiService _aiService;
+        public UserDietPlanService(IFitnessAndnutritionPlansRepository fitnessAndnutritionPlansRepository, IAiService aiService)
         {
             _fitnessAndnutritionPlansRepository = fitnessAndnutritionPlansRepository;
+            _aiService = aiService;
         }
 
         public async Task<ApiResponse> GetByUserId(string userId)
         {
-            return new ApiResponse(await _fitnessAndnutritionPlansRepository.GetBasicPlanByUserId(userId), "Basic diet plan");
+            var dietPlan = await _fitnessAndnutritionPlansRepository.GetBasicPlanByUserId(userId);
+            if (dietPlan is null)
+            {
+                return await _aiService.GetBasicFitnessPlan(userId);
+            }
+            return new ApiResponse(dietPlan, "Basic diet plan");
         }
     }
 }

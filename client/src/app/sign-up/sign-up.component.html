@@ -168,7 +168,7 @@
                         <div class="form-group">
                             <label for="activityLevel" class="form-label">Activity Level</label>
                             <select id="activityLevel" class="form-select" formControlName="activityLevel">
-                                <option *ngFor="let level of activityOptions" [value]="level.value">
+                                <option *ngFor="let level of activityOptions" [ngValue]="level.value">
                                     {{ level.label }}
                                 </option>
 
