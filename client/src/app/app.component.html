@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <head>
   <meta charset="UTF-8">
@@ -15,9 +16,9 @@
       <a routerLink="sign-up" class="btn-primary">Sign Up</a>
     </div>
     <div class="nav-links" *ngIf="isUserLoggedWithValidToken">
-      <a routerLink="progress" class="btn-primary">Progress</a>
-      <a routerLink="profile" class="btn-primary">Profile</a>
+      <a routerLink="diet-plan" class="btn-primary">Plan</a>
       <a routerLink="food-log-form" class="btn-primary">Log-Food</a>
+      <a routerLink="profile" class="btn-primary">Profile</a>
       <a routerLink="profile" class="btn-primary" (click)="logout()">Logout</a>
     </div>
   </div>

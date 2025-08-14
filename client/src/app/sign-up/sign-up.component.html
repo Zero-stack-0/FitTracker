@@ -150,7 +150,7 @@
                         <div class="form-group">
                             <label for="age" class="form-label">Age</label>
                             <div class="input-wrapper">
-                                <span class="input-icon">📏</span>
+                                <span class="input-icon">📅</span>
                                 <input formControlName="age" type="number" class="form-input" required placeholder="170"
                                     min="10" max="100" required />
                                 <div *ngIf="signUpForm.get('age')?.invalid && signUpForm.get('age')?.touched"
@@ -182,56 +182,22 @@
                         <span class="section-icon">🌱</span>
                         Dietary Preference
                     </h3>
-                    <div class="goal-options">
+                    <div class="diet-options" *ngFor="let diet of dietOptions">
                         <label class="goal-card">
-                            <input type="radio" name="dietPreference" value="veg" checked />
+                            <input type="radio" formControlName="dietType" name="dietType" value="veg" checked
+                                [value]="diet.value" />
                             <div class="goal-content">
                                 <div class="goal-header">
-                                    <span class="goal-emoji">🥬</span>
-                                    <span class="goal-title">Vegetarian</span>
+                                    <span class="goal-emoji">{{dietaryTitleEmoji(diet.value)}}</span>
+                                    <span class="goal-title">{{dietaryTitle(diet.value)}}</span>
                                 </div>
-                                <p class="goal-description">Plant-based meals only</p>
-                            </div>
-                        </label>
-                        <label class="goal-card">
-                            <input type="radio" name="dietPreference" value="nonVeg" />
-                            <div class="goal-content">
-                                <div class="goal-header">
-                                    <span class="goal-emoji">🍗</span>
-                                    <span class="goal-title">Non-Vegetarian</span>
-                                </div>
-                                <p class="goal-description">Includes meat and dairy</p>
-                            </div>
-                        </label>
-                        <label class="goal-card">
-                            <input type="radio" name="dietPreference" value="both" />
-                            <div class="goal-content">
-                                <div class="goal-header">
-                                    <span class="goal-emoji">🍽️</span>
-                                    <span class="goal-title">Both</span>
-                                </div>
-                                <p class="goal-description">Flexible with all food types</p>
+                                <p class="goal-description">{{dietaryDescription(diet.value)}}</p>
                             </div>
                         </label>
                     </div>
                 </div>
 
-                <!-- Location -->
-                <!-- <div class="form-section">
-                    <h3 class="section-title">
-                        <span class="section-icon">📍</span>
-                        Location
-                    </h3>
-                    <div class="form-group">
-                        <label for="location" class="form-label">Your Location</label>
-                        <div class="input-wrapper">
-                            <span class="input-icon">🌍</span>
-                            <input type="text" id="location" name="location" class="form-input"
-                                placeholder="Enter your city or area" required />
-                        </div>
-                        <p class="privacy-note">For better diet plan give us location we do not track</p>
-                    </div>
-                </div> -->
+
 
                 <!-- Fitness Goals -->
                 <div class="form-section">
@@ -253,7 +219,22 @@
                         </label>
                     </div>
                 </div>
-
+                <!-- Location -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <span class="section-icon">📍</span>
+                        Location
+                    </h3>
+                    <div class="form-group">
+                        <label for="location" class="form-label">Your Location</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🌍</span>
+                            <input formControlName="location" type="text" id="location" name="location"
+                                class="form-input" placeholder="Enter your city or area" required />
+                        </div>
+                        <p class="privacy-note">For better diet plan give us text location we do not track</p>
+                    </div>
+                </div>
                 <!-- Submit Button -->
                 <button type="submit" class="btn-signup">Create Account</button>
 

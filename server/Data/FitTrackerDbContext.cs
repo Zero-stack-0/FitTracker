@@ -52,5 +52,10 @@ namespace Data
             database.GetCollection<UserFoodLog>(
                 (config.Value.Collections != null ? config.Value.Collections.FirstOrDefault(c => c == "user-food-log") : null) ?? "user-food-log"
             );
+
+        public IMongoCollection<BasicFitnessPlan> BasicFitnessPlan =>
+            database.GetCollection<BasicFitnessPlan>(
+                (config.Value.Collections != null ? config.Value.Collections.FirstOrDefault(c => c == "basic-fitness-plan") : null) ?? "basic-fitness-plan"
+            );
     }
 }

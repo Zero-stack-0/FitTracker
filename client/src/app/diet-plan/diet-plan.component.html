@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Diet Plan - NutriTrack</title>
+    <link rel="stylesheet" href="diet-plan.component.css">
+
+</head>
+
+<body>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Header -->
+            <div class="page-header">
+                <h1 class="page-title">Your Personalized Diet Plan</h1>
+                <p class="page-subtitle">Designed specifically for your fitness goals and dietary preferences</p>
+
+            </div>
+
+            <!-- Macro Targets -->
+            <section class="macro-section">
+                <h2 class="section-title">
+                    <span class="section-icon">🎯</span>
+                    Daily Macro Targets
+                </h2>
+                <div class="macro-grid">
+                    <div class="macro-card calories">
+                        <div class="macro-icon">🔥</div>
+                        <div class="macro-info">
+                            <h3 class="macro-value">{{userDietPlan?.macroTargets?.calories}}</h3>
+                            <p class="macro-label">Calories</p>
+                        </div>
+                    </div>
+                    <div class="macro-card protein">
+                        <div class="macro-icon">💪</div>
+                        <div class="macro-info">
+                            <h3 class="macro-value">{{userDietPlan?.macroTargets?.protein_g}}g</h3>
+                            <p class="macro-label">Protein</p>
+                        </div>
+                    </div>
+                    <div class="macro-card carbs">
+                        <div class="macro-icon">🌾</div>
+                        <div class="macro-info">
+                            <h3 class="macro-value">{{userDietPlan?.macroTargets?.carbs_g}}g</h3>
+                            <p class="macro-label">Carbs</p>
+                        </div>
+                    </div>
+                    <div class="macro-card fats">
+                        <div class="macro-icon">🥑</div>
+                        <div class="macro-info">
+                            <h3 class="macro-value">{{userDietPlan?.macroTargets?.fats_g}}g</h3>
+                            <p class="macro-label">Fats</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Meal Ideas -->
+            <section class="meals-section">
+                <h2 class="section-title">
+                    <span class="section-icon">🍽️</span>
+                    Meal Ideas
+                </h2>
+                <div class="meals-grid">
+                    <!-- Breakfast -->
+                    <div class="meal-card" *ngFor="let meal of userDietPlan?.mealIdeas">
+                        <div class="meal-header">
+                            <span class="meal-icon">{{getEmojiForFood(meal?.meal)}}</span>
+                            <h3 class="meal-title">{{meal?.meal}}</h3>
+                        </div>
+                        <div class="meal-ideas" *ngFor="let food of meal?.ideas">
+                            <div class="meal-idea">
+                                <span class="idea-bullet">•</span>
+                                <p>{{food}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Workout Plan -->
+            <section class="workout-section">
+                <h2 class="section-title">
+                    <span class="section-icon">🏋️</span>
+                    3-Day Split Workout Plan
+                </h2>
+                <p class="workout-subtitle">For Muscle Gain</p>
+                <div class="workout-grid">
+                    <!-- Day 1 -->
+                    <div class="workout-card" *ngFor="let plan of userDietPlan?.workoutPlan?.days">
+                        <div class="workout-header">
+                            <h3 class="workout-day">{{plan?.day}}</h3>
+                            <p class="workout-focus">{{plan?.focus}}</p>
+                        </div>
+                        <div class="workout-exercises" *ngFor="let workout of plan?.exercises">
+                            <div (click)="openYouTube(workout)" class="exercise-item">
+                                <span class="exercise-icon">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg"
+                                        alt="YouTube" height="16" style="vertical-align: middle; margin-right: 4px;">
+                                </span>
+                                <p>
+                                    {{ workout }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Meal Timing Tips -->
+            <section class="tips-section">
+                <h2 class="section-title">
+                    <span class="section-icon">⏰</span>
+                    Meal Timing Tips
+                </h2>
+                <div class="tips-list">
+                    <div class="tip-card" *ngFor="let mealTime of userDietPlan?.mealTimingTips">
+                        <!-- <div class="tip-icon">🍽️</div> -->
+                        <div class="tip-content">
+                            <h3 class="tip-title">{{ mealTime.split(':')[0] }}</h3>
+                            <p class="tip-description">{{ mealTime.split(':')[1] }}
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+
+</html>

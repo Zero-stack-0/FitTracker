@@ -53,6 +53,8 @@ namespace Service
                 Height = dto.Height,
                 ActivityLevel = dto.ActivityLevel,
                 FitnessGoal = dto.FitnessGoal,
+                Location = dto.Location,
+                DietType = dto.DietType,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
                 IsActive = true

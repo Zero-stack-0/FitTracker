@@ -7,6 +7,7 @@ using Entity.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Service.Dto.Request;
 using Service.Helpers;
 using Service.Interface;
@@ -57,7 +58,7 @@ namespace Service
 
             await _aiPromptRepository.SaveAiResponse(new AiResponse
             {
-                Type = AiPromptType.Default,
+                Type = AiPromptType.Advance,
                 Response = responseContent
             });
 
@@ -83,9 +84,110 @@ namespace Service
             }
             return new ApiResponse(createdPlan, "Fitness and nutrition plan created successfully", StatusCodes.Status200OK);
         }
+
+        public async Task<ApiResponse> GetBasicFitnessPlan(string loggedInUserId)
+        {
+            try
+            {
+                var user = await _userInformationRepository.GetByUserId(loggedInUserId ?? string.Empty);
+                if (user is null)
+                {
+                    return new ApiResponse(null, "Invalid userid", StatusCodes.Status400BadRequest);
+                }
+
+                var hasUserAlreadyGeneratedBasicPlan = await _fitnessAndnutritionPlansRepository.GetBasicPlanByUserId(user.Id);
+                if (hasUserAlreadyGeneratedBasicPlan is not null)
+                {
+                    return new ApiResponse(null, "User has already generated basic plan", StatusCodes.Status400BadRequest);
+                }
+
+                var prompt = await _aiPromptRepository.GetById(AiPromptType.Basic);
+                if (prompt is null)
+                {
+                    return new ApiResponse(null, "Something went wrong while making fitness plan", StatusCodes.Status400BadRequest);
+                }
+
+                var replacedPrompt = GetReplacedPromptForBasic(prompt.Prompt, user);
+                if (string.IsNullOrWhiteSpace(replacedPrompt))
+                {
+                    return new ApiResponse(null, "Something went wrong while making fitness plan II", StatusCodes.Status400BadRequest);
+                }
+
+                var response = await CallGeminiFlashAsync(replacedPrompt, _configuration["Gemini_AI_KEY"] ?? string.Empty);
+                await _aiPromptRepository.SaveAiResponse(new AiResponse
+                {
+                    Type = AiPromptType.Basic,
+                    Response = response
+                });
+
+                BasicFitnessPlan basicFitnessPlan = ExtractBasicPlanFromResponse(response);
+                if (basicFitnessPlan is not null)
+                {
+                    basicFitnessPlan.UserId = user.UserId;
+                    await _fitnessAndnutritionPlansRepository.Create(basicFitnessPlan);
+                    return new ApiResponse(basicFitnessPlan, "Fitness plan generated successfully");
+                }
+
+                return new ApiResponse(basicFitnessPlan, "something went wrong");
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse(null, ex.Message, StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        #region private methods
+
+        private string GetReplacedPromptForBasic(string prompt, UserInformation userInformation)
+        {
+            return prompt
+            .Replace("{{age}}", userInformation.Age.ToString())
+            .Replace("{{gender}}", userInformation.Gender.ToString())
+            .Replace("{{diet_type}}", userInformation.DietType.ToString())
+            .Replace("{{activity_level}}", userInformation.ActivityLevel.ToString())
+            .Replace("{{fitness_goal}}", userInformation.FitnessGoal.ToString())
+            .Replace("{{location}}", userInformation.Location);
+        }
+        private BasicFitnessPlan ExtractBasicPlanFromResponse(string apiResponse)
+        {
+            using JsonDocument document = JsonDocument.Parse(apiResponse);
+            JsonElement root = document.RootElement;
+
+            string contentText = string.Empty;
+            if (root.TryGetProperty("candidates", out JsonElement candidates) && candidates.GetArrayLength() > 0)
+            {
+                if (candidates[0].TryGetProperty("content", out JsonElement content))
+                {
+                    if (content.TryGetProperty("parts", out JsonElement parts) && parts.GetArrayLength() > 0)
+                    {
+                        if (parts[0].TryGetProperty("text", out JsonElement textElement))
+                        {
+                            contentText = textElement.GetString();
+                        }
+                    }
+                }
+            }
+            if (string.IsNullOrEmpty(contentText))
+            {
+                return new BasicFitnessPlan();
+            }
+
+            string pattern = @"```json\n([\s\S]*?)```";
+            Match match = Regex.Match(contentText, pattern);
+
+
+            if (!match.Success)
+            {
+                return new BasicFitnessPlan();
+            }
+
+            string cleanedJson = match.Groups[1].Value;
+
+            return JsonConvert.DeserializeObject<BasicFitnessPlan>(cleanedJson) ?? new BasicFitnessPlan();
+        }
         private async Task<(string, bool)> GetReplacedPrompt(UserInformation user, string location, DIET_TYPE type)
         {
-            var aiPrompt = await _aiPromptRepository.GetById(AiPromptType.Default);
+            var aiPrompt = await _aiPromptRepository.GetById(AiPromptType.Advance);
             if (aiPrompt == null)
             {
                 return ("AI Prompt not found.", false);
@@ -196,5 +298,6 @@ namespace Service
                 return (null, null);
             }
         }
+        #endregion
     }
 }

@@ -17,6 +17,7 @@ import { PopupComponent } from './pop-up/pop-up.component';
 import { FitnessPlanComponent } from './fitness-plan/fitness-plan.component';
 import { FoodLogFormComponent } from './food-log-form/food-log-form.component';
 import { AuthInterceptor } from './services/auth.interceptor';
+import { DietPlanComponent } from './diet-plan/diet-plan.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { AuthInterceptor } from './services/auth.interceptor';
     ProgressComponent,
     PopupComponent,
     FitnessPlanComponent,
-    FoodLogFormComponent],
+    FoodLogFormComponent,
+    DietPlanComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

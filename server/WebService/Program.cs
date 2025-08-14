@@ -16,19 +16,29 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+
+#region Services
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAiService, AiService>();
+builder.Services.AddScoped<IUserFoodLogService, UserFoodLogService>();
+builder.Services.AddScoped<IFoodMacrosService, FoodMacrosService>();
+builder.Services.AddScoped<IUserDietPlanService, UserDietPlanService>();
+#endregion
+
+#region Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserInformationRepository, UserInformationRepository>();
-builder.Services.AddScoped<IAiService, AiService>();
 builder.Services.AddScoped<IAiPromptRepository, AiPromptRepository>();
 builder.Services.AddScoped<IUserFoodLogRepository, UserFoodLogRepository>();
-builder.Services.AddScoped<IUserFoodLogService, UserFoodLogService>();
 builder.Services.AddScoped<IFitnessAndnutritionPlansRepository, FitnessAndnutritionPlansRepository>();
 builder.Services.AddScoped<IIndianFoodMacrosRepository, IndianFoodMacrosRepository>();
-builder.Services.AddScoped<IFoodMacrosService, FoodMacrosService>();
+#endregion
+
+#region Helpers
 builder.Services.AddSingleton<FitTrackerDbContext>();
 builder.Services.AddSingleton<GenerateJwtToken>();
 builder.Services.AddScoped<UserProfile>();
+#endregion
 
 builder.Services.Configure<MongoDbMappingConfiguration>(
     builder.Configuration.GetSection("MongoConfig"));

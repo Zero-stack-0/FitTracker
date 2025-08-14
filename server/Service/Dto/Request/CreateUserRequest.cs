@@ -13,5 +13,7 @@ namespace Service.Dto.Request
         public double Weight { get; set; }
         public ActivityLevel ActivityLevel { get; set; }
         public FintnessGoal FitnessGoal { get; set; }
+        public DIET_TYPE DietType { get; set; }
+        public string Location { get; set; }
     }
 }

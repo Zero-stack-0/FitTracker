@@ -44,5 +44,25 @@ namespace WebService.Controller
             return BadRequest(response);
 
         }
+
+        [HttpPost("basic-fitness-plan")]
+        public async Task<IActionResult> GenerateBasicFitnessPlan()
+        {
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var userDetail = await _userProfile.GetUserDetail(claimsIdentity);
+            if (userDetail is null)
+            {
+                return Unauthorized(new ApiResponse(null, "User profile not found", StatusCodes.Status404NotFound));
+            }
+
+
+            var response = await _aiService.GetBasicFitnessPlan(userDetail.Id);
+            if (response.Data is not null)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+
+        }
     }
 }

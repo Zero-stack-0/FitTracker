@@ -34,7 +34,8 @@ namespace Entity
 
         public enum AiPromptType
         {
-            Default = 1
+            Advance = 1,
+            Basic = 2
         }
 
         public enum DIET_TYPE

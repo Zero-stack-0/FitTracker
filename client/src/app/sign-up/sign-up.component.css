@@ -268,6 +268,13 @@
     gap: 1rem;
 }
 
+.diet-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 10px;
+}
+
 .goal-card {
     display: flex;
     align-items: center;
@@ -326,7 +333,7 @@
 /* Privacy Note */
 .privacy-note {
     font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: #2d3748;
     margin-top: 0.5rem;
     text-align: center;
     font-style: italic;

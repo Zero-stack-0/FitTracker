@@ -37,5 +37,7 @@ namespace Entity.Models
         public DateTime CreatedAt { get; set; }
         [BsonElement("updatedAt")]
         public DateTime? UpdatedAt { get; set; }
+        [BsonElement("location")]
+        public string Location { get; set; }
     }
 }
