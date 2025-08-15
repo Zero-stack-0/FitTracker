@@ -60,6 +60,10 @@ namespace Entity.Models
 
         [BsonElement("days")]
         public List<WorkoutDay> Days { get; set; }
+
+        [BsonIgnore]
+        [BsonElement("mealTimingTips")]
+        public List<string> MealTimingTips { get; set; }
     }
 
     public class WorkoutDay

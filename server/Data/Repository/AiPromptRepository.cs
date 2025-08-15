@@ -33,7 +33,7 @@ namespace Data.Repository
 
         public async Task<string?> GetAiResponse()
         {
-            var response = await _aiResponseCollection.Find(_ => true).FirstOrDefaultAsync();
+            var response = await _aiResponseCollection.Find(e => e.Id == "689ed9f60e491a0f97ed4bd4").FirstOrDefaultAsync();
             return response?.Response;
         }
 

@@ -34,7 +34,7 @@ export class LoginComponent {
             return;
           }
           localStorage.setItem('token', response.data);
-          this.authService.login(response.data);
+          this.authService.setToken(response.data);
           this.router.navigate(['/dashboard']);
         },
         error: (error) => {

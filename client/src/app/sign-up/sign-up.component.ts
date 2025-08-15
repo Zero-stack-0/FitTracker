@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Gender } from '../models/gender';
 import { ActivityLevel } from '../models/activity-level';
 import { DietType, FitnessGoal } from '../models/fitness-goal';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -12,7 +13,7 @@ import { DietType, FitnessGoal } from '../models/fitness-goal';
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent {
-  constructor(private userService: UserService, private route: Router) { }
+  constructor(private userService: UserService, private route: Router, private auth: AuthService) { }
 
   //popup properties
   isOpen = false;
@@ -147,7 +148,7 @@ export class SignUpComponent {
     this.userService.signUp(this.signUpForm.value).subscribe({
       next: (response) => {
         if (response.statusCodes === 201) {
-          localStorage.setItem('token', response.data);
+          this.auth.setToken(response.data);
           this.route.navigate(['/dashboard']);
         }
         else {

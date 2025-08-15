@@ -1,6 +1,6 @@
 // auth.service.ts
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,16 +8,10 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.isTokenAvailable());
   constructor() { }
-
-  isLoggedIn$ = this.isLoggedInSubject.asObservable();
+  public isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
   isTokenAvailable(): boolean {
     return localStorage.getItem('token') === null ? false : true;
-  }
-
-  login(token: string) {
-    localStorage.setItem('token', token);
-    this.isLoggedInSubject.next(true);
   }
 
   logout() {
@@ -27,6 +21,11 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  setToken(token: string) {
+    localStorage.setItem('token', token);
+    this.isLoggedInSubject.next(true);
   }
 
   isTokenExpired(): boolean {

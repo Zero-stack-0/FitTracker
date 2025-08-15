@@ -23,16 +23,15 @@ export class DashboardComponent {
       this.route.navigate(['/login']);
       return;
     }
-
-    this.userService.getUserProfile().subscribe({
-      next: (response) => {
-        this.userData = response.data;
-      },
-      error: (error) => {
-        console.error('Error fetching user data:', error);
-        this.route.navigate(['/login']);
-      }
-    });
+    // this.userService.getUserProfile().subscribe({
+    //   next: (response) => {
+    //     this.userData = response.data;
+    //   },
+    //   error: (error) => {
+    //     console.error('Error fetching user data:', error);
+    //     this.route.navigate(['/login']);
+    //   }
+    // });
   }
 
   openPopup(message: string, title: string) {

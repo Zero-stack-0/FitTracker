@@ -59,7 +59,9 @@ namespace Service
             await _aiPromptRepository.SaveAiResponse(new AiResponse
             {
                 Type = AiPromptType.Advance,
-                Response = responseContent
+                Response = responseContent,
+                PromptUsed = prompt,
+                UserId = user.UserId
             });
 
             var (fitnessPlan, nutritionPlan) = ExtractPlansFromGeminiResponse(responseContent);
@@ -84,7 +86,6 @@ namespace Service
             }
             return new ApiResponse(createdPlan, "Fitness and nutrition plan created successfully", StatusCodes.Status200OK);
         }
-
         public async Task<ApiResponse> GetBasicFitnessPlan(string loggedInUserId)
         {
             try
@@ -117,12 +118,18 @@ namespace Service
                 await _aiPromptRepository.SaveAiResponse(new AiResponse
                 {
                     Type = AiPromptType.Basic,
-                    Response = response
+                    Response = response,
+                    PromptUsed = replacedPrompt,
+                    UserId = user.Id
                 });
 
                 BasicFitnessPlan basicFitnessPlan = ExtractBasicPlanFromResponse(response);
                 if (basicFitnessPlan is not null)
                 {
+                    if (basicFitnessPlan.MealTimingTips is null && basicFitnessPlan.WorkoutPlan is not null && basicFitnessPlan.WorkoutPlan.MealTimingTips is not null)
+                    {
+                        basicFitnessPlan.MealTimingTips = basicFitnessPlan.WorkoutPlan.MealTimingTips;
+                    }
                     basicFitnessPlan.UserId = user.UserId;
                     await _fitnessAndnutritionPlansRepository.Create(basicFitnessPlan);
                     return new ApiResponse(basicFitnessPlan, "Fitness plan generated successfully");
@@ -135,7 +142,6 @@ namespace Service
                 return new ApiResponse(null, ex.Message, StatusCodes.Status500InternalServerError);
             }
         }
-
         #region private methods
 
         private string GetReplacedPromptForBasic(string prompt, UserInformation userInformation)

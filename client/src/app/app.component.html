@@ -10,14 +10,15 @@
 </head>
 <nav class="navbar">
   <div class="nav-container">
-    <div class="logo" routerLink="home">🏃‍♀️ FitTracker</div>
+    <div class="logo" *ngIf="!isUserLoggedWithValidToken" routerLink="home">🏃‍♀️ FitTracker</div>
+    <div class="logo" *ngIf="isUserLoggedWithValidToken" routerLink="dashboard">🏃‍♀️ FitTracker</div>
     <div class="nav-links" *ngIf="!isUserLoggedWithValidToken">
       <a routerLink="login" class="btn-primary">Login</a>
       <a routerLink="sign-up" class="btn-primary">Sign Up</a>
     </div>
     <div class="nav-links" *ngIf="isUserLoggedWithValidToken">
       <a routerLink="diet-plan" class="btn-primary">Plan</a>
-      <a routerLink="food-log-form" class="btn-primary">Log-Food</a>
+      <a routerLink="food-log-form" class="btn-primary">LogFood</a>
       <a routerLink="profile" class="btn-primary">Profile</a>
       <a routerLink="profile" class="btn-primary" (click)="logout()">Logout</a>
     </div>
