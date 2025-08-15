@@ -7,6 +7,7 @@ using Entity.DbModels;
 using Microsoft.AspNetCore.Http;
 using MongoDB.Driver;
 using Service.Dto.Request;
+using Service.Dto.Response;
 using Service.Helpers;
 using Service.Interface;
 using static Entity.Enums;
@@ -90,6 +91,37 @@ namespace Service
                 CarbsG = Math.Round(macrosPer100g.CarbsG * factor, 2),
                 FatG = Math.Round(macrosPer100g.FatG * factor, 2)
             };
+        }
+
+        public async Task<ApiResponse> GetFoodLogHistory(string userId, int weekOffset)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                return new ApiResponse(null, "Invalid requestor id", StatusCodes.Status403Forbidden);
+            }
+
+            var (start, end) = GetWeekRange(weekOffset);
+
+            var foodHistoryByWeek = await _userFoodLogRepository.GetFoodLogEntriesByStartAndEndDate(userId, start, end);
+
+            return new ApiResponse(foodHistoryByWeek, "Food log history");
+        }
+
+        private static (DateTime WeekStart, DateTime WeekEnd) GetWeekRange(int offset)
+        {
+            DateTime today = DateTime.UtcNow.Date;
+
+            int daysSinceMonday = (int)today.DayOfWeek - (int)DayOfWeek.Monday;
+            if (daysSinceMonday < 0)
+                daysSinceMonday += 7;
+
+            DateTime weekStart = today.AddDays(-daysSinceMonday);
+
+            weekStart = weekStart.AddDays(offset * 7);
+
+            DateTime weekEnd = weekStart.AddDays(6);
+
+            return (weekStart, weekEnd);
         }
     }
 }

@@ -16,4 +16,8 @@ export class UserFoodLodService {
   recentEntries(): Observable<any> {
     return this.http.get<any>(`${this.API_URL}/UserFoodLog/recent-entries`);
   }
+
+  foodLogHistory(offset: number): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}/UserFoodLog/food-log-history?weekOffset=${offset}`);
+  }
 }

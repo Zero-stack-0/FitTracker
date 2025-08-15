@@ -36,34 +36,40 @@
 
             <div class="stat-card">
                 <div class="stat-header">
-                    <h3 class="stat-title">Weight</h3>
+                    <h3 class="stat-title">Protein Today</h3>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-value">68.5 kg</div>
-                    <p class="stat-label success">-0.5kg this week</p>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-header">
-                    <h3 class="stat-title">Water Intake</h3>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-value">6 glasses</div>
-                    <p class="stat-label">of 8 goal</p>
+                    <div class="stat-value">1,247</div>
+                    <p class="stat-label">of 2,000 goal</p>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: 75%"></div>
+                        <div class="progress-fill" style="width: 62%"></div>
                     </div>
                 </div>
             </div>
 
             <div class="stat-card">
                 <div class="stat-header">
-                    <h3 class="stat-title">Streak</h3>
+                    <h3 class="stat-title">Carb Today</h3>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-value">12 days</div>
-                    <p class="stat-label success">Keep it up! 🔥</p>
+                    <div class="stat-value">1,247</div>
+                    <p class="stat-label">of 2,000 goal</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 62%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <h3 class="stat-title">Fats Today</h3>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value">1,247</div>
+                    <p class="stat-label">of 2,000 goal</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 62%"></div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -76,57 +82,15 @@
                     <p class="card-description">Add your meals and snacks</p>
                 </div>
                 <div class="card-content">
-                    <button class="btn-primary full-width">🍳 Log Breakfast</button>
-                    <button class="btn-outline full-width">🥗 Log Lunch</button>
-                    <button class="btn-outline full-width">🍽️ Log Dinner</button>
-                    <button class="btn-outline full-width">🍿 Log Snack</button>
+                    <button class="btn-primary full-width" [routerLink]="['/food-log-form', 1]">🍳 Log
+                        Breakfast</button>
+                    <button class="btn-outline full-width" [routerLink]="['/food-log-form', 2]">🥗 Log Lunch</button>
+                    <button class="btn-outline full-width" [routerLink]="['/food-log-form', 3]">🍽️ Log Dinner</button>
+                    <button class="btn-outline full-width" [routerLink]="['/food-log-form', 4]">🍿 Log Snack</button>
                 </div>
             </div>
 
-            <div class="action-card">
-                <div class="card-header">
-                    <h3 class="card-title">Today's Progress</h3>
-                    <p class="card-description">Your fitness journey at a glance</p>
-                </div>
-                <div class="card-content">
-                    <div class="progress-item">
-                        <div class="progress-header">
-                            <span>Calories</span>
-                            <span>1,247 / 2,000</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 62%"></div>
-                        </div>
-                    </div>
-                    <div class="progress-item">
-                        <div class="progress-header">
-                            <span>Protein</span>
-                            <span>45g / 120g</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 37%"></div>
-                        </div>
-                    </div>
-                    <div class="progress-item">
-                        <div class="progress-header">
-                            <span>Carbs</span>
-                            <span>180g / 250g</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 72%"></div>
-                        </div>
-                    </div>
-                    <div class="progress-item">
-                        <div class="progress-header">
-                            <span>Fat</span>
-                            <span>35g / 67g</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 52%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </section>
 
         <!-- Motivational Quote -->

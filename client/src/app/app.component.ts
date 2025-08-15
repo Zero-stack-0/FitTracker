@@ -9,6 +9,7 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
   title = 'FitTracker';
+  mealType = 1
   constructor(private authService: AuthService, private router: Router) { }
   isUserLoggedWithValidToken: boolean = false;
   ngOnInit() {

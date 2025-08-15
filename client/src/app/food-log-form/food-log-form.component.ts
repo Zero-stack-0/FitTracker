@@ -6,7 +6,7 @@ import { FoodMacrosInterface } from '../models/food-macros-interface';
 import { UserFoodLodService } from '../services/user-food-log.service';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-food-log-form',
@@ -16,7 +16,8 @@ import { Router } from '@angular/router';
 export class FoodLogFormComponent implements OnInit {
   @ViewChild('container', { static: false }) container!: ElementRef;
   constructor(private foodMacrosService: FoodMacrosService, private userFoodLogForm: UserFoodLodService,
-    private authService: AuthService, private route: Router) { }
+    private authService: AuthService, private route: Router, private routeA: ActivatedRoute) { }
+
 
   //popup
   isOpen = false;
@@ -57,7 +58,9 @@ export class FoodLogFormComponent implements OnInit {
     });
 
     this.fetchRecentFoodLogs()
-
+    this.routeA.queryParams.subscribe(params => {
+      this.mealType = params['mealType'];
+    });
   }
 
   fetchRecentFoodLogs() {

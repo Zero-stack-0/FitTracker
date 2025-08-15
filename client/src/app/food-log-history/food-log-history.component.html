@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food History - FitTracker</title>
+    <link rel="stylesheet" href="./food-log-history.component.css">
+</head>
+
+<body>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Food History</h1>
+                <p class="page-subtitle">Track your nutrition journey over time</p>
+            </div>
+
+            <!-- Date Navigation -->
+            <div class="date-navigation">
+                <button class="nav-btn prev-btn" (click)="previousWeek()">← Previous Week</button>
+                <div class="date-range">
+                    <span class="current-range">{{foodLog?.startDate | date: 'dd MMM'}} - {{foodLog?.endDate | date:
+                        'dd MMM'}}</span>
+                </div>
+                <button class="nav-btn next-btn" (click)="nextWeek()">Next Week →</button>
+            </div>
+
+            <!-- Food Log Entries -->
+            <div class="food-log-container">
+                <div class="day-card" *ngFor="let day of foodLog?.userFoodLogDayHistory; let i = index"
+                    [class.expanded]="day?.expanded">
+                    <div class="day-header" (click)="toggleDay(i)">
+                        <div class="day-info">
+                            <h3 class="day-title">{{ day?.createdDate | date: 'dd MMM'}}</h3>
+                            <span class="day-status" [ngClass]="day.status">{{ day.status | titlecase }}</span>
+                        </div>
+                        <div class="day-macros-summary">
+                            <div class="macro-item">
+                                <span class="macro-value">{{ day?.totalCaloriesLogged | number:'1.2-2' }}</span>
+                                <span class="macro-label">calories</span>
+                            </div>
+                            <div class="macro-item">
+                                <span class="macro-value">{{ day?.totalProtienLogged | number:'1.2-2' }}</span>
+                                <span class="macro-label">protein</span>
+                            </div>
+                            <div class="macro-item">
+                                <span class="macro-value">{{ day?.totalCarbLogged | number:'1.2-2' }}</span>
+                                <span class="macro-label">carbs</span>
+                            </div>
+                            <div class="macro-item">
+                                <span class="macro-value">{{ day?.totalFatLogged | number:'1.2-2' }}</span>
+                                <span class="macro-label">fat</span>
+                            </div>
+                        </div>
+                        <div class="expand-icon">{{ day?.expanded ? '▲' : '▼' }}</div>
+                    </div>
+
+                    <!-- Meals Section -->
+                    <div class="meals-container" *ngIf="day?.expanded">
+                        <div *ngFor="let meal of day?.foodLogByTypeResponse" class="meal-entry">
+                            <h4 class="meal-title">{{ meal?.timeOfTheDay }}</h4>
+                            <div class="food-items">
+                                <div *ngFor="let item of meal?.userFoodLogResponseList" class="food-item">
+                                    <span class="food-name">{{ item?.foodName }}</span>
+                                    <span class="food-calories">{{ item.caloriesLogged }} cal</span>
+                                </div>
+                            </div>
+                            <div class="meal-total">
+                                Total: {{
+                                getMealTotalCalories(meal) | number:'1.2-2'
+                                }} calories
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Summary Stats -->
+            <div class="summary-section">
+                <h2 class="summary-title">Week Summary</h2>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-value">{{foodLog?.totalCaloriesLogged | number:'1.2-2'}} </div>
+                        <div class="summary-label">Total Calories</div>
+                        <div class="summary-avg">Avg: {{foodLog?.totalCaloriesLogged / 7 | number:'1.2-2'}} cal/day
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-value">{{foodLog?.totalProtienLogged | number:'1.2-2'}}g</div>
+                        <div class="summary-label">Total Protein</div>
+                        <div class="summary-avg">Avg: {{foodLog?.totalProtienLogged/7 | number:'1.2-2'}}g/day</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-value">{{foodLog?.totalCarbLogged | number:'1.2-2'}}g</div>
+                        <div class="summary-label">Total Carbs</div>
+                        <div class="summary-avg">Avg: {{foodLog?.totalCarbLogged / 7 | number:'1.2-2'}}g/day</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-value">{{foodLog?.totalFatLogged | number:'1.2-2'}}g</div>
+                        <div class="summary-label">Total Fat</div>
+                        <div class="summary-avg">Avg: {{foodLog?.totalFatLogged / 7 | number:'1.2-2'}}g/day</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

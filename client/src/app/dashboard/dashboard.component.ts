@@ -11,7 +11,7 @@ import { AuthService } from '../services/auth.service';
 export class DashboardComponent {
   constructor(private userService: UserService, private authService: AuthService, private route: Router) { }
   userData: any;
-
+  mealType = 1
   //popup properties
   isOpen = false;
   isGreen = false;
@@ -23,15 +23,15 @@ export class DashboardComponent {
       this.route.navigate(['/login']);
       return;
     }
-    // this.userService.getUserProfile().subscribe({
-    //   next: (response) => {
-    //     this.userData = response.data;
-    //   },
-    //   error: (error) => {
-    //     console.error('Error fetching user data:', error);
-    //     this.route.navigate(['/login']);
-    //   }
-    // });
+    this.userService.getUserProfile().subscribe({
+      next: (response) => {
+        this.userData = response.data;
+      },
+      error: (error) => {
+        console.error('Error fetching user data:', error);
+        this.route.navigate(['/login']);
+      }
+    });
   }
 
   openPopup(message: string, title: string) {

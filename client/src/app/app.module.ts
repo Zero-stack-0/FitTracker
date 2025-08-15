@@ -19,7 +19,7 @@ import { FoodLogFormComponent } from './food-log-form/food-log-form.component';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { DietPlanComponent } from './diet-plan/diet-plan.component';
 import { LoaderComponent } from './loader/loader.component';
-
+import { FoodLogHistoryComponent } from './food-log-history/food-log-history.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +34,8 @@ import { LoaderComponent } from './loader/loader.component';
     FitnessPlanComponent,
     FoodLogFormComponent,
     DietPlanComponent,
-    LoaderComponent],
+    LoaderComponent,
+    FoodLogHistoryComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
