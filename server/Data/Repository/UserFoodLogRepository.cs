@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data.Repository.Interface;
+using Data.response;
 using Data.Response;
 using Entity.DbModels;
 using MongoDB.Bson;
@@ -184,6 +185,80 @@ namespace Data.Repository
             return userFoodLogWeekHistory;
         }
 
+        public async Task<DashboardResponse> GetFoodLogEntriesForToday(string userId)
+        {
+            var today = DateTime.UtcNow.Date;
+            var tomorrow = today.AddDays(1);
+            ObjectId obUserId = new ObjectId(userId);
+            var pipeline = new BsonDocument[]
+            {
+                new BsonDocument("$match", new BsonDocument("userId", obUserId)),
+                new BsonDocument("$match", new BsonDocument("createdAt", new BsonDocument
+                {
+                    { "$gte", today },
+                    { "$lt", tomorrow }
+                })),
+                new BsonDocument("$lookup", new BsonDocument
+                {
+                    { "from", "indian-food-macros" },
+                    { "localField", "foodId" },
+                    { "foreignField", "_id" },
+                    { "as", "result" }
+                }),
 
+                new BsonDocument("$sort", new BsonDocument("createdAt", -1)),
+                new BsonDocument("$project", new BsonDocument
+                {
+                    { "_id", 1 },
+                    { "userId", "$userId" },
+                    { "foodName", new BsonDocument("$arrayElemAt", new BsonArray { "$result.food", 0 }) },
+                    { "caloriesLogged", "$calories" },
+                    {"protein", "$protein"},
+                    {"carb", "$carb"},
+                    {"fat", "$fat"},
+                    { "timeOfTheDay", "$timeOfTheDay" },
+                    {"createdAt", "$createdAt"}
+                })
+            };
+
+            var results = await _userFoodLogCollection
+            .Aggregate<BsonDocument>(pipeline)
+            .ToListAsync();
+
+            var output = results.Select(doc => new UserFoodLogResponse
+            {
+                Id = doc.Contains("_id") ? doc["_id"].ToString() : "",
+                UserId = doc.Contains("userId") ? doc["userId"].ToString() : null,
+                FoodName = doc.Contains("foodName") ? doc["foodName"].AsString : null,
+                CaloriesLogged = doc.GetValue("caloriesLogged", BsonNull.Value).IsBsonNull
+                ? (double?)null
+                : doc["caloriesLogged"].ToDouble(),
+                ProtienLogged = doc.GetValue("protein", BsonNull.Value).IsBsonNull
+                ? (double?)null
+                : doc["protein"].ToDouble(),
+                CarbLogged = doc.GetValue("carb", BsonNull.Value).IsBsonNull
+                ? (double?)null
+                : doc["carb"].ToDouble(),
+                FatLogged = doc.GetValue("fat", BsonNull.Value).IsBsonNull
+                ? (double?)null
+                : doc["fat"].ToDouble(),
+
+                TimeOfTheDay = doc.GetValue("timeOfTheDay", BsonNull.Value).IsBsonNull
+                ? null
+                : Enum.GetName(typeof(TimeOfTheDay), doc["timeOfTheDay"].ToInt32()),
+
+                CreatedAt = doc.GetValue("createdAt", BsonNull.Value).IsBsonNull
+                ? DateTime.UtcNow
+                : doc["createdAt"].ToUniversalTime()
+            }).ToList();
+
+            return new DashboardResponse
+            {
+                TotalCaloriesLogged = output.Sum(e => e.CaloriesLogged),
+                TotalCarbLogged = output.Sum(e => e.CarbLogged),
+                TotalFatLogged = output.Sum(e => e.FatLogged),
+                TotalProtienLogged = output.Sum(e => e.ProtienLogged)
+            };
+        }
     }
 }

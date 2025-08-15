@@ -20,4 +20,8 @@ export class UserFoodLodService {
   foodLogHistory(offset: number): Observable<any> {
     return this.http.get<any>(`${this.API_URL}/UserFoodLog/food-log-history?weekOffset=${offset}`);
   }
+
+  dashboardForUser(): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}/UserFoodLog/dashboard`);
+  }
 }

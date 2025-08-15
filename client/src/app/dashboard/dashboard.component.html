@@ -26,10 +26,12 @@
                     <h3 class="stat-title">Calories Today</h3>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-value">1,247</div>
-                    <p class="stat-label">of 2,000 goal</p>
+                    <div class="stat-value">{{userMacrosKPI?.totalCaloriesLogged | number:'1.2-2'}}</div>
+                    <p class="stat-label">of {{userMacrosKPI?.macroTargets?.calories}} goal</p>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: 62%"></div>
+                        <div class="progress-fill"
+                            [style.width.%]="getMacrosProgressPercentage(userMacrosKPI?.macroTargets?.calories, userMacrosKPI?.totalCaloriesLogged)">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -39,10 +41,12 @@
                     <h3 class="stat-title">Protein Today</h3>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-value">1,247</div>
-                    <p class="stat-label">of 2,000 goal</p>
+                    <div class="stat-value">{{userMacrosKPI?.totalProtienLogged | number:'1.2-2'}}</div>
+                    <p class="stat-label">of {{userMacrosKPI?.macroTargets?.protein_g}} goal</p>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: 62%"></div>
+                        <div class="progress-fill"
+                            [style.width.%]="getMacrosProgressPercentage(userMacrosKPI?.macroTargets?.protein_g, userMacrosKPI?.totalProtienLogged)">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -52,10 +56,12 @@
                     <h3 class="stat-title">Carb Today</h3>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-value">1,247</div>
-                    <p class="stat-label">of 2,000 goal</p>
+                    <div class="stat-value">{{userMacrosKPI?.totalCarbLogged | number:'1.2-2'}}</div>
+                    <p class="stat-label">of {{userMacrosKPI?.macroTargets?.carbs_g}} goal</p>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: 62%"></div>
+                        <div class="progress-fill"
+                            [style.width.%]="getMacrosProgressPercentage(userMacrosKPI?.macroTargets?.carbs_g, userMacrosKPI?.totalCarbLogged)">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,10 +71,12 @@
                     <h3 class="stat-title">Fats Today</h3>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-value">1,247</div>
-                    <p class="stat-label">of 2,000 goal</p>
+                    <div class="stat-value">{{userMacrosKPI?.totalFatLogged | number:'1.2-2'}}</div>
+                    <p class="stat-label">of {{userMacrosKPI?.macroTargets?.fats_g}} goal</p>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: 62%"></div>
+                        <div class="progress-fill"
+                            [style.width.%]="getMacrosProgressPercentage(userMacrosKPI?.macroTargets?.fats_g, userMacrosKPI?.totalFatLogged)">
+                        </div>
                     </div>
                 </div>
             </div>

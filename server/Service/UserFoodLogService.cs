@@ -18,10 +18,12 @@ namespace Service
     {
         private readonly IUserFoodLogRepository _userFoodLogRepository;
         private readonly IIndianFoodMacrosRepository _indianFoodMacrosRepository;
-        public UserFoodLogService(IUserFoodLogRepository userFoodLogRepository, IIndianFoodMacrosRepository indianFoodMacrosRepository)
+        private readonly IFitnessAndnutritionPlansRepository _fitnessAndnutritionPlansRepository;
+        public UserFoodLogService(IFitnessAndnutritionPlansRepository fitnessAndnutritionPlansRepository, IUserFoodLogRepository userFoodLogRepository, IIndianFoodMacrosRepository indianFoodMacrosRepository)
         {
             _userFoodLogRepository = userFoodLogRepository;
             _indianFoodMacrosRepository = indianFoodMacrosRepository;
+            _fitnessAndnutritionPlansRepository = fitnessAndnutritionPlansRepository;
         }
 
         public async Task<ApiResponse> Create(CreateUserFoodLogRq req)
@@ -105,6 +107,22 @@ namespace Service
             var foodHistoryByWeek = await _userFoodLogRepository.GetFoodLogEntriesByStartAndEndDate(userId, start, end);
 
             return new ApiResponse(foodHistoryByWeek, "Food log history");
+        }
+
+        public async Task<ApiResponse> GetDashBoardResponseForUser(string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                return new ApiResponse(null, "Invalid requestor id", StatusCodes.Status403Forbidden);
+            }
+
+            var dashboard = await _userFoodLogRepository.GetFoodLogEntriesForToday(userId);
+
+            var macrosTargets = await _fitnessAndnutritionPlansRepository.GetBasicPlanByUserId(userId);
+
+            dashboard.MacroTargets = macrosTargets?.MacroTargets;
+
+            return new ApiResponse(dashboard, "Dashbaord");
         }
 
         private static (DateTime WeekStart, DateTime WeekEnd) GetWeekRange(int offset)

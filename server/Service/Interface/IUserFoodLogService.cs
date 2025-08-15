@@ -12,5 +12,6 @@ namespace Service.Interface
         Task<ApiResponse> Create(CreateUserFoodLogRq req);
         Task<ApiResponse> GetRecentFoodLogEntriesAsync(string userId);
         Task<ApiResponse> GetFoodLogHistory(string userId, int weekOffset);
+        Task<ApiResponse> GetDashBoardResponseForUser(string userId);
     }
 }

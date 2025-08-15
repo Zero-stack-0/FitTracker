@@ -64,5 +64,18 @@ namespace WebService.Controller
 
             return Ok(await _userFoodLogService.GetFoodLogHistory(userDetail.Id, weekOffset));
         }
+
+        [HttpGet("dashboard")]
+        public async Task<IActionResult> GetDashboardResponse()
+        {
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var userDetail = await _userProfile.GetUserDetail(claimsIdentity);
+            if (userDetail is null)
+            {
+                return Unauthorized(new ApiResponse(null, "User profile not found", StatusCodes.Status404NotFound));
+            }
+
+            return Ok(await _userFoodLogService.GetDashBoardResponseForUser(userDetail.Id));
+        }
     }
 }
