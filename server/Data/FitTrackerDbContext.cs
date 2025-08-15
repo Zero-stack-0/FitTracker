@@ -9,13 +9,14 @@ namespace Data
     {
         private readonly IMongoDatabase database;
         private readonly IOptions<MongoDbMappingConfiguration> config;
+        private readonly IOptions<MongoDbSettings> options;
 
-        public FitTrackerDbContext(IOptions<MongoDbMappingConfiguration> config)
+        public FitTrackerDbContext(IOptions<MongoDbMappingConfiguration> config, IOptions<MongoDbSettings> options)
         {
             this.config = config;
-
-            var client = new MongoClient(this.config.Value.ConnectionString);
-            database = client.GetDatabase(this.config.Value.DatabaseName);
+            this.options = options;
+            var client = new MongoClient(this.options.Value.ConnectionString);
+            database = client.GetDatabase(this.options.Value.DatabaseName);
         }
 
         public IMongoCollection<Users> Users =>

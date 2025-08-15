@@ -1,22 +1,24 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Entity.Models;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Webservices.Auth
 {
     public class GenerateJwtToken
     {
-        private readonly IConfiguration _configuration;
-        public GenerateJwtToken(IConfiguration configuration)
+        private readonly IOptions<JwtSettings> options;
+        public GenerateJwtToken(IOptions<JwtSettings> options)
         {
-            _configuration = configuration;
+            this.options = options;
+
         }
 
         public string GenerateToken(string role, string email)
         {
-            var jwtSettings = _configuration.GetSection("JwtSettings");
-            var secretKey = jwtSettings["SecretKey"];
+            var secretKey = options.Value.Secret;
             if (string.IsNullOrEmpty(secretKey))
             {
                 throw new InvalidOperationException("JWT SecretKey is not configured.");
@@ -31,8 +33,8 @@ namespace Webservices.Auth
             };
 
             var token = new JwtSecurityToken(
-                issuer: jwtSettings["issuer"],
-                audience: jwtSettings["audience"],
+                issuer: options.Value.Issuer,
+                audience: options.Value.Audience,
                 claims: claims,
                 expires: DateTime.Now.AddHours(1),
                 signingCredentials: credentials);

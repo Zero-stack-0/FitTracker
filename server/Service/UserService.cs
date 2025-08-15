@@ -1,6 +1,7 @@
 using Data.Repository.Interface;
 using Entity;
 using Entity.Models;
+using Microsoft.AspNetCore.Http;
 using Service.Dto.Request;
 using Service.Dto.Response;
 using Service.Helpers;
@@ -25,6 +26,12 @@ namespace Service
             if (dto is null)
             {
                 return new ApiResponse(null, "Invalid request", (int)HttpStatusCode.BadRequest);
+            }
+
+            var getUserByEmail = await _userRepository.GetByEmail(dto.Email);
+            if (getUserByEmail is not null)
+            {
+                return new ApiResponse(null, "Email already exists", StatusCodes.Status400BadRequest);
             }
 
             var user = new Users
