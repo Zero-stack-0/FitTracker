@@ -1,4 +1,5 @@
 using System.Text;
+using AspNetCoreRateLimit;
 using Data;
 using Data.Repository;
 using Data.Repository.Interface;
@@ -38,6 +39,12 @@ builder.Services.AddScoped<IIndianFoodMacrosRepository, IndianFoodMacrosReposito
 builder.Services.AddSingleton<FitTrackerDbContext>();
 builder.Services.AddSingleton<GenerateJwtToken>();
 builder.Services.AddScoped<UserProfile>();
+builder.Services.AddMemoryCache();
+builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+builder.Services.AddInMemoryRateLimiting();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
+
 #endregion
 
 builder.Services.Configure<MongoDbMappingConfiguration>(
@@ -92,8 +99,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.MapControllers();
 }
-
+app.UseIpRateLimiting();
 app.UseHttpsRedirection();
-var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-app.Urls.Add($"http://*:{port}");
+// var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+// app.Urls.Add($"http://*:{port}");
 app.Run();

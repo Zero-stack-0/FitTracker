@@ -130,5 +130,10 @@ namespace Service
 
             return new ApiResponse(response, "Login successful", (int)HttpStatusCode.OK);
         }
+
+        public async Task<ApiResponse> GetUserInformation(string email)
+        {
+            return new ApiResponse(await _userRepository.GetUserInformation(email), "user information");
+        }
     }
 }

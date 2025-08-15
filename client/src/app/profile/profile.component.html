@@ -38,19 +38,15 @@
                     </h3>
                     <p class="card-description">Update your personal details</p>
                 </div>
-                <div class="card-content">
+                <form [formGroup]="profileForm" class="card-content">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="firstName" class="form-label">First Name</label>
-                            <input type="text" id="firstName" class="form-input" value="Sarah">
-                        </div>
-                        <div class="form-group">
-                            <label for="lastName" class="form-label">Last Name</label>
-                            <input type="text" id="lastName" class="form-input" value="Johnson">
+                            <label for="firstName" class="form-label">Name</label>
+                            <input formControlName="fullName" type="text" id="firstName" class="form-input">
                         </div>
                         <div class="form-group">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" id="email" class="form-input" value="sarah.johnson@example.com">
+                            <input formControlName="email" type="email" id="email" class="form-input">
                         </div>
                     </div>
                     <div class="form-separator"></div>
@@ -59,22 +55,32 @@
                             <label for="age" class="form-label">Age</label>
                             <input type="number" id="age" class="form-input" value="28">
                         </div>
+
                         <div class="form-group">
                             <label for="height" class="form-label">Height (cm)</label>
                             <input type="number" id="height" class="form-input" value="165">
                         </div>
-                        <div class="form-group">
+
+                        <div *ngIf="profileForm.get('height')?.invalid && profileForm.get('height')?.touched"
+                            class="error">
+                            <small *ngIf="profileForm.get('height')?.errors?.['required']">Height is
+                                required.</small>
+                            <small *ngIf="profileForm.get('height')?.errors?.['min']">Height must be at least
+                                50cm.</small>
+                            <small *ngIf="profileForm.get('height')?.errors?.['max']">Height must be no more than
+                                300 cm.</small>
+                        </div>
+                        <div class="form-group" [formGroup]="profileForm">
                             <label for="gender" class="form-label">Gender</label>
-                            <select id="gender" class="form-select">
-                                <option value="female" selected>Female</option>
-                                <option value="male">Male</option>
-                                <option value="other">Other</option>
-                                <option value="prefer-not-to-say">Prefer not to say</option>
+                            <select id="gender" class="form-select" formControlName="gender">
+                                <option *ngFor="let option of genderOptions" [value]="option.value">
+                                    {{ option.label }}
+                                </option>
                             </select>
                         </div>
                     </div>
                     <button class="btn-primary">Save Changes</button>
-                </div>
+                </form>
             </div>
         </section>
 
@@ -91,97 +97,39 @@
                 <div class="card-content">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="currentWeight" class="form-label">Current Weight (kg)</label>
+                            <label for="currentWeight" class="form-label">Weight (kg)</label>
                             <input type="number" id="currentWeight" class="form-input" value="68.5" step="0.1">
-                        </div>
-                        <div class="form-group">
-                            <label for="targetWeight" class="form-label">Target Weight (kg)</label>
-                            <input type="number" id="targetWeight" class="form-input" value="65" step="0.1">
                         </div>
                         <div class="form-group">
                             <label for="dailyCalories" class="form-label">Daily Calorie Goal</label>
                             <input type="number" id="dailyCalories" class="form-input" value="2000">
                         </div>
-                        <div class="form-group">
-                            <label for="activityLevel" class="form-label">Activity Level</label>
-                            <select id="activityLevel" class="form-select">
-                                <option value="sedentary">Sedentary</option>
-                                <option value="light">Lightly Active</option>
-                                <option value="moderate" selected>Moderately Active</option>
-                                <option value="very">Very Active</option>
-                                <option value="extremely">Extremely Active</option>
+
+
+                        <div class="form-group" [formGroup]="fitnessGoalForm">
+                            <label for="gender" class="form-label">Activity Level</label>
+                            <select id="gender" class="form-select" formControlName="activityLevel">
+                                <option *ngFor="let option of activityOptions" [value]="option.value">
+                                    {{ option.label }}
+                                </option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="weightGoal" class="form-label">Primary Goal</label>
-                            <select id="weightGoal" class="form-select">
-                                <option value="lose" selected>Lose Weight</option>
-                                <option value="maintain">Maintain Weight</option>
-                                <option value="gain">Gain Weight</option>
-                                <option value="muscle">Build Muscle</option>
+
+                        <div class="form-group" [formGroup]="fitnessGoalForm">
+                            <label for="gender" class="form-label">Primary Goal</label>
+                            <select id="gender" class="form-select" formControlName="fitnessGoal">
+                                <option *ngFor="let option of fitnessGoalOptions" [value]="option.value">
+                                    {{ option.label }}
+                                </option>
                             </select>
                         </div>
+
                     </div>
 
                     <button class="btn-primary">Update Goals</button>
                 </div>
             </div>
         </section>
-
-        <!-- Notifications -->
-        <!-- <section class="notifications-section">
-            <div class="notifications-card">
-                <div class="card-header">
-                    <h3 class="card-title">
-                        <span class="title-icon">🔔</span>
-                        Notifications
-                    </h3>
-                    <p class="card-description">Choose what notifications you'd like to receive</p>
-                </div>
-                <div class="card-content">
-                    <div class="notification-item">
-                        <div class="notification-info">
-                            <h4 class="notification-title">Daily Reminders</h4>
-                            <p class="notification-desc">Get reminded to log your meals</p>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="notification-item">
-                        <div class="notification-info">
-                            <h4 class="notification-title">Weekly Progress</h4>
-                            <p class="notification-desc">Receive weekly progress reports</p>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="notification-item">
-                        <div class="notification-info">
-                            <h4 class="notification-title">Achievement Badges</h4>
-                            <p class="notification-desc">Celebrate your milestones</p>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="notification-item">
-                        <div class="notification-info">
-                            <h4 class="notification-title">Water Reminders</h4>
-                            <p class="notification-desc">Stay hydrated throughout the day</p>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </section> -->
 
         <!-- Privacy & Security -->
         <section class="security-section">

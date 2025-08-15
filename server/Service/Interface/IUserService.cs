@@ -8,5 +8,6 @@ namespace Service.Interface
         Task<ApiResponse> CreateUser(CreateUserRequest dto);
         Task<ApiResponse> GetByEmail(string email);
         Task<ApiResponse> Login(LoginRequest request);
+        Task<ApiResponse> GetUserInformation(string email);
     }
 }

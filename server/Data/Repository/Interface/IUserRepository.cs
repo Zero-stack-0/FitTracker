@@ -1,3 +1,4 @@
+using Data.response;
 using Entity.Models;
 
 namespace Data.Repository.Interface
@@ -7,5 +8,6 @@ namespace Data.Repository.Interface
         Task<Users?> Create(Users user);
         Task<Users?> GetByEmail(string email);
         Task<Users?> Login(string email, string password);
+        Task<UserInfomationResponse> GetUserInformation(string email);
     }
 }

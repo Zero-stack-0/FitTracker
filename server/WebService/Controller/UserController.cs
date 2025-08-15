@@ -78,5 +78,21 @@ namespace WebService.Controller
                 StatusCodes = (int)HttpStatusCode.OK
             });
         }
+
+        [Authorize]
+        [HttpGet("user-information")]
+        public async Task<IActionResult> GetUserInformation()
+        {
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var userDetail = await _userProfile.GetUserDetail(claimsIdentity);
+            if (userDetail == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            return Ok(await _userService.GetUserInformation(userDetail.Email)
+
+            );
+        }
     }
 }

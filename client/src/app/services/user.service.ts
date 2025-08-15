@@ -26,4 +26,9 @@ export class UserService {
       headers: { Authorization: `Bearer ${token}` }
     });
   }
+
+  userInformation(): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}/user-information`);
+  }
+  //user-information
 }
