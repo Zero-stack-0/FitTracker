@@ -10,19 +10,21 @@
 
 <body>
     <div *ngIf="loading" class="loading-container">
-        <div class="loading-content">
-            <div class="spinner-wrapper">
-                <div class="spinner">
-                    <div class="spinner-inner"></div>
-                </div>
-                <div class="pulse-ring"></div>
+        <!-- <div class="background-content">
+            <h1>Sample Content</h1>
+            <p>This is some background content that will be blurred when the loader is active.</p>
+            <div class="sample-card">
+                <h3>Card Title</h3>
+                <p>Some sample text in a card to demonstrate the blur effect.</p>
             </div>
-            <h2 class="loading-title">Loading</h2>
-            <p class="loading-text">Preparing your fitness journey...</p>
-            <div class="loading-dots">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+        </div> -->
+
+        <!-- Loader overlay -->
+        <div class="loader-overlay">
+            <div class="loader">
+                <div class="loader-spinner"></div>
+                <p class="loader-text">Loading... {{title}}</p>
+
             </div>
         </div>
     </div>

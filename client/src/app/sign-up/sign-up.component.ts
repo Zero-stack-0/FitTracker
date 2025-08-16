@@ -136,7 +136,7 @@ export class SignUpComponent {
   });
 
   ngOnInit() {
-    console.log(FitnessGoal.WeightLoss);
+
   }
   onSubmit() {
     if (this.signUpForm.invalid) {
@@ -144,7 +144,6 @@ export class SignUpComponent {
       return;
     }
 
-    console.log(this.signUpForm.value);
     this.userService.signUp(this.signUpForm.value).subscribe({
       next: (response) => {
         if (response.statusCodes === 201) {

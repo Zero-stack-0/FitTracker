@@ -19,7 +19,6 @@ export class FoodLogHistoryComponent implements OnInit {
   fetchFoodLogHistory() {
     this.userFoodLog.foodLogHistory(this.weekOffset).subscribe((res) => {
       this.foodLog = res.data
-      console.log(res.data)
     })
   }
 

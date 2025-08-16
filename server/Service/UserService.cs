@@ -1,4 +1,5 @@
 using Data.Repository.Interface;
+using Data.response;
 using Entity;
 using Entity.Models;
 using Microsoft.AspNetCore.Http;
@@ -14,11 +15,13 @@ namespace Service
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserInformationRepository _userInformationRepository;
+        private readonly IFitnessAndnutritionPlansRepository _fitnessAndnutritionPlansRepository;
 
-        public UserService(IUserRepository userRepository, IUserInformationRepository userInformationRepository)
+        public UserService(IUserRepository userRepository, IUserInformationRepository userInformationRepository, IFitnessAndnutritionPlansRepository fitnessAndnutritionPlansRepository)
         {
             _userRepository = userRepository;
             _userInformationRepository = userInformationRepository;
+            _fitnessAndnutritionPlansRepository = fitnessAndnutritionPlansRepository;
         }
 
         public async Task<ApiResponse> CreateUser(CreateUserRequest dto)
@@ -133,7 +136,34 @@ namespace Service
 
         public async Task<ApiResponse> GetUserInformation(string email)
         {
-            return new ApiResponse(await _userRepository.GetUserInformation(email), "user information");
+
+            var user = await _userRepository.GetByEmail(email);
+            if (user is null)
+            {
+                return new ApiResponse(null, "Invalid user", StatusCodes.Status400BadRequest);
+            }
+
+            var userInformation = await _userInformationRepository.GetByUserId(user.Id);
+            if (userInformation is null)
+            {
+                return new ApiResponse(null, "User information does not exists", StatusCodes.Status400BadRequest);
+            }
+
+            var userInfomationResponse = new UserInfomationResponse
+            {
+                userInformation = userInformation,
+                UserId = user.Id,
+                email = user.Email,
+                fullName = user.FullName
+            };
+
+            var basicDietPlan = await _fitnessAndnutritionPlansRepository.GetBasicPlanByUserId(user.Id);
+            if (basicDietPlan is not null)
+            {
+                userInfomationResponse.macroTargets = basicDietPlan.MacroTargets;
+            }
+
+            return new ApiResponse(userInfomationResponse, "user information");
         }
     }
 }

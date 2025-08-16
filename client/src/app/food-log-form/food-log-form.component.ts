@@ -58,15 +58,11 @@ export class FoodLogFormComponent implements OnInit {
     });
 
     this.fetchRecentFoodLogs()
-    this.routeA.queryParams.subscribe(params => {
-      this.mealType = params['mealType'];
-    });
   }
 
   fetchRecentFoodLogs() {
     this.userFoodLogForm.recentEntries().subscribe((response) => {
       this.recentEntries = response.data;
-      console.log(this.recentEntries);
     });
   }
 
@@ -98,16 +94,13 @@ export class FoodLogFormComponent implements OnInit {
 
   selectTheFood(food: FoodMacrosInterface) {
     this.selectedFood = food;
-
     this.searchControl.setValue(food.name, { emitEvent: false });
     this.foodMacros = [];
     this.isFoodSelected = true;
-    console.log(this.selectedFood);
   }
 
   mealTypeChanges(type: number) {
     this.mealType = type;
-    console.log(this.mealType);
   }
 
   onQuantityInputChange(quan: number) {
@@ -115,7 +108,6 @@ export class FoodLogFormComponent implements OnInit {
       this.isQuantityInvalid = false;
     }
     this.quantity = quan;
-    console.log(this.quantity);
   }
 
   onAddFoodToLog() {
@@ -124,12 +116,15 @@ export class FoodLogFormComponent implements OnInit {
       TimeOfTheDay: this.mealType,
       Quantity: this.quantity
     }
-    if (!foodToLog.FoodId || !foodToLog.Quantity) {
+
+    if (!foodToLog.FoodId) {
       this.isFoodSelected = false;
-      if (!foodToLog.Quantity) {
-        this.isQuantityInvalid = true;
-      }
       return;
+    }
+
+    if (foodToLog.Quantity <= 0) {
+      this.isQuantityInvalid = true;
+      return
     }
 
     this.userFoodLogForm.addFoodToLog(foodToLog).subscribe((response) => {

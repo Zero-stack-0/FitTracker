@@ -13,6 +13,7 @@ export class DashboardComponent {
   constructor(private userService: UserService, private authService: AuthService, private route: Router, private userFoodLog: UserFoodLodService) { }
   userData: any;
   userMacrosKPI: any
+  isLoading = false
   mealType = 1
   //popup properties
   isOpen = false;
@@ -26,8 +27,17 @@ export class DashboardComponent {
       return;
     }
     this.userService.getUserProfile().subscribe({
+
       next: (response) => {
-        this.userData = response.data;
+        this.isLoading = true;
+        if (response.statusCodes === 200) {
+          this.userData = response.data;
+          this.isLoading = false;
+          return
+        }
+        else {
+          this.isLoading = false;
+        }
       },
       error: (error) => {
         console.error('Error fetching user data:', error);
@@ -36,8 +46,13 @@ export class DashboardComponent {
     });
 
     this.userFoodLog.dashboardForUser().subscribe((res) => {
-      this.userMacrosKPI = res.data;
-      console.log(this.userMacrosKPI)
+      this.isLoading = true
+      if (res.statusCodes === 200) {
+        this.userMacrosKPI = res.data;
+        this.isLoading = false;
+        return;
+      }
+      this.isLoading = false;
     })
   }
 

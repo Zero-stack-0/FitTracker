@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
   limitReachedToUpdateDietPlan = false
   //popup
   isOpen = false;
-  isGreen = false;
+  isGreen = true;
   errorMessage = '';
   poptitle = '';
   user: any
@@ -76,7 +76,7 @@ export class ProfileComponent implements OnInit {
 
   fetchUserProfile() {
     this.userService.userInformation().subscribe((res) => {
-      console.log(res)
+      this.isLoading = true
       this.user = res.data;
       this.profileForm.patchValue({
         email: this.user?.email || '',
@@ -90,6 +90,7 @@ export class ProfileComponent implements OnInit {
         dietType: this.user?.userInformation.dietType || DietType.VEG,
         dailyCalorieGoal: this.user?.macroTargets?.calories || ''
       });
+      this.isLoading = false;
     });
   }
 
@@ -136,26 +137,20 @@ export class ProfileComponent implements OnInit {
     if (this.profileForm.valid) {
       this.closeGoalUpdatePopUp()
       this.isLoading = true;
-      console.log(this.profileForm.value)
       this.userDietPlan.updateProfile(this.profileForm.value).subscribe({
         next: (res: any) => {
-          if (res.statusCodes === 200) {
+          if (res?.statusCodes !== 200) {
             this.isLoading = false;
-            console.log("profile updated")
+            this.openPopup(res?.message, res?.message, false)
             return
           }
           else {
+            this.fetchUserProfile()
+            this.fetchCanUserUpdateDietPlan()
             this.isLoading = false;
-            this.isOpen = true;
-            this.isGreen = false;
-            this.errorMessage = res?.message;
-            this.poptitle = "Cannot update profile"
+            this.openPopup(res?.message, res?.message, true)
             return
           }
-        },
-        error: (res: any) => {
-          this.isLoading = false;
-
         }
       })
     }
@@ -166,10 +161,16 @@ export class ProfileComponent implements OnInit {
     this.isOpen = false;
   }
   disableRestrictedFields() {
-    console.log("work")
     this.profileForm.get('weight')?.disable();
     this.profileForm.get('activityLevel')?.disable();
     this.profileForm.get('dietType')?.disable();
     this.profileForm.get('fitnessGoal')?.disable();
+  }
+
+  openPopup(message: string, title: string, isGreen: boolean) {
+    this.isOpen = true;
+    this.isGreen = isGreen;
+    this.errorMessage = message;
+    this.poptitle = title;
   }
 }

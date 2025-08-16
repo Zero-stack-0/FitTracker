@@ -1,7 +1,11 @@
 <div class="popup-overlay" *ngIf="isOpen" (click)="onClose()">
     <div class="popup-box" [ngClass]="{ 'green': isGreen, 'red': !isGreen }" (click)="$event.stopPropagation()">
-        <h2 [ngClass]="{ 'green-title': isGreen, 'red-title': !isGreen }">{{title}}</h2>
-        <p [ngClass]="{ 'green-title': isGreen, 'red-title': !isGreen }">{{description}}</p>
-        <button class="close-btn" (click)="onClose()">Close</button>
+        <button class="close-icon" (click)="onClose()">×</button>
+        <div class="popup-header">
+            <div class="icon" [ngClass]="{ 'icon-success': isGreen, 'icon-fail': !isGreen }">
+                {{ isGreen ? '✔' : '✖' }}
+            </div>
+            <h2 [ngClass]="{ 'green-title': isGreen, 'red-title': !isGreen }">{{ title }}</h2>
+        </div>
     </div>
 </div>

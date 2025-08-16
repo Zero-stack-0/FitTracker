@@ -19,7 +19,6 @@ export class DietPlanComponent implements OnInit {
     this.isLoading = true;
     this.userDietPlanService.getUserDietPlan().subscribe((response) => {
       this.userDietPlan = response.data;
-      console.log(this.userDietPlan);
       this.isLoading = false;
       return
     })

@@ -12,6 +12,7 @@ import { FoodLogFormComponent } from './food-log-form/food-log-form.component';
 import { DietPlanComponent } from './diet-plan/diet-plan.component';
 import { LoaderComponent } from './loader/loader.component';
 import { FoodLogHistoryComponent } from './food-log-history/food-log-history.component';
+import { PopupComponent } from './pop-up/pop-up.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -23,9 +24,8 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'progress', component: ProgressComponent },
   { path: 'fitness-plan', component: FitnessPlanComponent },
-  { path: 'food-log-form/:mealType', component: FoodLogFormComponent },
+  { path: 'food-log-form', component: FoodLogFormComponent },
   { path: 'diet-plan', component: DietPlanComponent },
-  { path: 'loader', component: LoaderComponent },
   { path: 'logs', component: FoodLogHistoryComponent }
 ];
 

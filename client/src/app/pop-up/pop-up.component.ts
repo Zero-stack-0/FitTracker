@@ -7,9 +7,9 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class PopupComponent {
   @Input() isOpen: boolean = false;
-  @Input() isGreen: boolean = true;
+  @Input() isGreen: boolean = false;
   @Input() description: string = "";
-  @Input() title: string = ""; // Default title if not provided
+  @Input() title: string = "";
   @Output() close = new EventEmitter<void>();
 
   onClose() {

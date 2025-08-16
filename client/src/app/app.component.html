@@ -18,7 +18,7 @@
     </div>
     <div class="nav-links" *ngIf="isUserLoggedWithValidToken">
       <a routerLink="diet-plan" class="btn-primary">Diet Plan</a>
-      <a [routerLink]="['/food-log-form', mealType]" class="btn-primary">Add Meal</a>
+      <a routerLink="food-log-form" class="btn-primary">Add Meal</a>
       <a routerLink="profile" class="btn-primary">My Profile</a>
       <a routerLink="logs" class="btn-primary">Food History</a>
       <a routerLink="profile" class="btn-primary" (click)="logout()">Log Out</a>

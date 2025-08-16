@@ -12,7 +12,7 @@
 
 
 <body>
-    <app-popup [isOpen]="isOpen" [description]="errorMessage" [title]="poptitle" [isGreen]="false"
+    <app-popup [isOpen]="isOpen" [description]="errorMessage" [title]="poptitle" [isGreen]="isGreen"
         (close)="closePopup()"></app-popup>
     <!-- Main Content -->
     <app-loader [loading]="isLoading"></app-loader>

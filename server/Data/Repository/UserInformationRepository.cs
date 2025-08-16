@@ -26,7 +26,7 @@ namespace Data.Repository
 
         public async Task<UserInformation?> GetByUserId(string userId)
         {
-            return await _userInformationCollection.Find(u => u.UserId == userId).FirstOrDefaultAsync();
+            return await _userInformationCollection.Find(u => u.UserId == userId && u.IsActive).FirstOrDefaultAsync();
         }
 
         public async Task<bool> Update(UserInformation userInformation)
