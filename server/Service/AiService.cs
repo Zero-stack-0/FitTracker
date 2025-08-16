@@ -130,6 +130,8 @@ namespace Service
                         basicFitnessPlan.MealTimingTips = basicFitnessPlan.WorkoutPlan.MealTimingTips;
                     }
                     basicFitnessPlan.UserId = user.UserId;
+                    basicFitnessPlan.CreatedAt = DateTime.UtcNow;
+                    basicFitnessPlan.IsActive = true;
                     await _fitnessAndnutritionPlansRepository.Create(basicFitnessPlan);
                     return new ApiResponse(basicFitnessPlan, "Fitness plan generated successfully");
                 }

@@ -8,24 +8,26 @@
     <link rel="stylesheet" href="./profile.component.css">
 </head>
 
-<body>
-    <!-- Header
-    <header class="header">
-        <div class="nav-container">
-            <div class="logo-section">
-                <h1 class="logo">🏃‍♀️ FitTracker</h1>
-                <span class="page-title">Profile & Settings</span>
-            </div>
-            <button class="btn-back">← Back to Dashboard</button>
-        </div>
-    </header> -->
 
+
+
+<body>
+    <app-popup [isOpen]="isOpen" [description]="errorMessage" [title]="poptitle" [isGreen]="false"
+        (close)="closePopup()"></app-popup>
     <!-- Main Content -->
-    <main class="main-content">
+    <app-loader [loading]="isLoading"></app-loader>
+    <main *ngIf="!isLoading" class="main-content">
         <!-- Page Header -->
+
         <section class="page-header">
             <h2 class="page-title-main">Profile & Settings ⚙️</h2>
             <p class="page-subtitle">Manage your account and preferences</p>
+
+            <p *ngIf="limitReachedToUpdateDietPlan" class="privacy-note-limit"> ⚠️ You have updated your diet plan
+                twice this month, so you cannot update your fitness goal, activity level, weight, or diet
+                type
+                again until next month.</p>
+
         </section>
 
         <!-- Profile Information -->
@@ -38,53 +40,124 @@
                     </h3>
                     <p class="card-description">Update your personal details</p>
                 </div>
-                <form [formGroup]="profileForm" class="card-content">
+                <form [formGroup]="profileForm" class="card-content" (ngSubmit)="saveProfileChanges()">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="firstName" class="form-label">Name</label>
-                            <input formControlName="fullName" type="text" id="firstName" class="form-input">
+                            <label for="fullName" class="form-label">Name</label>
+                            <input formControlName="fullName" type="text" id="fullName" class="form-input">
+                            <div *ngIf="profileForm.get('fullName')?.invalid && profileForm.get('fullName')?.touched"
+                                class="error">
+                                <small *ngIf="profileForm.get('fullName')?.errors?.['required']">Fullname is
+                                    required.</small>
+                                <small *ngIf="profileForm.get('fullName')?.errors?.['minlength']">Fullname must be at
+                                    least
+                                    5
+                                    characters.</small>
+                                <small *ngIf="profileForm.get('fullName')?.errors?.['maxlength']">Fullname must be no
+                                    more
+                                    than
+                                    100 characters.</small>
+
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="email" class="form-label">Email</label>
                             <input formControlName="email" type="email" id="email" class="form-input">
                         </div>
                     </div>
-                    <div class="form-separator"></div>
+
                     <div class="form-grid secondary">
-                        <div class="form-group">
-                            <label for="age" class="form-label">Age</label>
-                            <input type="number" id="age" class="form-input" value="28">
-                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="age" class="form-label">Age</label>
+                                <input formControlName="age" type="number" id="age" class="form-input">
+                                <div *ngIf="profileForm.get('age')?.invalid && profileForm.get('age')?.touched"
+                                    class="error">
+                                    <small *ngIf="profileForm.get('age')?.errors?.['required']">Age is
+                                        required.</small>
+                                    <small *ngIf="profileForm.get('age')?.errors?.['min']">Age must be at least
+                                        10 Yrs.</small>
+                                    <small *ngIf="profileForm.get('age')?.errors?.['max']">Age must be no more than
+                                        120 Yrs.</small>
+                                </div>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="height" class="form-label">Height (cm)</label>
-                            <input type="number" id="height" class="form-input" value="165">
-                        </div>
+                            <div class="form-group">
+                                <label for="height" class="form-label">Height (cm)</label>
+                                <input formControlName="height" name="height" type="number" id="height"
+                                    class="form-input" value="">
+                                <div *ngIf="profileForm.get('height')?.invalid && profileForm.get('height')?.touched"
+                                    class="error">
+                                    <small *ngIf="profileForm.get('height')?.errors?.['required']">Height is
+                                        required.</small>
+                                    <small *ngIf="profileForm.get('height')?.errors?.['min']">Height must be at least
+                                        50cm.</small>
+                                    <small *ngIf="profileForm.get('height')?.errors?.['max']">Height must be no more
+                                        than
+                                        300 cm.</small>
+                                </div>
+                            </div>
 
-                        <div *ngIf="profileForm.get('height')?.invalid && profileForm.get('height')?.touched"
-                            class="error">
-                            <small *ngIf="profileForm.get('height')?.errors?.['required']">Height is
-                                required.</small>
-                            <small *ngIf="profileForm.get('height')?.errors?.['min']">Height must be at least
-                                50cm.</small>
-                            <small *ngIf="profileForm.get('height')?.errors?.['max']">Height must be no more than
-                                300 cm.</small>
+                            <div class="form-group" [formGroup]="profileForm">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select id="gender" class="form-select" formControlName="gender">
+                                    <option *ngFor="let option of genderOptions" [ngValue]="option.value">
+                                        {{ option.label }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="currentWeight" class="form-label">Weight (kg)</label>
+                                <input formControlName="weight" type="number" id="currentWeight" class="form-input"
+                                    step="0.1">
+                            </div>
                         </div>
-                        <div class="form-group" [formGroup]="profileForm">
-                            <label for="gender" class="form-label">Gender</label>
-                            <select id="gender" class="form-select" formControlName="gender">
-                                <option *ngFor="let option of genderOptions" [value]="option.value">
-                                    {{ option.label }}
-                                </option>
-                            </select>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="dailyCalories" class="form-label">Daily Calorie Goal <span
+                                        class="privacy-note">(diet
+                                        plan)</span> </label>
+                                <input type="number" id="dailyCalories" class="form-input"
+                                    formControlName="dailyCalorieGoal">
+                            </div>
+
+
+                            <div class="form-group" [formGroup]="profileForm">
+                                <label for="gender" class="form-label">Activity Level</label>
+                                <select id="gender" class="form-select" formControlName="activityLevel">
+                                    <option *ngFor="let option of activityOptions" [ngValue]="option.value">
+                                        {{ option.label }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" [formGroup]="profileForm">
+                                <label for="gender" class="form-label">Primary Goal</label>
+                                <select id="gender" class="form-select" formControlName="fitnessGoal">
+                                    <option *ngFor="let option of fitnessGoalOptions" [ngValue]="option.value">
+                                        {{ option.label }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" [formGroup]="profileForm">
+                                <label for="gender" class="form-label">Diet Type</label>
+                                <select id="gender" class="form-select" formControlName="dietType">
+                                    <option *ngFor="let option of dietOptions" [ngValue]="option.value">
+                                        {{ option.label }}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
+
                     <button class="btn-primary">Save Changes</button>
                 </form>
             </div>
         </section>
 
-        <!-- Fitness Goals -->
+        <!-- Fitness Goals
         <section class="goals-section">
             <div class="goals-card">
                 <div class="card-header">
@@ -94,15 +167,19 @@
                     </h3>
                     <p class="card-description">Set your health and fitness objectives</p>
                 </div>
-                <div class="card-content">
+                <form class="card-content" [formGroup]="fitnessGoalForm" (ngSubmit)="saveGoalChanges()">
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="currentWeight" class="form-label">Weight (kg)</label>
-                            <input type="number" id="currentWeight" class="form-input" value="68.5" step="0.1">
+                            <input formControlName="weight" type="number" id="currentWeight" class="form-input"
+                                step="0.1">
                         </div>
                         <div class="form-group">
-                            <label for="dailyCalories" class="form-label">Daily Calorie Goal</label>
-                            <input type="number" id="dailyCalories" class="form-input" value="2000">
+                            <label for="dailyCalories" class="form-label">Daily Calorie Goal <span
+                                    class="privacy-note">(diet
+                                    plan)</span> </label>
+                            <input type="number" id="dailyCalories" class="form-input"
+                                [value]="user?.macroTargets?.calories" disabled>
                         </div>
 
 
@@ -124,12 +201,21 @@
                             </select>
                         </div>
 
+                        <div class="form-group" [formGroup]="fitnessGoalForm">
+                            <label for="gender" class="form-label">Diet Type</label>
+                            <select id="gender" class="form-select" formControlName="dietType">
+                                <option *ngFor="let option of dietOptions" [value]="option.value">
+                                    {{ option.label }}
+                                </option>
+                            </select>
+                        </div>
+
                     </div>
 
                     <button class="btn-primary">Update Goals</button>
-                </div>
+                </form>
             </div>
-        </section>
+        </section> -->
 
         <!-- Privacy & Security -->
         <section class="security-section">
@@ -139,7 +225,6 @@
                         <span class="title-icon">🛡️</span>
                         Privacy & Security
                     </h3>
-                    <p class="card-description">Manage your account security settings</p>
                 </div>
                 <div class="card-content">
                     <button class="security-button">Change Password</button>
@@ -154,11 +239,48 @@
             </div>
         </section>
 
-        <!-- Save All Changes -->
-        <section class="save-section">
-            <button class="btn-save-all">Save All Changes</button>
-        </section>
+        <div *ngIf="goalUpdatePopUp" class="popup-overlay active">
+            <div class="popup-content">
+                <div class="popup-header">
+                    <div class="warning-icon">⚠️</div>
+                    <h2 class="popup-title">Update Your Goals?</h2>
+                    <p class="popup-subtitle">This action will modify your current plan</p>
+                </div>
+
+                <div class="popup-body">
+                    <div class="warning-message">
+                        <p class="warning-text">
+                            By Updating your fitness goals, weight, activity level, or diet type will automatically
+                            adjust your current plan to reflect the latest changes.
+                        </p>
+                    </div>
+
+                    <div class="impact-list">
+                        <h4 class="impact-title">
+                            <span>📋</span>
+                            What will change:
+                        </h4>
+                        <ul class="impact-items">
+                            <li>Daily calorie targets will be recalculated</li>
+                            <li>Macro nutrient ratios will be adjusted</li>
+                            <li>Meal recommendations will be updated</li>
+                            <li>Portion sizes may change</li>
+                            <li>Progress tracking will reset</li>
+                            <li>You can only change goal 2 times per month</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="popup-footer">
+                    <button class="btn btn-secondary" (click)="closeGoalUpdatePopUp()">Cancel</button>
+                    <button class="btn btn-primary" (click)="updateProfileChanges()">Continue Update</button>
+                </div>
+            </div>
+
+        </div>
+
     </main>
+
 </body>
 
 </html>

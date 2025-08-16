@@ -9,5 +9,7 @@ namespace Data.Repository.Interface
         Task<Users?> GetByEmail(string email);
         Task<Users?> Login(string email, string password);
         Task<UserInfomationResponse> GetUserInformation(string email);
+        Task<Users?> GetById(string id);
+        Task<bool> Update(Users user);
     }
 }

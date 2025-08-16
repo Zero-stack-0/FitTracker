@@ -8,5 +8,6 @@ namespace Data.Repository.Interface
     {
         Task<UserInformation?> Create(UserInformation userInformation);
         Task<UserInformation?> GetByUserId(string userId);
+        Task<bool> Update(UserInformation userInformation);
     }
 }

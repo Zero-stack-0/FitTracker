@@ -10,5 +10,7 @@ namespace Data.Repository.Interface
         Task<FitnessAndNutritionPlan?> Create(FitnessAndNutritionPlan fitnessAndNutritionPlan);
         Task<BasicFitnessPlan?> Create(BasicFitnessPlan basicFitnessPlan);
         Task<BasicFitnessPlan?> GetBasicPlanByUserId(string userId);
+        Task<List<BasicFitnessPlan>?> GetBasicPlanByUserIdList(string userId);
+        Task<bool> Delete(BasicFitnessPlan req);
     }
 }

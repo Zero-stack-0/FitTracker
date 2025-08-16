@@ -32,6 +32,11 @@ namespace Data.Repository
             return await usersCollection.Find(u => u.Email == email).FirstOrDefaultAsync();
         }
 
+        public async Task<Users?> GetById(string id)
+        {
+            return await usersCollection.Find(u => u.Id == id).FirstOrDefaultAsync();
+        }
+
         public async Task<Users?> Login(string email, string password)
         {
             return await usersCollection.Find(u => u.Email == email && u.Password == password).FirstOrDefaultAsync();
@@ -43,43 +48,40 @@ namespace Data.Repository
             {
 
                 new BsonDocument("$match",
-                new BsonDocument("email", email)),
-                new BsonDocument("$lookup",
-                new BsonDocument
+            new BsonDocument("email", email)),
+            new BsonDocument("$lookup",
+            new BsonDocument
                 {
                     { "from", "UserInformation" },
                     { "localField", "_id" },
                     { "foreignField", "userId" },
                     { "as", "result" }
                 }),
-                new BsonDocument("$lookup",
-                new BsonDocument
+            new BsonDocument("$lookup",
+            new BsonDocument
                 {
                     { "from", "basic-fitness-plan" },
                     { "localField", "_id" },
                     { "foreignField", "userId" },
                     { "as", "basic" }
                 }),
-                new BsonDocument("$project",
-                new BsonDocument
+            new BsonDocument("$unwind", "$basic"),
+            new BsonDocument("$match",
+            new BsonDocument("basic.isActive", true)),
+            new BsonDocument("$project",
+            new BsonDocument
                 {
-                    { "_id", 1 },
+                     { "_id", 1 },
                     { "fullName", 1 },
                     {"email", 1},
                     { "userInformation",
-                new BsonDocument("$arrayElemAt",
-                new BsonArray
+            new BsonDocument("$arrayElemAt",
+            new BsonArray
                         {
                             "$result",
                             0
                         }) },
-                    { "macroTargets",
-                new BsonDocument("$arrayElemAt",
-                new BsonArray
-                        {
-                            "$basic.macroTargets",
-                            0
-                        }) }
+                    { "macroTargets", "$basic.macroTargets" }
                 })
 
             };
@@ -93,6 +95,18 @@ namespace Data.Repository
             : null;
 
             return response ?? new UserInfomationResponse();
+        }
+
+        public async Task<bool> Update(Users user)
+        {
+            var filter = Builders<Users>.Filter.Eq(p => p.Id, user.Id);
+            var update = Builders<Users>.Update
+                .Set(p => p.FullName, user.FullName)
+                .Set(p => p.UpdatedAt, DateTime.UtcNow);
+
+            var result = await usersCollection.UpdateOneAsync(filter, update);
+
+            return result.ModifiedCount > 0;
         }
     }
 }

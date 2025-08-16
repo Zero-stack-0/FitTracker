@@ -29,7 +29,24 @@ namespace Data.Repository
 
         public async Task<BasicFitnessPlan?> GetBasicPlanByUserId(string userId)
         {
-            return await _basicFitnessPlanCollection.Find(e => e.UserId == userId).FirstOrDefaultAsync();
+            return await _basicFitnessPlanCollection.Find(e => e.UserId == userId && e.IsActive).FirstOrDefaultAsync();
+        }
+
+        public async Task<List<BasicFitnessPlan>?> GetBasicPlanByUserIdList(string userId)
+        {
+            return await _basicFitnessPlanCollection.Find(e => e.UserId == userId && e.CreatedAt.Month == DateTime.UtcNow.Month).ToListAsync();
+        }
+
+        public async Task<bool> Delete(BasicFitnessPlan req)
+        {
+            var filter = Builders<BasicFitnessPlan>.Filter.Eq(p => p.UserId, req.UserId);
+            var update = Builders<BasicFitnessPlan>.Update
+                .Set(p => p.IsActive, false)
+                .Set(p => p.UpdatedAt, DateTime.UtcNow);
+
+            var result = await _basicFitnessPlanCollection.UpdateOneAsync(filter, update);
+
+            return result.ModifiedCount > 0;
         }
     }
 }

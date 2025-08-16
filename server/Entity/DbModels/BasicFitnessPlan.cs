@@ -28,6 +28,14 @@ namespace Entity.Models
 
         [BsonElement("mealTimingTips")]
         public List<string> MealTimingTips { get; set; }
+
+        [BsonElement("isActive")]
+        public bool IsActive { get; set; } = true;
+
+        [BsonElement("createdAt")]
+        public DateTime CreatedAt { get; set; }
+        [BsonElement("updatedAt")]
+        public DateTime? UpdatedAt { get; set; }
     }
     public class MacroTargets
     {
