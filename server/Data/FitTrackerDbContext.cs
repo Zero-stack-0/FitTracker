@@ -58,5 +58,10 @@ namespace Data
             database.GetCollection<BasicFitnessPlan>(
                 (config.Value.Collections != null ? config.Value.Collections.FirstOrDefault(c => c == "basic-fitness-plan") : null) ?? "basic-fitness-plan"
             );
+
+        public IMongoCollection<Motivation> Motivation =>
+            database.GetCollection<Motivation>(
+                (config.Value.Collections != null ? config.Value.Collections.FirstOrDefault(c => c == "motivation") : null) ?? "motivation"
+            );
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Helpers;
 using Service.Interface;
@@ -11,21 +10,20 @@ using Webservices.Auth;
 
 namespace WebService.Controller
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class FoodMacroController : ControllerBase
+    public class MotivationController : ControllerBase
     {
-        private readonly IFoodMacrosService _foodMacrosService;
+        private readonly IMotivationService _motivationService;
         private readonly UserProfile _userProfile;
-        public FoodMacroController(IFoodMacrosService foodMacrosService, UserProfile userProfile)
+        public MotivationController(IMotivationService motivationService, UserProfile userProfile)
         {
-            _foodMacrosService = foodMacrosService;
+            _motivationService = motivationService;
             _userProfile = userProfile;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetFoodMacrosByName([FromQuery] string name)
+        public async Task<IActionResult> GetMotivation()
         {
             var claimsIdentity = User.Identity as ClaimsIdentity;
             var userDetail = await _userProfile.GetUserDetail(claimsIdentity);
@@ -33,7 +31,8 @@ namespace WebService.Controller
             {
                 return Unauthorized(new ApiResponse(null, "User profile not found", StatusCodes.Status404NotFound));
             }
-            return Ok(await _foodMacrosService.GetFoodMacrosByName(name));
+
+            return Ok(await _motivationService.GetMotivation());
         }
     }
 }

@@ -24,6 +24,8 @@ builder.Services.AddScoped<IAiService, AiService>();
 builder.Services.AddScoped<IUserFoodLogService, UserFoodLogService>();
 builder.Services.AddScoped<IFoodMacrosService, FoodMacrosService>();
 builder.Services.AddScoped<IUserDietPlanService, UserDietPlanService>();
+builder.Services.AddScoped<IMotivationService, MotivationService>();
+
 #endregion
 
 #region Repository
@@ -33,6 +35,8 @@ builder.Services.AddScoped<IAiPromptRepository, AiPromptRepository>();
 builder.Services.AddScoped<IUserFoodLogRepository, UserFoodLogRepository>();
 builder.Services.AddScoped<IFitnessAndnutritionPlansRepository, FitnessAndnutritionPlansRepository>();
 builder.Services.AddScoped<IIndianFoodMacrosRepository, IndianFoodMacrosRepository>();
+builder.Services.AddScoped<IMotivationRepository, MotivationRepository>();
+
 #endregion
 
 #region Helpers

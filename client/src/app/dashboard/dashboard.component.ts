@@ -3,6 +3,7 @@ import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { UserFoodLodService } from '../services/user-food-log.service';
+import { MotivationService } from '../services/motivation.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +11,9 @@ import { UserFoodLodService } from '../services/user-food-log.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-  constructor(private userService: UserService, private authService: AuthService, private route: Router, private userFoodLog: UserFoodLodService) { }
+  constructor(private motivationService: MotivationService, private userService: UserService, private authService: AuthService, private route: Router, private userFoodLog: UserFoodLodService) { }
+  loadingTitle = "Fetching you data"
+  motivation = ''
   userData: any;
   userMacrosKPI: any
   isLoading = false
@@ -21,18 +24,18 @@ export class DashboardComponent {
   errorMessage = '';
   poptitle = '';
   ngOnInit() {
+    this.isLoading = true;
     if (!this.authService.isTokenAvailable() || !this.authService.isTokenExpired()) {
       this.openPopup('Please log in again.', 'Session Expired');
       this.route.navigate(['/login']);
+      this.isLoading = false
       return;
     }
+    this.fetchMotivation()
     this.userService.getUserProfile().subscribe({
-
       next: (response) => {
-        this.isLoading = true;
         if (response.statusCodes === 200) {
           this.userData = response.data;
-          this.isLoading = false;
           return
         }
         else {
@@ -40,16 +43,16 @@ export class DashboardComponent {
         }
       },
       error: (error) => {
+        this.isLoading = false;
         console.error('Error fetching user data:', error);
         this.route.navigate(['/login']);
       }
     });
 
     this.userFoodLog.dashboardForUser().subscribe((res) => {
-      this.isLoading = true
       if (res.statusCodes === 200) {
         this.userMacrosKPI = res.data;
-        this.isLoading = false;
+        this.isLoading = false
         return;
       }
       this.isLoading = false;
@@ -72,5 +75,12 @@ export class DashboardComponent {
 
     const percentage = (total / goal) * 100;
     return Math.min(percentage, 100);
+  }
+
+  fetchMotivation() {
+    this.motivationService.getMotivation().subscribe((res) => {
+      this.motivation = res?.data.quote
+      console.log(res.data)
+    })
   }
 }

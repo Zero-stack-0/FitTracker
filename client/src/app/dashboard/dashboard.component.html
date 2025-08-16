@@ -10,7 +10,7 @@
 
 <body>
 
-    <app-loader [loading]="isLoading"></app-loader>
+    <app-loader [loading]="isLoading" [title]="loadingTitle"></app-loader>
     <!-- Main Content -->
     <main *ngIf="!isLoading" class="main-content">
         <!-- Welcome Section -->
@@ -87,7 +87,7 @@
         <section class="motivation-section">
             <div class="motivation-card">
                 <p class="motivation-text">
-                    "Success is the sum of small efforts repeated day in and day out" ✨
+                    {{motivation}}
                 </p>
             </div>
         </section>
