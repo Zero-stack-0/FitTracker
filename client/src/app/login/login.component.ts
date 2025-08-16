@@ -10,6 +10,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  isPasswordOpen = false
   //popup properties
   isOpen = false;
   isGreen = false;

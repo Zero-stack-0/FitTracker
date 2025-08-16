@@ -3,22 +3,27 @@ using Data.response;
 using Entity;
 using Entity.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Service.Dto.Request;
 using Service.Dto.Response;
 using Service.Helpers;
 using Service.Interface;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Service
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IConfiguration _configuration;
         private readonly IUserInformationRepository _userInformationRepository;
         private readonly IFitnessAndnutritionPlansRepository _fitnessAndnutritionPlansRepository;
 
-        public UserService(IUserRepository userRepository, IUserInformationRepository userInformationRepository, IFitnessAndnutritionPlansRepository fitnessAndnutritionPlansRepository)
+        public UserService(IConfiguration configuration, IUserRepository userRepository, IUserInformationRepository userInformationRepository, IFitnessAndnutritionPlansRepository fitnessAndnutritionPlansRepository)
         {
+            _configuration = configuration;
             _userRepository = userRepository;
             _userInformationRepository = userInformationRepository;
             _fitnessAndnutritionPlansRepository = fitnessAndnutritionPlansRepository;
@@ -41,7 +46,7 @@ namespace Service
             {
                 Email = dto.Email,
                 FullName = dto.FullName,
-                Password = dto.Password,
+                Password = EncryptString(dto.Password, _configuration["AES_KEY"] ?? ""),
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
                 IsActive = true
@@ -116,7 +121,7 @@ namespace Service
                 return new ApiResponse(null, "Invalid login data", (int)HttpStatusCode.BadRequest);
             }
 
-            var user = await _userRepository.Login(request.Email, request.Password);
+            var user = await _userRepository.Login(request.Email, EncryptString(request.Password, _configuration["AES_KEY"] ?? ""));
 
             if (user == null)
             {
@@ -164,6 +169,22 @@ namespace Service
             }
 
             return new ApiResponse(userInfomationResponse, "user information");
+        }
+
+        public static string EncryptString(string plainText, string key)
+        {
+            using var aes = Aes.Create();
+            var keyBytes = Encoding.UTF8.GetBytes(key.PadRight(32).Substring(0, 32));
+            aes.Key = keyBytes;
+            aes.IV = new byte[16]; // All zeros (not secure)
+            using var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+            using var ms = new MemoryStream();
+            using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+            using (var sw = new StreamWriter(cs))
+            {
+                sw.Write(plainText);
+            }
+            return Convert.ToBase64String(ms.ToArray());
         }
     }
 }

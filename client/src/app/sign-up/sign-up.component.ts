@@ -16,6 +16,7 @@ export class SignUpComponent {
   constructor(private userService: UserService, private route: Router, private auth: AuthService) { }
 
   //popup properties
+  isPasswordOpen = false
   isOpen = false;
   isGreen = false;
   errorMessage = '';

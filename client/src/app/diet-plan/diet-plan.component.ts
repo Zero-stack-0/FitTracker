@@ -9,6 +9,7 @@ import { UserDietPlanService } from '../services/user-diet-plan.service';
 export class DietPlanComponent implements OnInit {
   userDietPlan: any
   isLoading = false
+  loaderTitle = "Creating your personalized diet plan. Please wait..."
   constructor(private userDietPlanService: UserDietPlanService) { }
 
   ngOnInit(): void {

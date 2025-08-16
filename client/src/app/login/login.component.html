@@ -34,8 +34,14 @@
                     <label for="password" class="form-label">Password</label>
                     <div class="input-wrapper">
                         <span class="input-icon">🔒</span>
-                        <input formControlName="password" type="password" id="password" name="password"
-                            class="form-input" placeholder="Your secure password" required />
+
+                        <input formControlName="password" [type]="isPasswordOpen ? 'text' : 'password'" id="password"
+                            name="password" class="form-input" placeholder="Your secure password" required />
+
+                        <!-- Eye Icon to toggle password -->
+                        <span class="toggle-password" (click)="isPasswordOpen = !isPasswordOpen">
+                            <i class="fas" [ngClass]="isPasswordOpen ? 'fa-eye-slash' : 'fa-eye'"></i>
+                        </span>
                     </div>
                 </div>
 

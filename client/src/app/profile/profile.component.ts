@@ -16,6 +16,7 @@ import { UserDietPlanService } from '../services/user-diet-plan.service';
 export class ProfileComponent implements OnInit {
   constructor(private userService: UserService, private userDietPlan: UserDietPlanService) { }
   limitReachedToUpdateDietPlan = false
+  loaderTitle = ""
   //popup
   isOpen = false;
   isGreen = true;
@@ -75,8 +76,9 @@ export class ProfileComponent implements OnInit {
   }
 
   fetchUserProfile() {
+    this.isLoading = true
+    this.loaderTitle = "Getting your profile"
     this.userService.userInformation().subscribe((res) => {
-      this.isLoading = true
       this.user = res.data;
       this.profileForm.patchValue({
         email: this.user?.email || '',
@@ -104,6 +106,7 @@ export class ProfileComponent implements OnInit {
         || !(this.profileForm.value['fitnessGoal'] == this.user?.userInformation?.fitnessGoal) || !(this.profileForm.value['dietType'] == this.user?.userInformation?.dietType)
       ) {
         this.goalUpdatePopUp = true;
+        this.loaderTitle = "Creating your personalized diet plan. Please wait..."
         return
       }
     }
@@ -111,6 +114,7 @@ export class ProfileComponent implements OnInit {
     if (this.user?.fullName !== this.profileForm.value['fullName'] || this.user?.userInformation?.age !== this.profileForm.value['age']
       || this.user?.userInformation?.height !== this.profileForm.value['height']) {
       this.updateProfileChanges();
+      this.loaderTitle = "Updating your profile"
       return;
     }
 

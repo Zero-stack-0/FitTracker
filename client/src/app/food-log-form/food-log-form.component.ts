@@ -108,6 +108,7 @@ export class FoodLogFormComponent implements OnInit {
       this.isQuantityInvalid = false;
     }
     this.quantity = quan;
+
   }
 
   onAddFoodToLog() {

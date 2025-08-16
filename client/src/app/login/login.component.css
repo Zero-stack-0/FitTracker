@@ -5,6 +5,31 @@
     box-sizing: border-box;
 }
 
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 10px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #999;
+}
+
+.form-input {
+    width: 100%;
+    padding: 8px 36px 8px 36px;
+    /* Add padding for icons */
+    box-sizing: border-box;
+}
+
 .login-body {
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
