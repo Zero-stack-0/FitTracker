@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserFoodLodService {
-  private API_URL = 'http://localhost:5074/api';
+  private API_URL = 'https://fittracker-kx3r.onrender.com/api';
   constructor(private http: HttpClient) { }
 
   addFoodToLog(food: any): Observable<any> {

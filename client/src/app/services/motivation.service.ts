@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MotivationService {
-  private API_URL = "http://localhost:5074/api/Motivation"
+  private API_URL = "https://fittracker-kx3r.onrender.com/api/Motivation"
   constructor(private http: HttpClient) { }
 
   getMotivation(): Observable<any> {

@@ -42,7 +42,7 @@ namespace Service
             {
                 return new ApiResponse(null, "Email already exists", StatusCodes.Status400BadRequest);
             }
-            Console.WriteLine($"AES_KEY: {_configuration["AES_KEY"] ?? "NOT FOUND"}");
+
             var user = new Users
             {
                 Email = dto.Email,
