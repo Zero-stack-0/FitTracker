@@ -31,6 +31,7 @@ namespace Service
 
         public async Task<ApiResponse> CreateUser(CreateUserRequest dto)
         {
+            Console.Write(_configuration["AES_KEY"] ?? "");
             if (dto is null)
             {
                 return new ApiResponse(null, "Invalid request", (int)HttpStatusCode.BadRequest);
@@ -41,7 +42,7 @@ namespace Service
             {
                 return new ApiResponse(null, "Email already exists", StatusCodes.Status400BadRequest);
             }
-
+            Console.WriteLine($"AES_KEY: {_configuration["AES_KEY"] ?? "NOT FOUND"}");
             var user = new Users
             {
                 Email = dto.Email,
