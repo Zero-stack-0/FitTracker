@@ -25,25 +25,25 @@ namespace WebService.Controller
             _userProfile = userProfile;
         }
 
-        [HttpPost("generate-fitness-and-nutrition-plan")]
-        public async Task<IActionResult> GenerateFitnessPlan([FromBody] GenerateFitnessPlanRequest request)
-        {
-            var claimsIdentity = User.Identity as ClaimsIdentity;
-            var userDetail = await _userProfile.GetUserDetail(claimsIdentity);
-            if (userDetail is null)
-            {
-                return Unauthorized(new ApiResponse(null, "User profile not found", StatusCodes.Status404NotFound));
-            }
+        // [HttpPost("generate-fitness-and-nutrition-plan")]
+        // public async Task<IActionResult> GenerateFitnessPlan([FromBody] GenerateFitnessPlanRequest request)
+        // {
+        //     var claimsIdentity = User.Identity as ClaimsIdentity;
+        //     var userDetail = await _userProfile.GetUserDetail(claimsIdentity);
+        //     if (userDetail is null)
+        //     {
+        //         return Unauthorized(new ApiResponse(null, "User profile not found", StatusCodes.Status404NotFound));
+        //     }
 
-            request.UserId = userDetail.Id;
-            var response = await _aiService.GenerateFitnessPlan(request);
-            if (response.Data is not null)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
+        //     request.UserId = userDetail.Id;
+        //     var response = await _aiService.GenerateFitnessPlan(request);
+        //     if (response.Data is not null)
+        //     {
+        //         return Ok(response);
+        //     }
+        //     return BadRequest(response);
 
-        }
+        // }
 
         [HttpPost("basic-fitness-plan")]
         public async Task<IActionResult> GenerateBasicFitnessPlan()

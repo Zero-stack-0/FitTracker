@@ -94,15 +94,14 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseCors("AllowAllOrigins");
-    app.UseAuthentication();
-    app.UseAuthorization();
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    app.MapControllers();
-}
+
+app.UseCors("AllowAllOrigins");
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseSwagger();
+app.UseSwaggerUI();
+app.MapControllers();
+
 app.UseIpRateLimiting();
 app.UseHttpsRedirection();
 // var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
