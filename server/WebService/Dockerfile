@@ -9,7 +9,7 @@ COPY HealthiFy.sln .
 COPY Entity/Entity.csproj Entity/
 COPY Data/Data.csproj Data/
 COPY Service/Service.csproj Service/
-COPY WebService/WebService.csproj WebService/
+COPY WebService.csproj WebService/
 
 # Restore dependencies
 RUN dotnet restore HealthiFy.sln
