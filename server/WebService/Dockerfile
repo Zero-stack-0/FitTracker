@@ -5,13 +5,13 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copy solution file
-COPY ../../HealthiFy.sln ./
+COPY HealthiFy.sln
 
 # Copy project files
-COPY ../../server/Entity/Entity.csproj Entity/
-COPY ../../server/Data/Data.csproj Data/
-COPY ../../server/Service/Service.csproj Service/
-COPY ../../server/WebService/WebService.csproj WebService/
+COPY ../../Entity/Entity.csproj Entity/
+COPY ../../Data/Data.csproj Data/
+COPY ../../Service/Service.csproj Service/
+COPY ../../WebService/WebService.csproj WebService/
 
 # Restore dependencies
 RUN dotnet restore HealthiFy.sln
@@ -20,7 +20,7 @@ RUN dotnet restore HealthiFy.sln
 COPY ../../ ./
 
 # Build and publish
-RUN dotnet publish server/WebService/WebService.csproj -c Release -o /app/publish
+RUN dotnet publish WebService/WebService.csproj -c Release -o /app/publish
 
 # ----------------------------
 # STEP 2: Run the application
