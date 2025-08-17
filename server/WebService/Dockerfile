@@ -4,14 +4,14 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy everything from server/ (since Build Context = server)
+# Copy everything from the build context (server/)
 COPY . .
 
 # Restore dependencies
-RUN dotnet restore "WebService/WebService.csproj"
+RUN dotnet restore ./WebService/WebService.csproj
 
 # Build and publish release
-RUN dotnet publish "WebService/WebService.csproj" -c Release -o /app/publish
+RUN dotnet publish ./WebService/WebService.csproj -c Release -o /app/publish
 
 # ============================
 # Runtime stage
