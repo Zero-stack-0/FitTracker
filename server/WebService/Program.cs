@@ -84,6 +84,7 @@ if (builder.Environment.IsDevelopment())
 {
     builder.Configuration.AddUserSecrets<Program>();
 }
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins",
@@ -93,13 +94,22 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
-
-
+// CORS first
 app.UseCors("AllowAllOrigins");
+
+// Enable Swagger BEFORE auth
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "FitTracker API v1");
+    c.RoutePrefix = "swagger"; // default anyway
+});
+
+
+
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseSwagger();
-app.UseSwaggerUI();
+
 app.MapControllers();
 
 app.UseIpRateLimiting();
