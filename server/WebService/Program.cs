@@ -96,24 +96,27 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 // CORS first
 app.UseCors("AllowAllOrigins");
-
-// Enable Swagger BEFORE auth
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "FitTracker API v1");
-    c.RoutePrefix = "swagger"; // default anyway
+    c.RoutePrefix = "swagger";
 });
-
-
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
+// Add a root health check
+app.MapGet("/", () => "✅ FitTracker WebService is running");
+
 app.UseIpRateLimiting();
 app.UseHttpsRedirection();
-// var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-// app.Urls.Add($"http://*:{port}");
+
+// Bind to Render’s PORT
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+app.Urls.Add($"http://*:{port}");
+
+app.Run();
 app.Run();
