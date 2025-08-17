@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserDietPlanService {
-  private API_URL = "http://localhost:5074/api/UserDietPlan"
+  private API_URL = "https://fittracker-kx3r.onrender.com/api/UserDietPlan"
   constructor(private http: HttpClient) { }
 
   getUserDietPlan(): Observable<any> {
