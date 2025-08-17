@@ -6,6 +6,7 @@ import { Gender } from '../models/gender';
 import { ActivityLevel } from '../models/activity-level';
 import { DietType, FitnessGoal } from '../models/fitness-goal';
 import { AuthService } from '../services/auth.service';
+import { debounceTime, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,6 +16,7 @@ import { AuthService } from '../services/auth.service';
 export class SignUpComponent {
   constructor(private userService: UserService, private route: Router, private auth: AuthService) { }
 
+  isEmailValid = true
   //popup properties
   isPasswordOpen = false
   isOpen = false;
@@ -137,12 +139,29 @@ export class SignUpComponent {
   });
 
   ngOnInit() {
-
+    this.signUpForm.get('email')?.valueChanges
+      .pipe(debounceTime(500))
+      .subscribe((value: string | null) => {
+        this.userService.isEmailValid(value ?? "").subscribe((res) => {
+          if (res?.statusCodes === 200) {
+            this.isEmailValid = res?.data
+            return
+          }
+          else {
+            return
+          }
+        })
+      });
   }
   onSubmit() {
     if (this.signUpForm.invalid) {
       this.signUpForm.markAllAsTouched();
       return;
+    }
+
+    if (!this.isEmailValid) {
+      this.openPopup("please enter valid email", "please enter valid email", false)
+      return
     }
 
     this.userService.signUp(this.signUpForm.value).subscribe({
@@ -152,17 +171,20 @@ export class SignUpComponent {
           this.route.navigate(['/dashboard']);
         }
         else {
-          this.openPopup(response.message || 'Sign up failed. Please try again', 'Sign Up Error');
+          this.openPopup(response.message || 'Sign up failed. Please try again', 'Sign Up Error', false);
         }
       },
       error: (error) => {
-        this.openPopup(error.message || 'An error occurred during sign up', 'Sign Up Error');
+        this.openPopup(error.message || 'An error occurred during sign up', 'Sign Up Error', false);
       }
     });
   }
-  openPopup(message: string, title: string) {
+
+
+
+  openPopup(message: string, title: string, isGreen: boolean) {
     this.isOpen = true;
-    this.isGreen = true;
+    this.isGreen = isGreen;
     this.errorMessage = message;
     this.poptitle = title;
   }

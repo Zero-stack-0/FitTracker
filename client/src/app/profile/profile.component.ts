@@ -161,6 +161,23 @@ export class ProfileComponent implements OnInit {
 
   }
 
+  reSendVerificationLink() {
+    this.isLoading = true;
+    this.loaderTitle = "Sending email...."
+    this.userService.reSendEmailVerification().subscribe((res) => {
+      if (res?.statusCodes === 200) {
+        this.openPopup(res?.message, res?.message, true);
+        this.isLoading = false;
+        return
+      } else {
+        this.openPopup(res?.message, res?.message, false);
+        this.isLoading = false;
+        return
+      }
+
+    })
+  }
+
   closePopup() {
     this.isOpen = false;
   }

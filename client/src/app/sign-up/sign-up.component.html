@@ -61,9 +61,10 @@
                                 <span class="input-icon">📧</span>
                                 <input formControlName="email" type="email" id="email" class="form-input"
                                     placeholder="your@email.com" required />
-                                <div *ngIf="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched"
+                                <div *ngIf="!isEmailValid || signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched"
                                     class="error">
-                                    <small *ngIf="signUpForm.get('email')?.errors">enter valid email</small>
+                                    <small *ngIf="!isEmailValid || signUpForm.get('email')?.errors">please enter valid
+                                        email</small>
                                 </div>
                             </div>
                         </div>

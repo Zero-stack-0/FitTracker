@@ -38,6 +38,7 @@ builder.Services.AddScoped<IFitnessAndnutritionPlansRepository, FitnessAndnutrit
 builder.Services.AddScoped<IIndianFoodMacrosRepository, IndianFoodMacrosRepository>();
 builder.Services.AddScoped<IMotivationRepository, MotivationRepository>();
 builder.Services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
+builder.Services.AddScoped<IEmailLoggerRepository, EmailLoggerRepository>();
 
 #endregion
 

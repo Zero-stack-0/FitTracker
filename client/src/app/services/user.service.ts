@@ -30,5 +30,13 @@ export class UserService {
   userInformation(): Observable<any> {
     return this.http.get<any>(`${this.API_URL}/user-information`);
   }
+
+  reSendEmailVerification(): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}/sent-email-verification`);
+  }
+
+  isEmailValid(email: string): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}/is-email-valid?email=${email}`);
+  }
   //user-information
 }

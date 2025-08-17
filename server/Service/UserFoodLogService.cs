@@ -16,11 +16,13 @@ namespace Service
 {
     public class UserFoodLogService : IUserFoodLogService
     {
+        private readonly IUserRepository _userRepository;
         private readonly IUserFoodLogRepository _userFoodLogRepository;
         private readonly IIndianFoodMacrosRepository _indianFoodMacrosRepository;
         private readonly IFitnessAndnutritionPlansRepository _fitnessAndnutritionPlansRepository;
-        public UserFoodLogService(IFitnessAndnutritionPlansRepository fitnessAndnutritionPlansRepository, IUserFoodLogRepository userFoodLogRepository, IIndianFoodMacrosRepository indianFoodMacrosRepository)
+        public UserFoodLogService(IUserRepository userRepository, IFitnessAndnutritionPlansRepository fitnessAndnutritionPlansRepository, IUserFoodLogRepository userFoodLogRepository, IIndianFoodMacrosRepository indianFoodMacrosRepository)
         {
+            _userRepository = userRepository;
             _userFoodLogRepository = userFoodLogRepository;
             _indianFoodMacrosRepository = indianFoodMacrosRepository;
             _fitnessAndnutritionPlansRepository = fitnessAndnutritionPlansRepository;
@@ -31,6 +33,17 @@ namespace Service
             if (string.IsNullOrWhiteSpace(req.UserId))
             {
                 return new ApiResponse(null, "Invalid requestor id", StatusCodes.Status403Forbidden);
+            }
+
+            var user = await _userRepository.GetById(req.UserId);
+            if (user is null)
+            {
+                return new ApiResponse(null, "Invalid requestor id", StatusCodes.Status403Forbidden);
+            }
+
+            if (!user.IsEmailVerified)
+            {
+                return new ApiResponse(null, "Please verify your email", StatusCodes.Status400BadRequest);
             }
 
             var foodToLog = await _indianFoodMacrosRepository.GetById(req.FoodId);
@@ -80,6 +93,16 @@ namespace Service
             {
                 return new ApiResponse(null, "Invalid requestor id", StatusCodes.Status403Forbidden);
             }
+            var user = await _userRepository.GetById(userId);
+            if (user is null)
+            {
+                return new ApiResponse(null, "Invalid requestor id", StatusCodes.Status403Forbidden);
+            }
+
+            if (!user.IsEmailVerified)
+            {
+                return new ApiResponse(null, "Please verify your email", StatusCodes.Status400BadRequest);
+            }
             return new ApiResponse(await _userFoodLogRepository.GetRecentFoodLogEntriesAsync(userId), "Recent fool log entries");
         }
         private CalculatedMaros CalculateMacros(IndianFoodMacros macrosPer100g, double gramsInput)
@@ -102,6 +125,17 @@ namespace Service
                 return new ApiResponse(null, "Invalid requestor id", StatusCodes.Status403Forbidden);
             }
 
+            var user = await _userRepository.GetById(userId);
+            if (user is null)
+            {
+                return new ApiResponse(null, "Invalid requestor id", StatusCodes.Status403Forbidden);
+            }
+
+            if (!user.IsEmailVerified)
+            {
+                return new ApiResponse(null, "Please verify your email", StatusCodes.Status400BadRequest);
+            }
+
             var (start, end) = GetWeekRange(weekOffset);
 
             var foodHistoryByWeek = await _userFoodLogRepository.GetFoodLogEntriesByStartAndEndDate(userId, start, end);
@@ -114,6 +148,17 @@ namespace Service
             if (string.IsNullOrWhiteSpace(userId))
             {
                 return new ApiResponse(null, "Invalid requestor id", StatusCodes.Status403Forbidden);
+            }
+
+            var user = await _userRepository.GetById(userId);
+            if (user is null)
+            {
+                return new ApiResponse(null, "Invalid requestor id", StatusCodes.Status403Forbidden);
+            }
+
+            if (!user.IsEmailVerified)
+            {
+                return new ApiResponse(null, "Please verify your email", StatusCodes.Status400BadRequest);
             }
 
             var dashboard = await _userFoodLogRepository.GetFoodLogEntriesForToday(userId);

@@ -16,18 +16,20 @@ namespace Service
 {
     public class AiService : IAiService
     {
+        private readonly IUserRepository _userRepository;
         private readonly IAiPromptRepository _aiPromptRepository;
         private readonly IUserInformationRepository _userInformationRepository;
         private readonly IFitnessAndnutritionPlansRepository _fitnessAndnutritionPlansRepository;
         private readonly IConfiguration _configuration;
         private readonly static HttpClient client = new HttpClient();
 
-        public AiService(IConfiguration configuration, IAiPromptRepository aiPromptRepository, IUserInformationRepository userInformationRepository, IFitnessAndnutritionPlansRepository fitnessAndnutritionPlansRepository)
+        public AiService(IConfiguration configuration, IUserRepository userRepository, IAiPromptRepository aiPromptRepository, IUserInformationRepository userInformationRepository, IFitnessAndnutritionPlansRepository fitnessAndnutritionPlansRepository)
         {
             _aiPromptRepository = aiPromptRepository;
             _userInformationRepository = userInformationRepository;
             _fitnessAndnutritionPlansRepository = fitnessAndnutritionPlansRepository;
             _configuration = configuration;
+            _userRepository = userRepository;
         }
         public async Task<ApiResponse> GenerateFitnessPlan(GenerateFitnessPlanRequest req)
         {
@@ -93,6 +95,17 @@ namespace Service
                 if (user is null)
                 {
                     return new ApiResponse(null, "Invalid userid", StatusCodes.Status400BadRequest);
+                }
+
+                var userV1 = await _userRepository.GetById(user.UserId);
+                if (userV1 is null)
+                {
+                    return new ApiResponse(null, "Invalid user", StatusCodes.Status400BadRequest);
+                }
+
+                if (!userV1.IsEmailVerified)
+                {
+                    return new ApiResponse(null, "Please verify your email to generate diet plan", StatusCodes.Status400BadRequest);
                 }
 
                 var hasUserAlreadyGeneratedBasicPlan = await _fitnessAndnutritionPlansRepository.GetBasicPlanByUserId(user.Id);

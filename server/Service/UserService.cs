@@ -1,6 +1,7 @@
 using Data.Repository.Interface;
 using Data.response;
 using Entity;
+using Entity.DbModels;
 using Entity.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +13,7 @@ using Service.Interface;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using static Entity.Enums;
 
 namespace Service
@@ -24,18 +26,32 @@ namespace Service
         private readonly IFitnessAndnutritionPlansRepository _fitnessAndnutritionPlansRepository;
         private readonly IEmailTemplateRepository _emailTemplateRepository;
         private readonly SendEmailNotificationService sendEmailNotificationService;
+        private readonly IEmailLoggerRepository _emailLoggerRepository;
+        private static readonly Regex AllowedEmailRegex = new Regex(
+    @"^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com|hotmail\.com|live\.com|icloud\.com|aol\.com|protonmail\.com|zoho\.com|mail\.com)$",
+    RegexOptions.IgnoreCase | RegexOptions.Compiled
+
+);
 
         public UserService(IConfiguration configuration, IUserRepository userRepository, IUserInformationRepository userInformationRepository,
-        IFitnessAndnutritionPlansRepository fitnessAndnutritionPlansRepository, IEmailTemplateRepository emailTemplateRepository, SendEmailNotificationService sendEmailNotificationService)
+        IFitnessAndnutritionPlansRepository fitnessAndnutritionPlansRepository, IEmailTemplateRepository emailTemplateRepository, SendEmailNotificationService sendEmailNotificationService,
+        IEmailLoggerRepository emailLoggerRepository)
         {
             _configuration = configuration;
             _userRepository = userRepository;
             _userInformationRepository = userInformationRepository;
             _fitnessAndnutritionPlansRepository = fitnessAndnutritionPlansRepository;
             _emailTemplateRepository = emailTemplateRepository;
+            _emailLoggerRepository = emailLoggerRepository;
             this.sendEmailNotificationService = sendEmailNotificationService;
         }
 
+        #region Api Methods
+
+        public ApiResponse IsEmailValid(string email)
+        {
+            return new ApiResponse(IsValidEmail(email));
+        }
         public async Task<ApiResponse> CreateUser(CreateUserRequest dto)
         {
             if (dto is null || string.IsNullOrWhiteSpace(_configuration["AppSettings:BaseUrl"]))
@@ -47,6 +63,11 @@ namespace Service
             if (getUserByEmail is not null)
             {
                 return new ApiResponse(null, "Email already exists", StatusCodes.Status400BadRequest);
+            }
+
+            if (!IsValidEmail(dto.Email))
+            {
+                return new ApiResponse(null, "Please enter valid domain", StatusCodes.Status400BadRequest);
             }
 
             var user = new Users
@@ -97,9 +118,19 @@ namespace Service
 
             var (emailBody, emailSubject) = await GetEmailTemplateSubjectAndBody(EMAIL_TEMPLATE_TYPE.Verification, user);
 
-            user.IsEmailVerificationEmailSent = sendEmailNotificationService.SendEmail(user.Email, user.FullName, emailSubject, emailBody);
+            bool isEmailSent = sendEmailNotificationService.SendEmail(user.Email, user.FullName, emailSubject, emailBody);
 
-            await _userRepository.UpdateIsEmailSentFlag(user);
+            var emilLogger = new EmailLogger
+            {
+                UserId = user.Id,
+                EmailTemplateType = EMAIL_TEMPLATE_TYPE.Verification,
+                CreatedAt = DateTime.UtcNow,
+                IsEmailSent = isEmailSent
+            };
+            await _emailLoggerRepository.Create(emilLogger);
+
+            if (isEmailSent)
+                await _userRepository.UpdateIsEmailSentFlag(user);
 
             return new ApiResponse(response, "User created successfully", (int)HttpStatusCode.Created);
         }
@@ -174,7 +205,8 @@ namespace Service
                 userInformation = userInformation,
                 UserId = user.Id,
                 email = user.Email,
-                fullName = user.FullName
+                fullName = user.FullName,
+                IsEmailVerified = user.IsEmailVerified
             };
 
             var basicDietPlan = await _fitnessAndnutritionPlansRepository.GetBasicPlanByUserId(user.Id);
@@ -207,6 +239,46 @@ namespace Service
             return new ApiResponse(null, "User verified sucessfully", StatusCodes.Status200OK);
         }
 
+        public async Task<ApiResponse> SentEmailVerificationLink(string userId)
+        {
+            var user = await _userRepository.GetById(userId);
+            if (user is null)
+            {
+                return new ApiResponse(null, "Invalid requestor", StatusCodes.Status400BadRequest);
+            }
+
+            if (user.IsEmailVerified)
+            {
+                return new ApiResponse(null, "User's email already verified", StatusCodes.Status400BadRequest);
+            }
+
+            var emailSentTodayForVerification = await _emailLoggerRepository.GetByUserIdAndType(user.Id, EMAIL_TEMPLATE_TYPE.Verification);
+            if (emailSentTodayForVerification.Count > 3)
+            {
+                return new ApiResponse(null, "You have already re-sent the email verification 3 times. Please try again tomorrow.", StatusCodes.Status400BadRequest);
+            }
+
+            var (emailBody, emailSubject) = await GetEmailTemplateSubjectAndBody(EMAIL_TEMPLATE_TYPE.Verification, user);
+
+            bool isEmailSent = sendEmailNotificationService.SendEmail(user.Email, user.FullName, emailSubject, emailBody);
+
+            var emilLogger = new EmailLogger
+            {
+                UserId = user.Id,
+                EmailTemplateType = EMAIL_TEMPLATE_TYPE.Verification,
+                CreatedAt = DateTime.UtcNow,
+                IsEmailSent = isEmailSent
+            };
+            await _emailLoggerRepository.Create(emilLogger);
+
+            if (!user.IsEmailVerificationEmailSent && isEmailSent)
+                await _userRepository.UpdateIsEmailSentFlag(user);
+
+            return new ApiResponse(null, "Email verification sent sucessfully");
+        }
+        #endregion
+
+        #region Private Methods
         private static string EncryptString(string plainText, string key)
         {
             using var aes = Aes.Create();
@@ -264,5 +336,16 @@ namespace Service
 
             return emailBody;
         }
+
+
+
+        public static bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            return AllowedEmailRegex.IsMatch(email);
+        }
+        #endregion
     }
 }

@@ -141,7 +141,7 @@ export class FoodLogFormComponent implements OnInit {
         this.fetchRecentFoodLogs()
 
       } else {
-        this.openPopup(response.message, "Error occured while calling api", false)
+        this.openPopup(response.message, response.message, false)
       }
     });
   }

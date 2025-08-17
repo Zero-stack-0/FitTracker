@@ -10,7 +10,8 @@
 
 <body>
 
-
+    <app-popup [isOpen]="isOpen" [description]="errorMessage" [title]="poptitle" [isGreen]="isGreen"
+        (close)="closePopup()"></app-popup>
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
