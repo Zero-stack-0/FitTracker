@@ -7,11 +7,8 @@ WORKDIR /src
 # Copy everything from repo root (since Build Context = repo root)
 COPY . .
 
-# Restore using the WebService project
-RUN dotnet restore server/WebService/WebService.csproj
-
-# Build and publish release
-RUN dotnet publish server/WebService/WebService.csproj -c Release -o /app/publish
+RUN dotnet restore ./server/WebService/WebService.csproj
+RUN dotnet publish ./server/WebService/WebService.csproj -c Release -o /app/publish
 
 # ============================
 # Runtime stage
