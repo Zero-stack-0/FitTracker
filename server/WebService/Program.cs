@@ -91,10 +91,10 @@ if (builder.Environment.IsDevelopment())
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowRender",
+    options.AddPolicy("AllowVercel",
         policy =>
         {
-            policy.WithOrigins("https://fittracker-kx3r.onrender.com")
+            policy.WithOrigins("https://fit-tracker-mocha-chi.vercel.app")
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
@@ -102,7 +102,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 // CORS first
-app.UseCors("AllowRender");
+app.UseCors("AllowVercel");
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
