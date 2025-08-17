@@ -9,7 +9,6 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FoodLogComponent } from './food-log/food-log.component';
 import { ProfileComponent } from './profile/profile.component';
-import { ProgressComponent } from './progress/progress.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -29,7 +28,6 @@ import { FoodLogHistoryComponent } from './food-log-history/food-log-history.com
     DashboardComponent,
     FoodLogComponent,
     ProfileComponent,
-    ProgressComponent,
     PopupComponent,
     FitnessPlanComponent,
     FoodLogFormComponent,
