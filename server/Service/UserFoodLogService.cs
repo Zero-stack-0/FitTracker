@@ -134,10 +134,9 @@ namespace Service
                 daysSinceMonday += 7;
 
             DateTime weekStart = today.AddDays(-daysSinceMonday);
-
             weekStart = weekStart.AddDays(offset * 7);
 
-            DateTime weekEnd = weekStart.AddDays(6);
+            DateTime weekEnd = weekStart.AddDays(6).AddDays(1).AddTicks(-1);
 
             return (weekStart, weekEnd);
         }

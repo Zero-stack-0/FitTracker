@@ -7,10 +7,12 @@ using Microsoft.Extensions.Configuration;
 using Service.Dto.Request;
 using Service.Dto.Response;
 using Service.Helpers;
+using Service.Helpers.EmailNotification;
 using Service.Interface;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using static Entity.Enums;
 
 namespace Service
 {
@@ -20,19 +22,23 @@ namespace Service
         private readonly IConfiguration _configuration;
         private readonly IUserInformationRepository _userInformationRepository;
         private readonly IFitnessAndnutritionPlansRepository _fitnessAndnutritionPlansRepository;
+        private readonly IEmailTemplateRepository _emailTemplateRepository;
+        private readonly SendEmailNotificationService sendEmailNotificationService;
 
-        public UserService(IConfiguration configuration, IUserRepository userRepository, IUserInformationRepository userInformationRepository, IFitnessAndnutritionPlansRepository fitnessAndnutritionPlansRepository)
+        public UserService(IConfiguration configuration, IUserRepository userRepository, IUserInformationRepository userInformationRepository,
+        IFitnessAndnutritionPlansRepository fitnessAndnutritionPlansRepository, IEmailTemplateRepository emailTemplateRepository, SendEmailNotificationService sendEmailNotificationService)
         {
             _configuration = configuration;
             _userRepository = userRepository;
             _userInformationRepository = userInformationRepository;
             _fitnessAndnutritionPlansRepository = fitnessAndnutritionPlansRepository;
+            _emailTemplateRepository = emailTemplateRepository;
+            this.sendEmailNotificationService = sendEmailNotificationService;
         }
 
         public async Task<ApiResponse> CreateUser(CreateUserRequest dto)
         {
-            Console.Write(_configuration["AES_KEY"] ?? "");
-            if (dto is null)
+            if (dto is null || string.IsNullOrWhiteSpace(_configuration["AppSettings:BaseUrl"]))
             {
                 return new ApiResponse(null, "Invalid request", (int)HttpStatusCode.BadRequest);
             }
@@ -50,7 +56,9 @@ namespace Service
                 Password = EncryptString(dto.Password, _configuration["AES_KEY"] ?? ""),
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
-                IsActive = true
+                IsActive = true,
+                IsEmailVerified = false,
+                EmailVerificationCode = GenerateVerificationCode()
             };
 
             var createdUser = await _userRepository.Create(user);
@@ -86,6 +94,12 @@ namespace Service
                 Email = createdUser.Email,
                 Role = ((Enums.UserRole)createdUser.Role).ToString()
             };
+
+            var (emailBody, emailSubject) = await GetEmailTemplateSubjectAndBody(EMAIL_TEMPLATE_TYPE.Verification, user);
+
+            user.IsEmailVerificationEmailSent = sendEmailNotificationService.SendEmail(user.Email, user.FullName, emailSubject, emailBody);
+
+            await _userRepository.UpdateIsEmailSentFlag(user);
 
             return new ApiResponse(response, "User created successfully", (int)HttpStatusCode.Created);
         }
@@ -172,7 +186,28 @@ namespace Service
             return new ApiResponse(userInfomationResponse, "user information");
         }
 
-        public static string EncryptString(string plainText, string key)
+        public async Task<ApiResponse> VerifyEmail(string code)
+        {
+            var getUserByCode = await _userRepository.GetByVerificationCode(code);
+            if (getUserByCode is null)
+            {
+                return new ApiResponse(null, "Invalid verification code", StatusCodes.Status400BadRequest);
+            }
+
+            if (getUserByCode.IsEmailVerified)
+            {
+                return new ApiResponse(null, "Email is already verified");
+            }
+
+            getUserByCode.IsEmailVerified = true;
+            getUserByCode.EmailVerifiedAt = DateTime.UtcNow;
+
+            await _userRepository.UpdateEmailVerification(getUserByCode);
+
+            return new ApiResponse(null, "User verified sucessfully", StatusCodes.Status200OK);
+        }
+
+        private static string EncryptString(string plainText, string key)
         {
             using var aes = Aes.Create();
             var keyBytes = Encoding.UTF8.GetBytes(key.PadRight(32).Substring(0, 32));
@@ -186,6 +221,48 @@ namespace Service
                 sw.Write(plainText);
             }
             return Convert.ToBase64String(ms.ToArray());
+        }
+
+        private static string GenerateVerificationCode()
+        {
+            string guidPart = Guid.NewGuid().ToString("N");
+            long ticksPart = DateTime.UtcNow.Ticks;
+            Random random = new Random();
+            int randomPart = random.Next(1000, 9999);
+
+            string uniqueString = $"{guidPart}_{ticksPart}_{randomPart}";
+
+            return uniqueString;
+        }
+
+        private async Task<(string, string)> GetEmailTemplateSubjectAndBody(EMAIL_TEMPLATE_TYPE type, Users user)
+        {
+            var emailTemplate = await _emailTemplateRepository.GetByType(type);
+            if (emailTemplate is null)
+            {
+                return (string.Empty, string.Empty);
+            }
+
+            string verifyUrl = $"{_configuration["AppSettings:BaseUrl"]}/api/User/verify-email?code={user.EmailVerificationCode}";
+            var body = ReplaceEmailContentForVerification(emailTemplate.Body, user.FullName, verifyUrl);
+
+            return (body, emailTemplate.Subject);
+        }
+
+        private string ReplaceEmailContentForVerification(string bodyVerify, string fullName, string verificationUrl)
+        {
+            if (string.IsNullOrEmpty(bodyVerify))
+                return string.Empty;
+
+            string unescapedBody = System.Text.RegularExpressions.Regex.Unescape(bodyVerify);
+
+            string cleanUrl = verificationUrl?.Trim('"', ' ');
+
+            string emailBody = unescapedBody
+                .Replace("{{UserName}}", fullName ?? string.Empty)
+                .Replace("{{VerificationLink}}", cleanUrl ?? string.Empty);
+
+            return emailBody;
         }
     }
 }

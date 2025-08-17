@@ -24,6 +24,13 @@ namespace WebService.Controller
             _userProfile = userProfile;
         }
 
+        [HttpGet("verify-email")]
+        public async Task<IActionResult> VerifyEmail([FromQuery] string code)
+        {
+            var response = await _userService.VerifyEmail(code);
+            return Ok(response);
+        }
+
         [HttpPost("create")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
         {

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  private API_URL = 'https://fittracker-kx3r.onrender.com/api/User';
+  private API_URL = 'http://localhost:5074/api/User';
   constructor(private http: HttpClient) { }
 
   signUp(user: any): Observable<any> {

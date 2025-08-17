@@ -11,5 +11,8 @@ namespace Data.Repository.Interface
         Task<UserInfomationResponse> GetUserInformation(string email);
         Task<Users?> GetById(string id);
         Task<bool> Update(Users user);
+        Task<Users?> GetByVerificationCode(string code);
+        Task<bool> UpdateEmailVerification(Users user);
+        Task<bool> UpdateIsEmailSentFlag(Users user);
     }
 }

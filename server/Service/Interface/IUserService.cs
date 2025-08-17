@@ -9,5 +9,6 @@ namespace Service.Interface
         Task<ApiResponse> GetByEmail(string email);
         Task<ApiResponse> Login(LoginRequest request);
         Task<ApiResponse> GetUserInformation(string email);
+        Task<ApiResponse> VerifyEmail(string code);
     }
 }
