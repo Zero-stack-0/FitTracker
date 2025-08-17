@@ -141,8 +141,52 @@ body {
     color: #a0aec0;
 }
 
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: #2b6cb0;
+    border-radius: 2px;
+    transition: 0.3s;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 70px;
+        /* below navbar */
+        left: -100%;
+        width: 100%;
+        flex-direction: column;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1rem 0;
+        transition: left 0.3s ease;
+        gap: 1rem;
+    }
+
+    .nav-links.open {
+        left: 0;
+    }
+
+    .nav-links a {
+        text-align: center;
+        /* padding: 10px 0; */
+    }
+
     .hero-title {
         font-size: 2.5rem;
     }

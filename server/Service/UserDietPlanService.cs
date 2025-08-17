@@ -23,10 +23,21 @@ namespace Service
 
         public async Task<ApiResponse> GetByUserId(string userId)
         {
-            var user = await _userInformationRepository.GetByUserId(userId);
-            if (user is null)
+            var userInformation = await _userInformationRepository.GetByUserId(userId);
+            if (userInformation is null)
             {
                 return new ApiResponse(null, "Invalid userid", StatusCodes.Status400BadRequest);
+            }
+
+            var user = await _userRepository.GetById(userId);
+            if (user is null)
+            {
+                return new ApiResponse(null, "Invalid requestor id", StatusCodes.Status403Forbidden);
+            }
+
+            if (!user.IsEmailVerified)
+            {
+                return new ApiResponse(null, "Please verify your email to generate diet plan", StatusCodes.Status400BadRequest);
             }
 
             var dietPlan = await _fitnessAndnutritionPlansRepository.GetBasicPlanByUserId(userId);
@@ -46,6 +57,11 @@ namespace Service
             var user = await _userRepository.GetById(userId);
             if (user == null)
                 return new ApiResponse(null, "Invalid user", StatusCodes.Status400BadRequest);
+
+            if (!user.IsEmailVerified)
+            {
+                return new ApiResponse(null, "Please verify your email, to update your email", StatusCodes.Status400BadRequest);
+            }
 
             var userInfo = await _userInformationRepository.GetByUserId(userId);
             if (userInfo == null)

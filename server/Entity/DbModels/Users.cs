@@ -21,6 +21,13 @@ namespace Entity.Models
         public DateTime? UpdatedAt { get; set; }
         [BsonElement("role")]
         public int Role { get; set; } = (int)Enums.UserRole.User;
-
+        [BsonElement("isEmailVerified")]
+        public bool IsEmailVerified { get; set; }
+        [BsonElement("emailVerificationCode")]
+        public string EmailVerificationCode { get; set; }
+        [BsonElement("isEmailVerificationEmailSent")]
+        public bool IsEmailVerificationEmailSent { get; set; }
+        [BsonElement("emailVerifiedAt")]
+        public DateTime? EmailVerifiedAt { get; set; }
     }
 }

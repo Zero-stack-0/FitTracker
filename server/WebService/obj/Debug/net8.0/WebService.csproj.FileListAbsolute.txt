@@ -59,3 +59,7 @@
 /Users/shubhamjangid/Desktop/Angular/HealthiFy/server/WebService/bin/Debug/net8.0/Service.pdb
 /Users/shubhamjangid/Desktop/Angular/HealthiFy/server/WebService/obj/Debug/net8.0/WebService.sourcelink.json
 /Users/shubhamjangid/Desktop/Angular/HealthiFy/server/WebService/bin/Debug/net8.0/AspNetCoreRateLimit.dll
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/WebService/bin/Debug/net8.0/FubarCoder.RestSharp.Portable.Core.dll
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/WebService/bin/Debug/net8.0/FubarCoder.RestSharp.Portable.HttpClient.dll
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/WebService/bin/Debug/net8.0/JsonSubTypes.dll
+/Users/shubhamjangid/Desktop/Angular/HealthiFy/server/WebService/bin/Debug/net8.0/sib_api_v3_sdk.dll

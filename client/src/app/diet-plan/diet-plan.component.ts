@@ -7,6 +7,12 @@ import { UserDietPlanService } from '../services/user-diet-plan.service';
   styleUrls: ['./diet-plan.component.css']
 })
 export class DietPlanComponent implements OnInit {
+  //popup
+  isOpen = false;
+  isGreen = false;
+  errorMessage = '';
+  poptitle = '';
+
   userDietPlan: any
   isLoading = false
   loaderTitle = "Creating your personalized diet plan. Please wait..."
@@ -19,9 +25,16 @@ export class DietPlanComponent implements OnInit {
   fetchUserDietPlan() {
     this.isLoading = true;
     this.userDietPlanService.getUserDietPlan().subscribe((response) => {
-      this.userDietPlan = response.data;
-      this.isLoading = false;
-      return
+      if (response?.statusCodes === 200) {
+        this.userDietPlan = response.data;
+        this.isLoading = false;
+        return
+      } else {
+        this.isLoading = false;
+        this.openPopup(response?.message, response?.message, false);
+        return
+      }
+
     })
   }
 
@@ -42,5 +55,15 @@ export class DietPlanComponent implements OnInit {
     const query = encodeURIComponent(exerciseName.trim());
     const url = `https://www.youtube.com/results?search_query=${query}`;
     window.open(url, '_blank');
+  }
+
+  openPopup(message: string, title: string, isGreen: boolean) {
+    this.isOpen = true;
+    this.isGreen = isGreen;
+    this.errorMessage = message;
+    this.poptitle = title;
+  }
+  closePopup() {
+    this.isOpen = false;
   }
 }

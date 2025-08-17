@@ -1,16 +1,20 @@
 using Data.Repository.Interface;
 using Data.response;
 using Entity;
+using Entity.DbModels;
 using Entity.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Service.Dto.Request;
 using Service.Dto.Response;
 using Service.Helpers;
+using Service.Helpers.EmailNotification;
 using Service.Interface;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
+using static Entity.Enums;
 
 namespace Service
 {
@@ -20,19 +24,37 @@ namespace Service
         private readonly IConfiguration _configuration;
         private readonly IUserInformationRepository _userInformationRepository;
         private readonly IFitnessAndnutritionPlansRepository _fitnessAndnutritionPlansRepository;
+        private readonly IEmailTemplateRepository _emailTemplateRepository;
+        private readonly SendEmailNotificationService sendEmailNotificationService;
+        private readonly IEmailLoggerRepository _emailLoggerRepository;
+        private static readonly Regex AllowedEmailRegex = new Regex(
+    @"^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com|hotmail\.com|live\.com|icloud\.com|aol\.com|protonmail\.com|zoho\.com|mail\.com)$",
+    RegexOptions.IgnoreCase | RegexOptions.Compiled
 
-        public UserService(IConfiguration configuration, IUserRepository userRepository, IUserInformationRepository userInformationRepository, IFitnessAndnutritionPlansRepository fitnessAndnutritionPlansRepository)
+);
+
+        public UserService(IConfiguration configuration, IUserRepository userRepository, IUserInformationRepository userInformationRepository,
+        IFitnessAndnutritionPlansRepository fitnessAndnutritionPlansRepository, IEmailTemplateRepository emailTemplateRepository, SendEmailNotificationService sendEmailNotificationService,
+        IEmailLoggerRepository emailLoggerRepository)
         {
             _configuration = configuration;
             _userRepository = userRepository;
             _userInformationRepository = userInformationRepository;
             _fitnessAndnutritionPlansRepository = fitnessAndnutritionPlansRepository;
+            _emailTemplateRepository = emailTemplateRepository;
+            _emailLoggerRepository = emailLoggerRepository;
+            this.sendEmailNotificationService = sendEmailNotificationService;
         }
 
+        #region Api Methods
+
+        public ApiResponse IsEmailValid(string email)
+        {
+            return new ApiResponse(IsValidEmail(email));
+        }
         public async Task<ApiResponse> CreateUser(CreateUserRequest dto)
         {
-            Console.Write(_configuration["AES_KEY"] ?? "");
-            if (dto is null)
+            if (dto is null || string.IsNullOrWhiteSpace(_configuration["AppSettings:BaseUrl"]))
             {
                 return new ApiResponse(null, "Invalid request", (int)HttpStatusCode.BadRequest);
             }
@@ -43,6 +65,11 @@ namespace Service
                 return new ApiResponse(null, "Email already exists", StatusCodes.Status400BadRequest);
             }
 
+            if (!IsValidEmail(dto.Email))
+            {
+                return new ApiResponse(null, "Please enter valid domain", StatusCodes.Status400BadRequest);
+            }
+
             var user = new Users
             {
                 Email = dto.Email,
@@ -50,7 +77,9 @@ namespace Service
                 Password = EncryptString(dto.Password, _configuration["AES_KEY"] ?? ""),
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
-                IsActive = true
+                IsActive = true,
+                IsEmailVerified = false,
+                EmailVerificationCode = GenerateVerificationCode()
             };
 
             var createdUser = await _userRepository.Create(user);
@@ -86,6 +115,22 @@ namespace Service
                 Email = createdUser.Email,
                 Role = ((Enums.UserRole)createdUser.Role).ToString()
             };
+
+            var (emailBody, emailSubject) = await GetEmailTemplateSubjectAndBody(EMAIL_TEMPLATE_TYPE.Verification, user);
+
+            bool isEmailSent = sendEmailNotificationService.SendEmail(user.Email, user.FullName, emailSubject, emailBody);
+
+            var emilLogger = new EmailLogger
+            {
+                UserId = user.Id,
+                EmailTemplateType = EMAIL_TEMPLATE_TYPE.Verification,
+                CreatedAt = DateTime.UtcNow,
+                IsEmailSent = isEmailSent
+            };
+            await _emailLoggerRepository.Create(emilLogger);
+
+            if (isEmailSent)
+                await _userRepository.UpdateIsEmailSentFlag(user);
 
             return new ApiResponse(response, "User created successfully", (int)HttpStatusCode.Created);
         }
@@ -160,7 +205,8 @@ namespace Service
                 userInformation = userInformation,
                 UserId = user.Id,
                 email = user.Email,
-                fullName = user.FullName
+                fullName = user.FullName,
+                IsEmailVerified = user.IsEmailVerified
             };
 
             var basicDietPlan = await _fitnessAndnutritionPlansRepository.GetBasicPlanByUserId(user.Id);
@@ -172,7 +218,68 @@ namespace Service
             return new ApiResponse(userInfomationResponse, "user information");
         }
 
-        public static string EncryptString(string plainText, string key)
+        public async Task<ApiResponse> VerifyEmail(string code)
+        {
+            var getUserByCode = await _userRepository.GetByVerificationCode(code);
+            if (getUserByCode is null)
+            {
+                return new ApiResponse(null, "Invalid verification code", StatusCodes.Status400BadRequest);
+            }
+
+            if (getUserByCode.IsEmailVerified)
+            {
+                return new ApiResponse(null, "Email is already verified");
+            }
+
+            getUserByCode.IsEmailVerified = true;
+            getUserByCode.EmailVerifiedAt = DateTime.UtcNow;
+
+            await _userRepository.UpdateEmailVerification(getUserByCode);
+
+            return new ApiResponse(null, "User verified sucessfully", StatusCodes.Status200OK);
+        }
+
+        public async Task<ApiResponse> SentEmailVerificationLink(string userId)
+        {
+            var user = await _userRepository.GetById(userId);
+            if (user is null)
+            {
+                return new ApiResponse(null, "Invalid requestor", StatusCodes.Status400BadRequest);
+            }
+
+            if (user.IsEmailVerified)
+            {
+                return new ApiResponse(null, "User's email already verified", StatusCodes.Status400BadRequest);
+            }
+
+            var emailSentTodayForVerification = await _emailLoggerRepository.GetByUserIdAndType(user.Id, EMAIL_TEMPLATE_TYPE.Verification);
+            if (emailSentTodayForVerification.Count > 3)
+            {
+                return new ApiResponse(null, "You have already re-sent the email verification 3 times. Please try again tomorrow.", StatusCodes.Status400BadRequest);
+            }
+
+            var (emailBody, emailSubject) = await GetEmailTemplateSubjectAndBody(EMAIL_TEMPLATE_TYPE.Verification, user);
+
+            bool isEmailSent = sendEmailNotificationService.SendEmail(user.Email, user.FullName, emailSubject, emailBody);
+
+            var emilLogger = new EmailLogger
+            {
+                UserId = user.Id,
+                EmailTemplateType = EMAIL_TEMPLATE_TYPE.Verification,
+                CreatedAt = DateTime.UtcNow,
+                IsEmailSent = isEmailSent
+            };
+            await _emailLoggerRepository.Create(emilLogger);
+
+            if (!user.IsEmailVerificationEmailSent && isEmailSent)
+                await _userRepository.UpdateIsEmailSentFlag(user);
+
+            return new ApiResponse(null, "Email verification sent sucessfully");
+        }
+        #endregion
+
+        #region Private Methods
+        private static string EncryptString(string plainText, string key)
         {
             using var aes = Aes.Create();
             var keyBytes = Encoding.UTF8.GetBytes(key.PadRight(32).Substring(0, 32));
@@ -187,5 +294,58 @@ namespace Service
             }
             return Convert.ToBase64String(ms.ToArray());
         }
+
+        private static string GenerateVerificationCode()
+        {
+            string guidPart = Guid.NewGuid().ToString("N");
+            long ticksPart = DateTime.UtcNow.Ticks;
+            Random random = new Random();
+            int randomPart = random.Next(1000, 9999);
+
+            string uniqueString = $"{guidPart}_{ticksPart}_{randomPart}";
+
+            return uniqueString;
+        }
+
+        private async Task<(string, string)> GetEmailTemplateSubjectAndBody(EMAIL_TEMPLATE_TYPE type, Users user)
+        {
+            var emailTemplate = await _emailTemplateRepository.GetByType(type);
+            if (emailTemplate is null)
+            {
+                return (string.Empty, string.Empty);
+            }
+
+            string verifyUrl = $"{_configuration["AppSettings:BaseUrl"]}/api/User/verify-email?code={user.EmailVerificationCode}";
+            var body = ReplaceEmailContentForVerification(emailTemplate.Body, user.FullName, verifyUrl);
+
+            return (body, emailTemplate.Subject);
+        }
+
+        private string ReplaceEmailContentForVerification(string bodyVerify, string fullName, string verificationUrl)
+        {
+            if (string.IsNullOrEmpty(bodyVerify))
+                return string.Empty;
+
+            string unescapedBody = System.Text.RegularExpressions.Regex.Unescape(bodyVerify);
+
+            string cleanUrl = verificationUrl?.Trim('"', ' ');
+
+            string emailBody = unescapedBody
+                .Replace("{{UserName}}", fullName ?? string.Empty)
+                .Replace("{{VerificationLink}}", cleanUrl ?? string.Empty);
+
+            return emailBody;
+        }
+
+
+
+        public static bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            return AllowedEmailRegex.IsMatch(email);
+        }
+        #endregion
     }
 }

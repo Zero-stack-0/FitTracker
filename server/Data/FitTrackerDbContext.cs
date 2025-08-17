@@ -63,5 +63,15 @@ namespace Data
             database.GetCollection<Motivation>(
                 (config.Value.Collections != null ? config.Value.Collections.FirstOrDefault(c => c == "motivation") : null) ?? "motivation"
             );
+
+        public IMongoCollection<EmailTemplate> EmailTemplate =>
+            database.GetCollection<EmailTemplate>(
+                (config.Value.Collections != null ? config.Value.Collections.FirstOrDefault(c => c == "email-template") : null) ?? "email-template"
+            );
+
+        public IMongoCollection<EmailLogger> EmailLogger =>
+            database.GetCollection<EmailLogger>(
+                (config.Value.Collections != null ? config.Value.Collections.FirstOrDefault(c => c == "email-logger") : null) ?? "email-logger"
+            );
     }
 }

@@ -10,18 +10,27 @@
 </head>
 <nav class="navbar">
   <div class="nav-container">
-    <div class="logo" *ngIf="!isUserLoggedWithValidToken" routerLink="home">🏃‍♀️ FitTracker</div>
-    <div class="logo" *ngIf="isUserLoggedWithValidToken" routerLink="dashboard">🏃‍♀️ FitTracker</div>
-    <div class="nav-links" *ngIf="!isUserLoggedWithValidToken">
-      <a routerLink="login" class="btn-primary">Login</a>
-      <a routerLink="sign-up" class="btn-primary">Sign Up</a>
+    <div class="logo" *ngIf="!isUserLoggedWithValidToken" routerLink="home" (click)="toggleMenu()">🏃‍♀️ FitTracker
     </div>
-    <div class="nav-links" *ngIf="isUserLoggedWithValidToken">
-      <a routerLink="diet-plan" class="btn-primary">Diet Plan</a>
-      <a routerLink="food-log-form" class="btn-primary">Add Meal</a>
-      <a routerLink="profile" class="btn-primary">My Profile</a>
-      <a routerLink="logs" class="btn-primary">Food History</a>
-      <a routerLink="profile" class="btn-primary" (click)="logout()">Log Out</a>
+    <div class="logo" *ngIf="isUserLoggedWithValidToken" routerLink="dashboard" (click)="toggleMenu()">🏃‍♀️ FitTracker
+    </div>
+    <div class="hamburger" (click)="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="nav-links" [class.open]="menuOpen" *ngIf="!isUserLoggedWithValidToken">
+      <a routerLink="login" class="btn-primary" (click)="toggleMenu()">Login</a>
+      <a routerLink="sign-up" class="btn-primary" (click)="toggleMenu()">Sign Up</a>
+    </div>
+
+    <div class="nav-links" [class.open]="menuOpen" *ngIf="isUserLoggedWithValidToken">
+      <a routerLink="diet-plan" class="btn-primary" (click)="toggleMenu()">Diet Plan</a>
+      <a routerLink="food-log-form" class="btn-primary" (click)="toggleMenu()">Add Meal</a>
+      <a routerLink="profile" class="btn-primary" (click)="toggleMenu()">My Profile</a>
+      <a routerLink="logs" class="btn-primary" (click)="toggleMenu()">Food History</a>
+      <a routerLink="profile" class="btn-primary" (click)="logout()" (click)="toggleMenu()">Log Out</a>
     </div>
   </div>
 </nav>

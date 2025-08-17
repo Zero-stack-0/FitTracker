@@ -108,5 +108,35 @@ namespace Data.Repository
 
             return result.ModifiedCount > 0;
         }
+
+        public async Task<Users?> GetByVerificationCode(string code)
+        {
+            return await usersCollection.Find(e => e.EmailVerificationCode == code).FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> UpdateEmailVerification(Users user)
+        {
+            var filter = Builders<Users>.Filter.Eq(p => p.Id, user.Id);
+            var update = Builders<Users>.Update
+                .Set(p => p.IsEmailVerified, true)
+                .Set(p => p.EmailVerifiedAt, DateTime.UtcNow)
+                .Set(p => p.UpdatedAt, DateTime.UtcNow);
+
+            var result = await usersCollection.UpdateOneAsync(filter, update);
+
+            return result.ModifiedCount > 0;
+        }
+
+        public async Task<bool> UpdateIsEmailSentFlag(Users user)
+        {
+            var filter = Builders<Users>.Filter.Eq(p => p.Id, user.Id);
+            var update = Builders<Users>.Update
+                .Set(p => p.IsEmailVerificationEmailSent, true)
+                .Set(p => p.UpdatedAt, DateTime.UtcNow);
+
+            var result = await usersCollection.UpdateOneAsync(filter, update);
+
+            return result.ModifiedCount > 0;
+        }
     }
 }

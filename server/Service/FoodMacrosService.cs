@@ -21,7 +21,6 @@ namespace Service
         public async Task<ApiResponse> GetFoodMacrosByName(string name)
         {
             return new ApiResponse(await _indianFoodMacrosRepository.GetFoodMacrosByName(name), "Food macros retrieved successfully.");
-
         }
     }
 }

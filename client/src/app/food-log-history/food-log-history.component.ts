@@ -9,6 +9,11 @@ import { UserFoodLodService } from '../services/user-food-log.service';
 })
 export class FoodLogHistoryComponent implements OnInit {
   constructor(private userFoodLog: UserFoodLodService) { }
+  //popup
+  isOpen = false;
+  isGreen = false;
+  errorMessage = '';
+  poptitle = '';
   foodLog: any
   weekOffset = 0
   ngOnInit(): void {
@@ -18,7 +23,12 @@ export class FoodLogHistoryComponent implements OnInit {
 
   fetchFoodLogHistory() {
     this.userFoodLog.foodLogHistory(this.weekOffset).subscribe((res) => {
-      this.foodLog = res.data
+      if (res.statusCodes === 200) {
+        this.foodLog = res.data
+      } else {
+        this.openPopup(res?.message, res?.message, false);
+      }
+
     })
   }
 
@@ -38,5 +48,15 @@ export class FoodLogHistoryComponent implements OnInit {
   }
   getMealTotalCalories(meal: any): number {
     return meal?.userFoodLogResponseList?.reduce((sum: number, item: any) => sum + item.caloriesLogged, 0) || 0;
+  }
+
+  openPopup(message: string, title: string, isGreen: boolean) {
+    this.isOpen = true;
+    this.isGreen = isGreen;
+    this.errorMessage = message;
+    this.poptitle = title;
+  }
+  closePopup() {
+    this.isOpen = false;
   }
 }

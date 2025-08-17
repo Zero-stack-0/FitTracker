@@ -12,6 +12,8 @@
 <body>
 
     <app-loader [loading]="isLoading" [title]="loaderTitle"></app-loader>
+    <app-popup [isOpen]="isOpen" [description]="errorMessage" [title]="poptitle" [isGreen]="isGreen"
+        (close)="closePopup()"></app-popup>
     <!-- Main Content -->
     <main *ngIf="!isLoading" class="main-content">
         <div class="container">

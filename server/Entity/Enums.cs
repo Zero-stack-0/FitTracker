@@ -52,5 +52,11 @@ namespace Entity
             Dinner = 3,
             Snack = 4
         }
+
+        public enum EMAIL_TEMPLATE_TYPE
+        {
+            Verification = 1,
+            Forgot_Password = 2
+        }
     }
 }

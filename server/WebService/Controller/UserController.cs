@@ -24,6 +24,13 @@ namespace WebService.Controller
             _userProfile = userProfile;
         }
 
+        [HttpGet("verify-email")]
+        public async Task<IActionResult> VerifyEmail([FromQuery] string code)
+        {
+            var response = await _userService.VerifyEmail(code);
+            return Ok(response);
+        }
+
         [HttpPost("create")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
         {
@@ -93,6 +100,28 @@ namespace WebService.Controller
             return Ok(await _userService.GetUserInformation(userDetail.Email)
 
             );
+        }
+
+        [Authorize]
+        [HttpGet("sent-email-verification")]
+        public async Task<IActionResult> SentEmailVerification()
+        {
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var userDetail = await _userProfile.GetUserDetail(claimsIdentity);
+            if (userDetail == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            return Ok(await _userService.SentEmailVerificationLink(userDetail.Id));
+        }
+
+        [HttpGet("is-email-valid")]
+        public async Task<IActionResult> SentEmailVerification([FromQuery] string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return Ok(new ApiResponse(null, "email cannot be empty", StatusCodes.Status400BadRequest));
+            return Ok(_userService.IsEmailValid(email));
         }
     }
 }

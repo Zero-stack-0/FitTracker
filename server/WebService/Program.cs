@@ -7,6 +7,7 @@ using Entity.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Service;
+using Service.Helpers.EmailNotification;
 using Service.Interface;
 using Webservices.Auth;
 
@@ -36,6 +37,8 @@ builder.Services.AddScoped<IUserFoodLogRepository, UserFoodLogRepository>();
 builder.Services.AddScoped<IFitnessAndnutritionPlansRepository, FitnessAndnutritionPlansRepository>();
 builder.Services.AddScoped<IIndianFoodMacrosRepository, IndianFoodMacrosRepository>();
 builder.Services.AddScoped<IMotivationRepository, MotivationRepository>();
+builder.Services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
+builder.Services.AddScoped<IEmailLoggerRepository, EmailLoggerRepository>();
 
 #endregion
 
@@ -47,6 +50,7 @@ builder.Services.AddMemoryCache();
 builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
 builder.Services.AddInMemoryRateLimiting();
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+builder.Services.AddSingleton<SendEmailNotificationService>();
 
 
 #endregion
@@ -90,7 +94,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowVercel",
         policy =>
         {
-            policy.WithOrigins("https://fit-tracker-mocha-chi.vercel.app")
+            policy.AllowAnyOrigin()
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
@@ -112,13 +116,13 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Add a root health check
-app.MapGet("/", () => "✅ FitTracker WebService is running");
+//app.MapGet("/", () => "✅ FitTracker WebService is running");
 
 app.UseIpRateLimiting();
 app.UseHttpsRedirection();
 
 // Bind to Render’s PORT
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-app.Urls.Add($"http://*:{port}");
+// var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+// app.Urls.Add($"http://*:{port}");
 
 app.Run();

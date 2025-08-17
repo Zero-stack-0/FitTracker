@@ -8,6 +8,7 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  menuOpen = false;
   title = 'FitTracker';
   mealType = 1
   constructor(private authService: AuthService, private router: Router) { }
@@ -28,5 +29,11 @@ export class AppComponent {
     this.authService.logout();
     this.isUserLoggedWithValidToken = false;
     this.router.navigate(['/login']);
+  }
+
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+    console.log(this.menuOpen)
   }
 }

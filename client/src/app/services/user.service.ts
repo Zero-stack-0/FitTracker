@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  private API_URL = 'https://fittracker-kx3r.onrender.com/api/User';
+  private API_URL = 'http://localhost:5074/api/User';
   constructor(private http: HttpClient) { }
 
   signUp(user: any): Observable<any> {
@@ -29,6 +29,14 @@ export class UserService {
 
   userInformation(): Observable<any> {
     return this.http.get<any>(`${this.API_URL}/user-information`);
+  }
+
+  reSendEmailVerification(): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}/sent-email-verification`);
+  }
+
+  isEmailValid(email: string): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}/is-email-valid?email=${email}`);
   }
   //user-information
 }

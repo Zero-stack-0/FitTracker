@@ -8,9 +8,6 @@
     <link rel="stylesheet" href="./profile.component.css">
 </head>
 
-
-
-
 <body>
     <app-popup [isOpen]="isOpen" [description]="errorMessage" [title]="poptitle" [isGreen]="isGreen"
         (close)="closePopup()"></app-popup>
@@ -228,8 +225,10 @@
                 </div>
                 <div class="card-content">
                     <button class="security-button">Change Password</button>
-                    <button class="security-button">Download My Data</button>
-
+                    <div *ngIf="!user?.isEmailVerified">
+                        <button class="security-button" (click)="reSendVerificationLink()">Resend Verification
+                            Email</button>
+                    </div>
                     <div class="security-separator"></div>
                     <button class="security-button danger">
                         <span class="button-icon">🚪</span>
