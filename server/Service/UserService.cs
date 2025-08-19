@@ -154,7 +154,8 @@ namespace Service
                 Id = user.Id.ToString(),
                 FullName = user.FullName,
                 Email = user.Email,
-                Role = ((Enums.UserRole)user.Role).ToString()
+                Role = ((Enums.UserRole)user.Role).ToString(),
+                IsEmailVerified = user.IsEmailVerified
             };
 
             return new ApiResponse(response, "User retrieved successfully", (int)HttpStatusCode.OK);

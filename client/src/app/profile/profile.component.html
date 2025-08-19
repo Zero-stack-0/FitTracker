@@ -20,6 +20,9 @@
             <h2 class="page-title-main">Profile & Settings ⚙️</h2>
             <p class="page-subtitle">Manage your account and preferences</p>
 
+            <p *ngIf="!userData?.isEmailVerified" class="privacy-note-limit">Please verify your email to update your
+                profile</p>
+
             <p *ngIf="limitReachedToUpdateDietPlan" class="privacy-note-limit"> ⚠️ You have updated your diet plan
                 twice this month, so you cannot update your fitness goal, activity level, weight, or diet
                 type
@@ -224,16 +227,12 @@
                     </h3>
                 </div>
                 <div class="card-content">
-                    <button class="security-button">Change Password</button>
+                    <!-- <button class="security-button">Change Password</button> -->
                     <div *ngIf="!user?.isEmailVerified">
                         <button class="security-button" (click)="reSendVerificationLink()">Resend Verification
                             Email</button>
                     </div>
                     <div class="security-separator"></div>
-                    <button class="security-button danger">
-                        <span class="button-icon">🚪</span>
-                        Delete Account
-                    </button>
                 </div>
             </div>
         </section>
@@ -247,12 +246,12 @@
                 </div>
 
                 <div class="popup-body">
-                    <div class="warning-message">
+                    <!-- <div class="warning-message">
                         <p class="warning-text">
                             By Updating your fitness goals, weight, activity level, or diet type will automatically
                             adjust your current plan to reflect the latest changes.
                         </p>
-                    </div>
+                    </div> -->
 
                     <div class="impact-list">
                         <h4 class="impact-title">

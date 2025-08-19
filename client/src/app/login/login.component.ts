@@ -10,7 +10,9 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  isPasswordOpen = false
+  isLoading = false;
+  isPasswordOpen = false;
+  loadingTitle = "Fetching your details"
   //popup properties
   isOpen = false;
   isGreen = false;
@@ -25,6 +27,7 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.userForm.valid) {
+      this.isLoading = true
       this.userService.login(this.userForm.value).subscribe({
         next: (response: any) => {
           if (response.statusCodes !== 200) {
@@ -32,13 +35,16 @@ export class LoginComponent {
             this.isGreen = false;
             this.errorMessage = response.message || 'Login failed. Please try again.';
             this.poptitle = 'Login Error';
+            this.isLoading = false
             return;
           }
           localStorage.setItem('token', response.data);
           this.authService.setToken(response.data);
           this.router.navigate(['/dashboard']);
+          this.isLoading = false
         },
         error: (error) => {
+          this.isLoading = false
           this.isOpen = true;
           this.isGreen = false;
           this.errorMessage = error.error.message || 'Login failed. Please try again.';
@@ -46,8 +52,10 @@ export class LoginComponent {
         }
       });
     } else {
-      console.error('Form is invalid');
-
+      this.isOpen = true;
+      this.isGreen = false;
+      this.errorMessage = 'Please enter valid details';
+      this.poptitle = 'Please enter valid details';
     }
   }
   closePopup() {

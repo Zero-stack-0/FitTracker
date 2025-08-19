@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../Constants/api-urls';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserDietPlanService {
-  private API_URL = "https://fittracker-kx3r.onrender.com/api/UserDietPlan"
+  private API_URL = API_BASE_URL + "/api/UserDietPlan"
   constructor(private http: HttpClient) { }
 
   getUserDietPlan(): Observable<any> {

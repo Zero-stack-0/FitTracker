@@ -16,6 +16,8 @@ import { debounceTime, takeUntil } from 'rxjs';
 export class SignUpComponent {
   constructor(private userService: UserService, private route: Router, private auth: AuthService) { }
 
+  isLoading = false;
+  loadingTitle = "Hang tight! We're setting up your account."
   isEmailValid = true
   //popup properties
   isPasswordOpen = false
@@ -158,24 +160,29 @@ export class SignUpComponent {
       this.signUpForm.markAllAsTouched();
       return;
     }
-
     if (!this.isEmailValid) {
       this.openPopup("please enter valid email", "please enter valid email", false)
       return
     }
-
+    this.isLoading = true
     this.userService.signUp(this.signUpForm.value).subscribe({
       next: (response) => {
         if (response.statusCodes === 201) {
           this.auth.setToken(response.data);
           this.route.navigate(['/dashboard']);
+          this.isLoading = false
+          return
         }
         else {
           this.openPopup(response.message || 'Sign up failed. Please try again', 'Sign Up Error', false);
+          this.isLoading = false
+          return
         }
       },
       error: (error) => {
         this.openPopup(error.message || 'An error occurred during sign up', 'Sign Up Error', false);
+        this.isLoading = false
+        return
       }
     });
   }

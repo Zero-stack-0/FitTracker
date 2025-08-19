@@ -9,6 +9,8 @@ import { UserFoodLodService } from '../services/user-food-log.service';
 })
 export class FoodLogHistoryComponent implements OnInit {
   constructor(private userFoodLog: UserFoodLodService) { }
+  isLoading = false;
+  loadingTitle = "Fetching your log history...."
   //popup
   isOpen = false;
   isGreen = false;
@@ -18,15 +20,19 @@ export class FoodLogHistoryComponent implements OnInit {
   weekOffset = 0
   ngOnInit(): void {
     this.fetchFoodLogHistory();
-
   }
 
   fetchFoodLogHistory() {
+    this.isLoading = true;
     this.userFoodLog.foodLogHistory(this.weekOffset).subscribe((res) => {
       if (res.statusCodes === 200) {
         this.foodLog = res.data
+        this.isLoading = false;
+        return;
       } else {
+        this.isLoading = false;
         this.openPopup(res?.message, res?.message, false);
+        return
       }
 
     })

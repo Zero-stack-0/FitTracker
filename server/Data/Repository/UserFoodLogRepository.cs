@@ -187,8 +187,12 @@ namespace Data.Repository
 
         public async Task<DashboardResponse> GetFoodLogEntriesForToday(string userId)
         {
-            var today = DateTime.UtcNow.Date;
+            TimeZoneInfo indianZone = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            var nowInIndia = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, indianZone);
+            var today = nowInIndia.Date;
             var tomorrow = today.AddDays(1);
+            var todayUtc = TimeZoneInfo.ConvertTimeToUtc(today, indianZone);
+            var tomorrowUtc = TimeZoneInfo.ConvertTimeToUtc(tomorrow, indianZone);
             ObjectId obUserId = new ObjectId(userId);
             var pipeline = new BsonDocument[]
             {

@@ -5,6 +5,7 @@ import { Gender } from '../models/gender';
 import { ActivityLevel } from '../models/activity-level';
 import { DietType, FitnessGoal } from '../models/fitness-goal';
 import { UserDietPlanService } from '../services/user-diet-plan.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -14,7 +15,9 @@ import { UserDietPlanService } from '../services/user-diet-plan.service';
 
 
 export class ProfileComponent implements OnInit {
-  constructor(private userService: UserService, private userDietPlan: UserDietPlanService) { }
+  constructor(private userService: UserService, private userDietPlan: UserDietPlanService, private authService: AuthService) { }
+  userData: any
+  isMobile = false
   limitReachedToUpdateDietPlan = false
   loaderTitle = ""
   //popup
@@ -71,8 +74,27 @@ export class ProfileComponent implements OnInit {
     canUpdateDietPlan: new FormControl(!!this.limitReachedToUpdateDietPlan)
   });
   ngOnInit(): void {
+    this.fetchTokenProfile();
     this.fetchUserProfile()
     this.fetchCanUserUpdateDietPlan()
+    if (this.userData?.isEmailVerified == false) {
+      this.disableRestrictedFields();
+    }
+    console.log(this.isMobile)
+  }
+  checkScreenSize() {
+    this.isMobile = window.matchMedia('(max-width: 767px)').matches;
+  }
+  fetchTokenProfile() {
+    this.userService.getUserProfile().subscribe((res) => {
+      if (res?.statusCodes === 200) {
+        this.userData = res?.data;
+        return
+      } else {
+        this.openPopup("error occured to get profile", "error occured to get profile", false);
+        return
+      }
+    })
   }
 
   fetchUserProfile() {
