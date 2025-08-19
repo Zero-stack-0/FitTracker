@@ -1,13 +1,14 @@
 // auth.service.ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.isTokenAvailable());
-  constructor() { }
+  constructor(private userService: UserService) { }
   public isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
   isTokenAvailable(): boolean {
@@ -15,6 +16,7 @@ export class AuthService {
   }
 
   logout() {
+    localStorage.removeItem('userData');
     localStorage.removeItem('token');
     this.isLoggedInSubject.next(false);
   }
@@ -36,5 +38,20 @@ export class AuthService {
     if (!exp) return true;
     const now = Math.floor(Date.now() / 1000);
     return exp > now;
+  }
+
+  setUserData(userData: any) {
+    localStorage.removeItem('userData');
+    localStorage.setItem('userData', userData);
+  }
+
+
+  getUserData() {
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+      return JSON.parse(userDataString);
+    } else {
+      return null
+    }
   }
 }

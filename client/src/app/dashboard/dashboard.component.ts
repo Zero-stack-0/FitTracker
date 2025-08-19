@@ -23,29 +23,27 @@ export class DashboardComponent {
   isGreen = false;
   errorMessage = '';
   poptitle = '';
-  ngOnInit() {
+  async ngOnInit() {
     this.isLoading = true;
     if (!this.authService.isTokenAvailable() || !this.authService.isTokenExpired()) {
-      this.openPopup('Please log in again.', 'Session Expired');
+      this.openPopup('Please log in again.', 'Session Expired', false);
       this.route.navigate(['/login']);
       this.isLoading = false
       return;
     }
     this.fetchMotivation()
+
     this.userService.getUserProfile().subscribe({
       next: (response) => {
         if (response.statusCodes === 200) {
-          this.userData = response.data;
+          this.userData = response?.data;
           return
-        }
-        else {
-          this.isLoading = false;
+        } else {
+          this.openPopup("error while getting profile", "error while getting profile", false);
         }
       },
       error: (error) => {
-        this.isLoading = false;
-        console.error('Error fetching user data:', error);
-        this.route.navigate(['/login']);
+        return
       }
     });
 
@@ -59,9 +57,9 @@ export class DashboardComponent {
     })
   }
 
-  openPopup(message: string, title: string) {
+  openPopup(message: string, title: string, isGreen: boolean) {
     this.isOpen = true;
-    this.isGreen = true;
+    this.isGreen = isGreen;
     this.errorMessage = message;
     this.poptitle = title;
   }

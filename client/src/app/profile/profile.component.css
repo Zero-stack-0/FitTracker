@@ -623,6 +623,12 @@ input:checked+.slider:before {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .popup-content {
+        padding: 32px;
+        max-width: 480px;
+        width: 50%;
+    }
+
     .main-content {
         padding: 1rem;
     }

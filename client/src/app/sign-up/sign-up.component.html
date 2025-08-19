@@ -9,6 +9,7 @@
 </head>
 <app-popup [isOpen]="isOpen" [description]="errorMessage" [title]="poptitle" [isGreen]="false"
     (close)="closePopup()"></app-popup>
+<app-loader [loading]="isLoading" [title]="loadingTitle"></app-loader>
 
 <body class="signup-body">
     <div class="signup-container">
